@@ -1,0 +1,171 @@
+---
+title: "CFPB Analysis"
+description: |
+  A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.
+author:
+  - name: Cody Tuttle
+    url: 
+date: 12-02-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+*Update: repurposing this post for my new blog site! will actually have a new post detailing catching everyone up on everything soon
+
+Hello everyone! Welcome back to my blog - it's been way too long, I know, but I'm back for a post before I start my new semester (my final semester of grad school HALLELUJAH). As much as I want to update you on my life and everything, I'm going to skip the pleasantries and just get straight to the post. I don't really have time to get into all that I want to with the data as it is, so I probably shouldn't take the time to update you on my life when you probably wouldn't read it anyways. 
+
+In this post I'm going to be looking at data from the [2016 National Financial Well-Being Survey](https://www.consumerfinance.gov/data-research/financial-well-being-survey-data/), published by the Consumer Financial Protection Bureau. As you can probaby guess, it's a survey about people's financial well-being, with questions about financial skills, behaviors, attitudes, experiences, etc., as well as demographics like race, employment, poverty status, urban/rural, etc. Since interning at the Federal Reserve Bank last summer, I've definitely gained more of an interest in financial issues and credit and such, especially racial inequities within access to credit and financial services. So that's what I'll be looking at in this post. There's a lot in these data that I won't have time or space to go into wtih this post that I'd like to - urban/rural differences, gender differences, educational differences, regional differences, not to mention all of the financial measures that I won't get to look at. 
+
+(As a quick plug, I found the data from a site called [Data is Plural](https://tinyletter.com/data-is-plural), which has a spreadsheet of hundreds of interesting data sets, updated every week. Check it out.)
+
+The main thing that I want to look at in this post is racial differences in access to credit, and whether/how that can be explained by poverty status and financial well-being and financial skill. One of the central features of banking and lending history in America is racial discrimination. Practices such as [redlining](https://www.citylab.com/equity/2018/04/how-the-fair-housing-act-failed-black-homeowners/557576/) shaped the current urban housing landscape, and though now illegal, discriminatory lending practices are still rampant. Several years ago there was a decently prominant [story by Reveal News](https://www.revealnews.org/article/for-people-of-color-banks-are-shutting-the-door-to-homeownership/) discussing how people of color and minorities are more likely to be turned down for a loan than whites across many metro areas. Defenders of this dynamic say that  its justified by lower credit scores for minorities, and insist that black people are just worse with money and aren't as credit worthy. While credit scores aren't public data and therefore can't be explored as factor in racial disparities in lending, [studies](suffolklawreview.org/wp-content/uploads/2014/01/Rice-Swesnik_Lead.pdf) have shown that credit score algorithms have a discriminatory impact on people of color. So even if credit scores do account for differences in lending, that doesn't explain away discrimination. 
+
+With that, let's get into the data.
+
+### Data Loading and Survey Weights
+
+Here I simply load in my data (already mostly cleaned thanks to a handy R script provided by CFPB) and set it up as a survey. I decided to use the `srvyr` package, which lets you work with survey dataframes in tidyverse style. After adding the survey weights in the code below, we should be good to go.
+
+```{r}
+data <- read.csv("/Users/codytuttle/Desktop/cfpb_blog/cfpb_clean.csv")
+library("pacman")
+p_load(tidyverse, survey, srvyr)
+weighted <- data %>%
+  as_survey(PUF_ID, weight = finalwt) %>%
+  rename(race = PPETHM, 
+         incomecat = PPINCIMP) %>%
+  mutate(rejected = ifelse(REJECTED_1 == "Yes", 1, 
+                           ifelse(REJECTED_1 == "No", 0, 99)))
+```
+
+### Access to Credit
+
+The first thing that I want to do is look at overall racial disparities in access to credit using a survey question that asks whether a respondent applied for credit and was turned down in the last year. 
+
+```{r}
+weighted %>%
+  group_by(race) %>%
+  filter(rejected != 99) %>%
+  summarize(rejected = survey_mean(rejected)) %>%
+  ggplot(aes(x = race, y = 100*rejected, group = race)) +
+    geom_bar(stat = "identity", fill = "blue") +
+    theme_minimal() +
+    labs(x = "Racial Group", y = "% rejected") +
+    ggtitle("Credit Rejection by Racial Group, 2016")
+```
+
+This chart shows astounding racial disparities in lending - black respondents were over twice as likely to report being turned down for a loan in the past year than whites, and Hispanics were nearly 50% more likely than whites. 
+
+However, while these differences are stark, in and of themselves they don't necessarily constitute discrimination. There are certain characteristics not accounted for in that graph, primarily income, that could account for the observed differences. To take one step further in exploring whether or not these disparities could be evidence of discrimination, below I chart the same measure of being rejected for a loan by both income category and race. I limit the racial categories to just black and white, both to focus on the starkest disparities and to minimize clutter on the graph. 
+
+```{r}
+weighted %>%
+  filter(race == "Black, Non-Hispanic" | race == "White, Non-Hispanic", rejected != 99) %>%
+  group_by(race, incomecat) %>%
+  summarize(rejected = survey_mean(rejected)) %>%
+  ggplot(aes(x = incomecat, y = 100*rejected, group = race, fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
+    labs(x = "Income Category", y = "% rejected", fill = "Racial Group") +
+    ggtitle("Credit Rejection by Income Category and Racial Group, 2016")
+```
+
+Here we can see that the racial disparities in lending observed in the first chart persist even after controlling for income, and may even be starker. Across every single income category, black respondents are rejected at a higher rate than white respondents, generally at a *two to three times higher rate*, at least. If the decision to lend is about the borrower's ability to pay it back, then income should be a pretty good metric. But even holding income equal, there are still massive racial disparities in lending. 
+
+However, givng them the benefit of the doubt, maybe lenders are picking up on some other factor besides race that are causing them to reject disproportionately more black folks. In the next graph I look at the financial skills score by race and by income category and race. Even if it's not a measure that's directly used by lenders, it still probably can be a proxy for overall creditworthiness. 
+
+```{r}
+weighted %>%
+  filter(race == "Black, Non-Hispanic" | race == "White, Non-Hispanic") %>%
+  group_by(race) %>%
+  summarize(finskill = survey_mean(as.numeric(FSscore))) %>%
+  ggplot(aes(x = race, y = finskill)) +
+    geom_bar(stat = "identity", fill = "blue") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
+    labs(x = "Race", y = "Financial Skills Score") +
+    ggtitle("Financial Skills Score by Race, 2016")
+weighted %>%
+  filter(race == "Black, Non-Hispanic" | race == "White, Non-Hispanic") %>%
+  group_by(race, incomecat) %>%
+  summarize(finskill = survey_mean(as.numeric(FSscore))) %>%
+  ggplot(aes(x = incomecat, y = finskill, group = race, fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
+    labs(x = "Income Category", y = "Financial Skills Score", fill = "Racial Group") +
+    ggtitle("Financial Skills Score by Income Category and Race, 2016")
+```
+
+Well, it doesn't look like giving lenders the benefit of the doubt is working out very well - both overall and across each income category, black respondents actually have very similar financial skills scores as whites, if not higher. 
+
+Bear with me, because now I'm about to get a bit more weedsy. In the next few graphs I'm going to really try and get to the bottom of this issue as best as I can using these data and without using any fancy statistical techniques (this is neither the time nor the place for that). These charts will look at the financial skills scores of the following groups: all rejected applicants; all accepted applicants; rejected white applicants vs. accepted black applicants; and rejected black applicants vs. accepted white applicants. 
+
+```{r}
+weighted %>%
+  filter(race == "Black, Non-Hispanic" | race == "White, Non-Hispanic", rejected == 0) %>%
+  group_by(race, incomecat) %>%
+  summarize(finskill = survey_mean(as.numeric(FSscore))) %>%
+  ggplot(aes(x = incomecat, y = finskill, group = race, fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
+    labs(x = "Income Category", y = "Financial Skills Score", fill = "Racial Group") +
+    ggtitle("Financial Skills Score of Rejected Credit Applicants by Income and Race, 2016")
+weighted %>%
+  filter(race == "Black, Non-Hispanic" | race == "White, Non-Hispanic", rejected == 1) %>%
+  group_by(race, incomecat) %>%
+  summarize(finskill = survey_mean(as.numeric(FSscore))) %>%
+  ggplot(aes(x = incomecat, y = finskill, group = race, fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
+    labs(x = "Income Category", y = "Financial Skills Score", fill = "Racial Group") +
+    ggtitle("Financial Skills Score of Accepted Credit Applicants by Income and Race, 2016")
+weighted %>%
+  filter((race == "Black, Non-Hispanic" & rejected == 0) | 
+           (race == "White, Non-Hispanic" & rejected == 1)) %>%
+  group_by(race, incomecat) %>%
+  summarize(finskill = survey_mean(as.numeric(FSscore))) %>%
+  ggplot(aes(x = incomecat, y = finskill, group = race, fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1), 
+          plot.title = element_text(size = 10)) +
+    labs(x = "Income Category", y = "Financial Skills Score", fill = "Racial Group") +
+    ggtitle("Financial Skills Score of Rejected White Credit Applicants vs. 
+            Accepted Black Applicants by Income, 2016")
+weighted %>%
+  filter((race == "Black, Non-Hispanic" & rejected == 1) | 
+           (race == "White, Non-Hispanic" & rejected == 0)) %>%
+  group_by(race, incomecat) %>%
+  summarize(finskill = survey_mean(as.numeric(FSscore))) %>%
+  ggplot(aes(x = incomecat, y = finskill, group = race, fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1), 
+          plot.title = element_text(size = 10)) +
+    labs(x = "Income Category", y = "Financial Skills Score", fill = "Racial Group") +
+    ggtitle("Financial Skills Score of Rejected Black Credit Applicants vs. 
+            Accepted White Applicants by Income, 2016")
+```
+
+Here we go: First, for all rejected credit applicants, we see the same pattern of black respondents having similar or slightly higher financial skills scores than white respondents. Second, the pattern holds for all accepted applicants. No surprises there.
+
+Third, when we look at rejected black applicants vs. accepted white applicants, in order for there to be any justification of disparities at all, rejected black repondents should have clearly lower financial skills scores than accpeted white applicants. We do see this across several income categories, but it doesn't at all appear to be the norm - we see very similar financial skills between rejected blacks and accepted whites for three categories, and rejected blacks even have moderately *higher* financial skills scores than accepted whites for one income category. 
+
+Fourth, in order to justify the somewhat similar or even higher financial skills scores for rejected black applicants vs. accepted whites, we should see a similar pattern for rejected whites vs. accepted blacks (i.e., sometimes rejected whites have similar or higher financial skills than accepted blacks). However, we don't see this pattern at all - across every income bracket, accepted black applicants have far and away higher financial skills scores than rejected whites. 
+
+In other words, the decision to reject a white applicant vs. accepting a black applicant with a similar income is clearly justified, at least in terms of financial skills, while the same cannot necessarily be said for rejecting a black applicant. To me, this suggests that black applicants for credit are held to a much higher standard than white appliants with similar credentials. In order for the observed disparities in credit rejection to be justified, there would have to be very clear differences between the many black applicants that are rejected and the whites that are accepted. However, we don't see that - the disparities persist even after controlling for income, and often times financial skills as well. 
+
+This to me is evidence that the observed racial disparities in lending are indeed indicative of discrimination. At the very least, even if not outright discrimination, it's clear that black applicants are held to a much higher standard in credit decisions than whites with similar incomes. It would be foolish of me to claim that this analysis represents any kind of causal or definitive proof of discrimination - this is just one measure based on a survey that doesn't account for actual credit score. But in my view, it represents one more piece of evidence that across so many sectors, banking and credit included, black people and people of color are not treated the same as whites. 
+
+As always, I welcome your questions, comments, and feedback. I doubt I'll be able to post again until this summer, but I'm really glad I was able to do this before my semester started again. Until next time!
+
+
