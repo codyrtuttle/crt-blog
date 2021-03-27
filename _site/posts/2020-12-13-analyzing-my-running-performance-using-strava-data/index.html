@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>Cody R. Tuttle: Analyzing my 2020 running performance</title>
+
+<meta property="description" itemprop="description" content="Exploring my year in running using data from the Strava app"/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2020-03-27"/>
+<meta property="article:created" itemprop="dateCreated" content="2020-03-27"/>
+<meta name="article:author" content="Cody Tuttle"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Cody R. Tuttle: Analyzing my 2020 running performance"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="Exploring my year in running using data from the Strava app"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Cody R. Tuttle"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Cody R. Tuttle: Analyzing my 2020 running performance"/>
+<meta property="twitter:description" content="Exploring my year in running using data from the Strava app"/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Analyzing my 2020 running performance"]},{"type":"character","attributes":{},"value":["Exploring my year in running using data from the Strava app"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Cody Tuttle"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["3-27-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["activities/3240128348.gpx","activities/3241852418.gpx","activities/3245810233.gpx","activities/3254239434.gpx","activities/3258262012.gpx","activities/3266230836.gpx","activities/3270620427.gpx","activities/3275055143.gpx","activities/3279506002.gpx","activities/3284389089.gpx","activities/3285945297.gpx","activities/3289034107.gpx","activities/3297390845.gpx","activities/3302065813.gpx","activities/3306791284.gpx","activities/3311472381.gpx","activities/3316230398.gpx","activities/3321498587.gpx","activities/3323778631.gpx","activities/3327847273.gpx","activities/3330501127.gpx","activities/3333494676.gpx","activities/3335605662.gpx","activities/3340552697.gpx","activities/3345540213.gpx","activities/3346602215.gpx","activities/3350383079.gpx","activities/3356115278.gpx","activities/3361938836.gpx","activities/3363770258.gpx","activities/3365490668.gpx","activities/3370317422.gpx","activities/3374858220.gpx","activities/3379562909.gpx","activities/3382082045.gpx","activities/3385246137.gpx","activities/3386976960.gpx","activities/3391095080.gpx","activities/3393188280.gpx","activities/3397775169.gpx","activities/3398975530.gpx","activities/3401428974.gpx","activities/3403110156.gpx","activities/3407345063.gpx","activities/3410884875.gpx","activities/3412907057.gpx","activities/3414443953.gpx","activities/3415476451.gpx","activities/3418369964.gpx","activities/3420713132.gpx","activities/3424284760.gpx","activities/3429967956.gpx","activities/3431394502.gpx","activities/3435092952.gpx","activities/3436249063.gpx","activities/3436719171.gpx","activities/3438977645.gpx","activities/3441883554.gpx","activities/3444315118.gpx","activities/3449390504.gpx","activities/3452759908.gpx","activities/3454563087.gpx","activities/3460197980.gpx","activities/3472434330.gpx","activities/3476187782.gpx","activities/3480108852.gpx","activities/3482004642.gpx","activities/3487863002.gpx","activities/3493028344.gpx","activities/3495709824.gpx","activities/3498667085.gpx","activities/3504058957.gpx","activities/3506130358.gpx","activities/3506444068.gpx","activities/3511833831.gpx","activities/3519653606.gpx","activities/3520701397.gpx","activities/3522916452.gpx","activities/3527334458.gpx","activities/3528194044.gpx","activities/3530370278.gpx","activities/3532429752.gpx","activities/3544320108.gpx","activities/3548917429.gpx","activities/3549839209.gpx","activities/3552057683.gpx","activities/3555300569.gpx","activities/3557499300.gpx","activities/3558649449.gpx","activities/3562573921.gpx","activities/3567317631.gpx","activities/3574018480.gpx","activities/3578858211.gpx","activities/3580437282.gpx","activities/3583146556.gpx","activities/3583697904.gpx","activities/3584688493.gpx","activities/3584953455.gpx","activities/3588327475.gpx","activities/3592725847.gpx","activities/3593304838.gpx","activities/3593747925.gpx","activities/3595502594.gpx","activities/3597526227.gpx","activities/3602538746.gpx","activities/3604853431.gpx","activities/3613787689.gpx","activities/3619389687.gpx","activities/3623319377.gpx","activities/3624530873.gpx","activities/3626349673.gpx","activities/3628584048.gpx","activities/3629397923.gpx","activities/3631938764.gpx","activities/3633629969.gpx","activities/3637967389.gpx","activities/3640553508.gpx","activities/3643820702.gpx","activities/3645815324.gpx","activities/3649119582.gpx","activities/3649327612.gpx","activities/3650902179.gpx","activities/3655352430.gpx","activities/3658486411.gpx","activities/3659378418.gpx","activities/3663824474.gpx","activities/3664521502.gpx","activities/3668875378.gpx","activities/3669344783.gpx","activities/3669847315.gpx","activities/3670651911.gpx","activities/3671673382.gpx","activities/3674301238.gpx","activities/3679004380.gpx","activities/3683754101.gpx","activities/3684693050.gpx","activities/3687895064.gpx","activities/3692546455.gpx","activities/3697400994.gpx","activities/3702268399.gpx","activities/3702347560.gpx","activities/3717493331.gpx","activities/3719837382.gpx","activities/3722964732.gpx","activities/3726853067.gpx","activities/3729065234.gpx","activities/3729500456.gpx","activities/3731560820.gpx","activities/3734393912.gpx","activities/3740765554.gpx","activities/3743266917.gpx","activities/3753686505.gpx","activities/3755620448.gpx","activities/3765667738.gpx","activities/3768641288.gpx","activities/3770589541.gpx","activities/3775791281.gpx","activities/3777475658.gpx","activities/3786170529.gpx","activities/3786516767.gpx","activities/3790433490.gpx","activities/3790859933.gpx","activities/3791980813.gpx","activities/3796097866.gpx","activities/3797454792.gpx","activities/3800299167.gpx","activities/3801044791.gpx","activities/3804627990.gpx","activities/3805152620.gpx","activities/3820116367.gpx","activities/3826286095.gpx","activities/3826599051.gpx","activities/3832359552.gpx","activities/3835597998.gpx","activities/3838283150.gpx","activities/3840770258.gpx","activities/3841028848.gpx","activities/3843118003.gpx","activities/3844461204.gpx","activities/3848889950.gpx","activities/3853296025.gpx","activities/3858062147.gpx","activities/3860408677.gpx","activities/3862794096.gpx","activities/3868004087.gpx","activities/3872908508.gpx","activities/3872912331.gpx","activities/3873650788.gpx","activities/3874838448.gpx","activities/3877719424.gpx","activities/3878740879.gpx","activities/3880560678.gpx","activities/3883600574.gpx","activities/3889874633.gpx","activities/3892969590.gpx","activities/3893063751.gpx","activities/3893965451.gpx","activities/3894716070.gpx","activities/3897042291.gpx","activities/3897783311.gpx","activities/3899649029.gpx","activities/3902093537.gpx","activities/3906943090.gpx","activities/3908705887.gpx","activities/3911557517.gpx","activities/3912485293.gpx","activities/3916454565.gpx","activities/3918555367.gpx","activities/3922402109.gpx","activities/3925971211.gpx","activities/3926978463.gpx","activities/3928219240.gpx","activities/3930496502.gpx","activities/3931263294.gpx","activities/3932788529.gpx","activities/3933371434.gpx","activities/3935572933.gpx","activities/3941048383.gpx","activities/3941357753.gpx","activities/3942840595.gpx","activities/3945937850.gpx","activities/3950614948.gpx","activities/3951183634.gpx","activities/3954219242.gpx","activities/3956549087.gpx","activities/3959681844.gpx","activities/3960538486.gpx","activities/3963411862.gpx","activities/3965331689.gpx","activities/3966024848.gpx","activities/3968351326.gpx","activities/3968898065.gpx","activities/3970268226.gpx","activities/3971273441.gpx","activities/3972819935.gpx","activities/3977564934.gpx","activities/3978169841.gpx","activities/3987602819.gpx","activities/3993056312.gpx","activities/3993565272.gpx","activities/4007341366.gpx","activities/4007346356.gpx","activities/4007855943.gpx","activities/4013054396.gpx","activities/4015514306.gpx","activities/4016981090.gpx","activities/4023088112.gpx","activities/4029446337.gpx","activities/4030162178.gpx","activities/4031038762.gpx","activities/4034295215.gpx","activities/4035024651.gpx","activities/4037181225.gpx","activities/4039461601.gpx","activities/4041079275.gpx","activities/4043649477.gpx","activities/4044395849.gpx","activities/4045423391.gpx","activities/4048607276.gpx","activities/4053851025.gpx","activities/4055786485.gpx","activities/4058227313.gpx","activities/4058793975.gpx","activities/4060607493.gpx","activities/4062970971.gpx","activities/4063724503.gpx","activities/4066273795.gpx","activities/4068318051.gpx","activities/4069704643.gpx","activities/4070773621.gpx","activities/4072702379.gpx","activities/4075534884.gpx","activities/4077318440.gpx","activities/4079649689.gpx","activities/4083552445.gpx","activities/4087557300.gpx","activities/4089690331.gpx","activities/4091925974.gpx","activities/4094547817.gpx","activities/4096541889.gpx","activities/4097058232.gpx","activities/4098555038.gpx","activities/4101312336.gpx","activities/4102713200.gpx","activities/4108195988.gpx","activities/4110167843.gpx","activities/4110874108.gpx","activities/4114323083.gpx","activities/4119881876.gpx","activities/4121244371.gpx","activities/4124154416.gpx","activities/4124155553.gpx","activities/4125188673.gpx","activities/4126109397.gpx","activities/4127733549.gpx","activities/4130406244.gpx","activities/4132436391.gpx","activities/4133196020.gpx","activities/4136924595.gpx","activities/4138230989.gpx","activities/4139063840.gpx","activities/4141842886.gpx","activities/4142873954.gpx","activities/4145623488.gpx","activities/4150378569.gpx","activities/4152115178.gpx","activities/4154172508.gpx","activities/4155236536.gpx","activities/4155822254.gpx","activities/4156277173.gpx","activities/4158376791.gpx","activities/4159289021.gpx","activities/4160269016.gpx","activities/4163197866.gpx","activities/4163629584.gpx","activities/4164820788.gpx","activities/4165547280.gpx","activities/4167377217.gpx","activities/4169787053.gpx","activities/4173387864.gpx","activities/4177231171.gpx","activities/4177918908.gpx","activities/4185687747.gpx","activities/4186699838.gpx","activities/4187510194.gpx","activities/4189260033.gpx","activities/4189930464.gpx","activities/4191340816.gpx","activities/4191749993.gpx","activities/4193670133.gpx","activities/4194430709.gpx","activities/4195785827.gpx","activities/4198033838.gpx","activities/4199633090.gpx","activities/4202304285.gpx","activities/4203986520.gpx","activities/4206544778.gpx","activities/4212718928.gpx","activities/4216364832.gpx","activities/4217202680.gpx","activities/4218328088.gpx","activities/4219767884.gpx","activities/4221024090.gpx","activities/4222039079.gpx","activities/4224122073.gpx","activities/4224792277.gpx","activities/4225827815.gpx","activities/4226379062.gpx","activities/4228402778.gpx","activities/4232566784.gpx","activities/4234393662.gpx","activities/4237586137.gpx","activities/4238917524.gpx","activities/4242327193.gpx","activities/4246682166.gpx","activities/4247849183.gpx","activities/4249732648.gpx","activities/4250572065.gpx","activities/4251594013.gpx","activities/4254293925.gpx","activities/4254892474.gpx","activities/4255517148.gpx","activities/4256221340.gpx","activities/4258333335.gpx","activities/4259567837.gpx","activities/4262113160.gpx","activities/4263424743.gpx","activities/4266486119.gpx","activities/4267700636.gpx","activities/4272071692.gpx","activities/4275713037.gpx","activities/4276728818.gpx","activities/4280101731.gpx","activities/4280977003.gpx","activities/4281545325.gpx","activities/4282592307.gpx","activities/4282643396.gpx","activities/4284825039.gpx","activities/4285819215.gpx","activities/4287035827.gpx","activities/4289412773.gpx","activities/4290339961.gpx","activities/4291183976.gpx","activities/4296669357.gpx","activities/4297656647.gpx","activities/4299520640.gpx","activities/4303198899.gpx","activities/4303273646.gpx","activities/4308455453.gpx","activities/4310095673.gpx","activities/4312415843.gpx","activities/4313680889.gpx","activities/4317102823.gpx","activities/4318041228.gpx","activities/4322792728.gpx","activities/4323824674.gpx","activities/4324688529.gpx","activities/4326919188.gpx","activities/4328130443.gpx","activities/4329106050.gpx","activities/4331330941.gpx","activities/4332245412.gpx","activities/4332968087.gpx","activities/4338193731.gpx","activities/4338383713.gpx","activities/4342130128.gpx","activities/4345990959.gpx","activities/4346675917.gpx","activities/4347803344.gpx","activities/4352260017.gpx","activities/4352261217.gpx","activities/4355384636.gpx","activities/4355947567.gpx","activities/4357099952.gpx","activities/4357603542.gpx","activities/4359920494.gpx","activities/4360675258.gpx","activities/4364772993.gpx","activities/4365580374.gpx","activities/4366158758.gpx","activities/4370620995.gpx","activities/4376216743.gpx","activities/4376875261.gpx","activities/4379489459.gpx","activities/4383963977.gpx","activities/4384878774.gpx","activities/4388664801.gpx","activities/4393465377.gpx","activities/4394870911.gpx","activities/4398330661.gpx","activities/4403379235.gpx","activities/4404169573.gpx","activities/4407976720.gpx","activities/4407979213.gpx","activities/4412459403.gpx","activities/4412460441.gpx","activities/4415868847.gpx","activities/4416703377.gpx","activities/4417753602.gpx","activities/4420344520.gpx","activities/4421085450.gpx","activities/4421957712.gpx","activities/4424465221.gpx","activities/4425699790.gpx","activities/4428539600.gpx","activities/4429476315.gpx","activities/4430246871.gpx","activities/4433593177.gpx","activities/4434489263.gpx","activities/4438885819.gpx","activities/4441675852.gpx","activities/4442514348.gpx","activities/4447349668.gpx","activities/4448036839.gpx","activities/4450080246.gpx","activities/4451105603.gpx","activities/4453846542.gpx","activities/4454958304.gpx","activities/4458202501.gpx","activities/4459957123.gpx","activities/4463515667.gpx","activities/4467800059.gpx","activities/4469075050.gpx","activities/4471975911.gpx","activities/4472971132.gpx","activities/4479219534.gpx","activities/4480182349.gpx","activities/4481078373.gpx","activities/4483093754.gpx","activities/4484096376.gpx","activities/4488614517.gpx","activities/4492425347.gpx","activities/4496700203.gpx","activities/4500538291.gpx","activities/4501414389.gpx","activities/4506211245.gpx","activities/4508102014.gpx","activities/4509078176.gpx","activities/4513546512.gpx","activities/4517383687.gpx","activities/4517389277.gpx","activities/4521271643.gpx","activities/4525558055.gpx","activities/4530752443.gpx","activities/4531607900.gpx","activities/4536711037.gpx","activities/4541589991.gpx","activities/4545718276.gpx","activities/4757723666.gpx.gz","analyzing-my-running-performance-using-strava-data_files/anchor-4.2.2/anchor.min.js","analyzing-my-running-performance-using-strava-data_files/bowser-1.9.3/bowser.min.js","analyzing-my-running-performance-using-strava-data_files/distill-2.2.21/template.v2.js","analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-2-1.png","analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-3-1.png","analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-4-1.png","analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-4-2.png","analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-5-1.png","analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-6-1.png","analyzing-my-running-performance-using-strava-data_files/jquery-1.11.3/jquery.min.js","analyzing-my-running-performance-using-strava-data_files/webcomponents-2.0.0/webcomponents.js","strava_activities.xlsx"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createIndex() {
+  var options = {
+    keys: [
+      "title",
+      "categories",
+      "description",
+      "contents"
+    ]
+  };
+  return new window.Fuse([],options);
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = { keys: ["title", "description", "contents"] };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+            keys: [
+              { name: 'title', weight: 20 },
+              { name: 'categories', weight: 15 },
+              { name: 'description', weight: 10 },
+              { name: 'contents', weight: 5 },
+            ],
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+            .filter(function(item) { return !!item.description; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description}
+                </div>
+                <div class="search-item-preview">
+                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: hidden;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Analyzing my 2020 running performance","description":"Exploring my year in running using data from the Strava app","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-03-27T00:00:00.000-05:00","citationText":"Tuttle, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Cody R. Tuttle</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="https://github.com/codyrtuttle">
+<i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Analyzing my 2020 running performance</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p>Exploring my year in running using data from the Strava app</p>
+</div>
+
+<div class="d-byline">
+  Cody Tuttle <a href="https://codyrtuttle.netlify.app/" class="uri">https://codyrtuttle.netlify.app/</a> 
+  
+<br/>3-27-2020
+</div>
+
+<div class="d-article">
+<p>Hello, folks! In this post I’ll be looking at my running performance over the last year by analyzing my running data from the Strava app. Before I start that, here’s a bit of background on how I’ve experienced a new-found love of running over the last year and what led to this in the first place.</p>
+<p>I believe I’m not the first to point out that this year has been a weird one. Societally, it’s been mostly pretty shitty (until the second week in November when things started looking up a bit). The pandemic has upended every facet of life, hundreds of thousands of people have died needlessly, there were kiler hornets, and I’m sure I’m forgetting about ten other big terrible things that happened (feel free point them out if you feel so inclined). Personally, this year has been a mixed bag for my wife and me. We’ve felt all the terrible things going on in the world at large, and our lives look so much different than we thought they would. While we’ve had our fair share of pain and grief caused by the pandemic, we were left in a relatively good spot - we both work from home in stable jobs, we were able to buy a house in a neighborhood that we love, and we were able to plan to start our family. We don’t take that for granted at all, and we truly grieve with those whose lives have been completely devastated over the last year.</p>
+<p>When the pandemic shut everything down for us starting in mid March, one of the more noticeable things to stop for us was working out at the gym. In the wake of that, my wife and I decided to start running more. At the time we were living on the upper floor in a pretty small duplex so we didn’t have a whole lot of space to do anything more than very tame bodyweight workouts inside, and we knew that we needed a physical outlet to get away from the stress of the pandemic and of me finishing my final semester of grad school without the confines of our small living space.</p>
+<p>Enter running. I’ve never been a complete stranger to running over the course of my life, but I’ve also never really embraced it. There have been various fits and starts of running more frequently, but it’s never been what I would call sustained. Mar had periods of more dedicated, sustainable running over the last decade or so, even training for and running a half-marathon. She could always handle distance better than I could, but I liked running faster. Since we moved to Minneapolis in 2017 up until last March, Mar and I ran an average of once every week or two probably, never more than 2 or 3 miles at a time. We liked to run around our first neighborhood here, and there were a few months where we would go run a 3 ish mile loop around a nice lake every weekend. But I’ve never exactly loved running. I’ve done it because I know aerobic exercise is good for me and because it’s a good way for Mar and I to workout together every so often, but I’ve always liked lifting and bodyweights and sprint-type workouts a lot better. Until last March, the farthest I think I’d ever run was five miles tops, probably less. I could do a mile decently fast for a normal non-runner (I think I ran a sub-six minute mile a few times in college), but I never liked running longer distances than that.</p>
+<p>Fast forward to now, close to a year since we started that journey, I’ve run almost 1,000 miles since April, the majority of it coming in the last five or so months. Mar and I started running as a way of coping once things shutdown, but somewhere along the way it became a new thing for me, something that I genuinely started to love. We started out slow, running a mile and half or two most days, with a long run of 5.5 or 6 on Friday. Our first week of 20 miles, probably in late April or early May, was a big milestone, as was the time we ran 9 miles (thrice around our normal Friday 3 mile lake loop). June and July brought a bit of a slow-down again, with some minor injuries and tweaks, moving into our new house, and the heat of the summer. But in September I bought a new pair of running shoes (my first in probably six years) and started to get back into it again, and it was the start of a real thing for me. Mar and I still ran together from time to time, but she was in the throes of first trimester nausea, and I was increasing my mileage to 25 to 30 miles a week. I did a ten mile run in mid October at a decent pace, and that might have been what sealed it for me. In November I set out to do another 10-miler but through a weird series of events I ended up running my first half-marathon - my time was 1:50 ish, which while not competitive, is pretty good for someone who started running in earnest in March and had never run a half before. Since then I’ve been doing 30-35 mile weeks with some rest weeks here and there, and I’ve really gotten into it. I found my first running podcasts around a month ago, and started to plan my training more strategically based on what I was learning, easing my pace, incorporating strides, and dedicating one run every week or two to be more of an intervals workout.</p>
+<p>The throes of winter cold and snow have descended upon Minneapolis by now, so I imagine my training will slow down a bit until mid-March or so, but all of this to say that over the last 9 months I’ve found a new love of running that will be with me for a long time I think. Once the winter thaw comes I’d like to start training for my first marathon (even if it is just by myself, but hopefully I’ll be able to find a race by then), and who knows what will come after that.</p>
+<p>I’ve also started to combine this new-found love of running with my love of data. In October I started downloading my running data from Strava and it’s been fun to explore it since. Today’s post will be a more formal dive into my running performance over the last year, primarily to help me see how far I’ve come and allow me to be proud of myself (something I have a really hard time with most days). Here we go! ***</p>
+<p>So! To start. I’ll have two broad sections to this analysis. First I’ll do a basic descriptive look at my running performance in 2020, cutting the data by week, month, day of the week, etc. Second, I’ll make an interactive map of all my runs using <code>leaflet</code> so we can visualize where I run and what my typical routes look like.</p>
+<p>I downloaded my Strava account data from the online site, which resulted in getting a big zipped folder of a lot of different files. I know I published this post in February of 2021, but I decided to just analyze the data from 2020 to keep it simple. There are two pieces of that I incorporate here. The first is an overview file of all my activities I’ve recorded on Strava, including the name, date, time, distance, pace, etc. The second is a folder of all of the GPS location data for all of the activities, in GPX format. I’ll get back to the GPX location files here in a bit, and start with the raw activities file.</p>
+<p>This code chunk loads my packages using <code>pacman</code> and imports and cleans the data from the activities file. Most of the cleaning is converting paces and distances into the units I generally use (miles instead of kilometers, pace in minutes per mile, etc.). Also, shoutout to the <code>lubridate</code> package for making the date-time parsing so painless.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>One thing I want to point out is the creation of the <code>multiplier</code> and <code>performance</code> variables towards the bottom of the chunk. I wanted a way to compare my runs in a more standardized way that didn’t just use distance or average pace as the metric. Those are instructive indicators, but only to a certain point; I can run long distances, but if my pace isn’t where I want it to be then it doesn’t mean as much. Likewise, I can run at a fast pace, but if I can’t sustain it for longer distances, it also doesn’t mean as much. The performance metric I thought of calculates the distance divided by pace as a multiplier for how long a run is. If I run 60ish minutes for 8 miles at 8 minutes a mile, I’ll get a multiplier of around 1, which leaves my performance at ~60. As opposed to if I run 60 minutes for 10 miles at 6 minutes a mile (which I absolutely can not do), the multiplier would be 1.4ish, and the performance would be 85ish. More on this later.</p>
+<p>First things first, I want to do a basic look at my running mileage over time. I’ll start by doing a look by month, then by week.</p>
+<p>Here’s the monthly look.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<p>Now for weekly:</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>These two graphs show more or less what I explained earlier. My mileage increased throughout spring and early summer 2020, plummeted during the mid-summer, and then started to pick back up again in the fall and through the end of the year to its highest levels. It’s interesting how much the weekly look reveals that the monthly hides - even in the valley of the summer and the peaks of the fall, there’s still a lot of ups and downs. Some of that variation is the ebb and flow of my work and recovery weeks, and some of it is the weather getting harder with snow and such. Though you can’t see it, this bouncy pattern has continued into the new year. One thing I’d like to work on being more consistent with my weekly mileage - trying to ease into smoother increases and decreases in mileage rather than the stark up and downs we see here.</p>
+<p>Obviously I knew approximately what these charts would look like. One thing I’m not as sure of how my runs break down on days of the week and time of day, both in terms of the number of runs and total mileage. This next graphs look at both the number of runs and total mileage by day of the week.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-4-1.png" width="624" /><img src="analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-4-2.png" width="624" /></p>
+</div>
+<p>This is new to me! Wednesdays were my biggest days for running overall and second biggest day for mileage - I wasn’t expecting that. I was thinking Fridays might be my biggest running day, but I guess not. Saturdays were my biggest days mileage-wise, which isn’t a surprise as that’s mroe a long run day for most runners (including me), but Wednesdays got close to it. The pattern seems to have been more runs with lower mileage on Wednesdays and fewer runs with higher mileage on Saturdays. So interesting.</p>
+<p>Now I want to go beyond the mileage piece and look more at the performance aspect that I touched on earlier. While it’s insightful to look at distance, it’s also instructive to think about my efficiency and speed as a runner. Enter the calculation I talked about above for performance. There are a few other caveats that I want to put in here though. While the calculation I came up with (imho) is pretty good and standardizes a lot of a run, it can fall victim to extremes, either mileage wise or speed wise. Middle distance and smooth pace is more reliable. So I’ll take it with a bit of a grain of salt, and you probably should, too.</p>
+<p>What I’ll do with the performance metric is chart it across month and week, probably as a median to do a better job of smoothing outliers during those periods. I had half a mind to do a simple regression to try to pick out the best predictors of my performance but honestly, the time series nature of it would make any significant or interesting results more or less useless. I don’t do time series analysis very much and it’s hard to do right so I figure I won’t wade into it this time. (Side note, I do want to get into a bit more modelling in this blog space, but I don’t think these are the right data. Maybe I could do that for my running when I have more months’ worth of data and it’s such a clearly linear trend of increased mileage and performance.)</p>
+<p>Here’s a look at my median performance by month.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<p>After seeing the grpahs for mileage, it shouldn’t be a surprise that my performance goes up continually once the fall settles in. Here’s the same look by week for a more granular look.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+</div>
+<p>This also checks out - not sure when the week is that I had the massive median performance. It could have been mid November when I ran my first half marathon. That would make sense.</p>
+<p>I wanted to include a section in here with a map of my routes, but for some reason, the <code>leaflet</code> package doesn’t want to work with R Markdown knitting right now. So I took it out for now, but hopefully I’ll be able to figure it out and get it in here at a later time. If I do, I’ll be sure to mention it!</p>
+<p>But this is all for now. I could do a lot more with this, but honestly, I just want to publish this. I’ve been working on it for several months now and I’ve only just worked up the motivation to finish it. So here it is! Woo!</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

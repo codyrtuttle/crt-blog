@@ -6,20 +6,20 @@
       "description": "In case, for some reason, you want to learn more about me.",
       "author": [],
       "contents": "\n\nHey there!\nMy name is Cody Tuttle - thanks for checking out my blog! I use this to write about data, research, and public policy. This is mainly a place for me to explore data that interests me in a way that’s easy for people to follow along with. Most of the time, the data I go through will be related to policy topics that I care about and have some experience with, primarily social and economic policy, poverty, health, housing, banking and credit, criminal justice, etc. But I also love to dive into new areas, so I hope to explore some budding areas of interest like machine learning, interactive web graphics, and sports analytics.\nDuring summer of 2019 I kept another blog for a short while that was basically the same thing that I do here. You can find my old posts here. I decided that I wanted to make a more professional looking website that I could more easily customize and integrate into my normal workflow, which is why you find yourself where you do. If you have any interest in making a similar style website, I recommend using this post from Tom Mock on using the distill R package and Netlify to host a blog - I basically followed it step by step to build this site.\n**\nIn my day job, I work as a research scientist at Minnesota Management and Budget, where I focus on impact evaluation, human services, and social policy. I graduated with my Master of Public Policy from the Humphrey School of Public Affairs at the University of Minnesota in May 2020 with a concentration in quantitative policy analysis and social policy. Before that I got a BA and MA in Sociology from the University of Arkansas where I studied criminology and wrote a thesis about how the news media frames issues of immigration and crime (if you’re interested, you can find an article I published from it in Sociological Spectrum here).\nI live in Minneapolis, MN with my beyond-incredible wife, Mariana. When I’m not doing data and policy stuff, I love to hang out with Mariana, run, kayak, ice skate, hike, bake sourdough, garden, read, and write poetry. I’m a sucker for a good IPA, bourbon, or Scotch, and I will always inhale popcorn when it’s in front of me. Thanks for visiting my site!\n\n\n\n",
-      "last_modified": "2020-12-07T20:38:16-06:00"
+      "last_modified": "2021-03-27T17:10:47-05:00"
     },
     {
       "path": "index.html",
       "title": "CRT Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2020-12-07T20:38:16-06:00"
+      "last_modified": "2021-03-27T17:10:48-05:00"
     },
     {
       "path": "README.html",
       "author": [],
       "contents": "\ncrt-blog\nCode to create my personal blog\ncodyrtuttle.netlify.app\n\n\n",
-      "last_modified": "2020-12-07T20:38:17-06:00"
+      "last_modified": "2021-03-27T17:10:48-05:00"
     }
   ],
   "collections": ["posts/posts.json"]
