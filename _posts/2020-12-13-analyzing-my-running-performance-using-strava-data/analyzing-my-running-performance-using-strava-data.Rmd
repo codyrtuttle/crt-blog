@@ -49,11 +49,10 @@ library(janitor)
 library(lubridate)
 library(gtools)
 library(devtools)
-library(mapproj)
-# library(leaflet)
+library(leaflet)
+library(gt)
 library(sp)
 library(maptools)
-library(gt)
 
 ### load and clean activity summaries - no location data
 strava <- read_excel("strava_activities.xlsx") %>% 
@@ -230,6 +229,170 @@ strava %>%
 ```
 
 This also checks out - not sure when the week is that I had the massive median performance. It could have been mid November when I ran my first half marathon. That would make sense. 
+
+Now what I want to do is a map of my routes. I love maps and making them, so this is something I'm excited about it. There are a lot of things I could choose to do with this, like color the lines of my route by performance or by the date, but what I think I'll do is keep things simple and just map the lines themselves. I run a fair few routes, but there are some that I do a lot more than others, so the map should make those lines thicker if I leave the color out of it. 
+
+One thing I'll say here is that a lot of the data cleaning for the next section is taken more or less directly from other people's code on GitHub or StackOverflow. I wouldn't have been able to do this if a lot of way smarter people than me hadn't done what I'm doing and been kind enough to share their code online. I've never worked with GPX files before, but luckily I was able to adapt code someone wrote for a Strava R package. Fun fact, my computer didn't seem to want to just download the package, so I was left to scour the source code and bring in what I needed to work with the folder of GPX files. Here's the setup code, including the functions to parse the GPX data. 
+
+```{r}
+
+### function to import and process GPX strava data files for locations
+
+process_data <- function(path, old_gpx_format = FALSE) {
+  # Function for processing a Strava gpx file
+  process_gpx <- function(file) {
+    # Parse GPX file and generate R structure representing XML tree
+    pfile <- XML::htmlTreeParse(file = file,
+                                error = function (...) {},
+                                useInternalNodes = TRUE)
+    
+    coords <- XML::xpathSApply(pfile, path = "//trkpt", XML::xmlAttrs)
+    # extract the activity type from file name
+    type <- stringr::str_match(file, ".*-(.*).gpx")[[2]]
+    # Check for empty file.
+    if (length(coords) == 0) return(NULL)
+    # dist_to_prev computation requires that there be at least two coordinates.
+    if (ncol(coords) < 2) return(NULL)
+    
+    lat <- as.numeric(coords["lat", ])
+    lon <- as.numeric(coords["lon", ])
+    
+    if (old_gpx_format == TRUE) {
+      ele <- as.numeric(XML::xpathSApply(pfile, path = "//trkpt/ele", XML::xmlValue))
+    }
+    
+    time <- XML::xpathSApply(pfile, path = "//trkpt/time", XML::xmlValue)
+    
+    # Put everything in a data frame
+    if (old_gpx_format == TRUE) {
+      result <- data.frame(lat = lat, lon = lon, ele = ele, time = time, type = type)
+    } else {
+      result <- data.frame(lat = lat, lon = lon, time = time, type = type)
+    }
+    result <- result %>%
+      dplyr::mutate(dist_to_prev = c(0, sp::spDists(x = as.matrix(.[, c("lon", "lat")]), longlat = TRUE, segments = TRUE)),
+                    cumdist = cumsum(dist_to_prev),
+                    time = as.POSIXct(.$time, tz = "GMT", format = "%Y-%m-%dT%H:%M:%OS")) %>%
+      dplyr::mutate(time_diff_to_prev = as.numeric(difftime(time, dplyr::lag(time, default = .$time[1]))),
+                    cumtime = cumsum(time_diff_to_prev))
+    result
+  }
+  
+  # Process all the files
+  data <- gtools::mixedsort(list.files(path = path, pattern = "*.gpx", full.names = TRUE)) %>%
+    purrr::map_df(process_gpx, .id = "id") 
+}
+
+# strava location data from GPX files
+strava_locs <- process_data("activities")
+
+```
+
+The next tricky bit after just reading in the GPX files was figuring out how manipulate them into line segments rather than points, so I could map my routes. Luckily, Kyle Walker has a great [post](https://rpubs.com/walkerke/points_to_line) on doing just that and created a handy function I was able to use, shown below.
+
+```{r}
+
+### function to clean points data to lines for easier mapping
+
+points_to_line <- function(data, long, lat, id_field = NULL, sort_field = NULL) {
+  
+  # Convert to SpatialPointsDataFrame
+  coordinates(data) <- c(long, lat)
+  
+  # If there is a sort field...
+  if (!is.null(sort_field)) {
+    if (!is.null(id_field)) {
+      data <- data[order(data[[id_field]], data[[sort_field]]), ]
+    } else {
+      data <- data[order(data[[sort_field]]), ]
+    }
+  }
+  
+  # If there is only one path...
+  if (is.null(id_field)) {
+    
+    lines <- SpatialLines(list(Lines(list(Line(data)), "id")))
+    
+    return(lines)
+    
+    # Now, if we have multiple lines...
+  } else if (!is.null(id_field)) {  
+    
+    # Split into a list by ID field
+    paths <- sp::split(data, data[[id_field]])
+    
+    sp_lines <- SpatialLines(list(Lines(list(Line(paths[[1]])), "line1")))
+    
+    # I like for loops, what can I say...
+    for (p in 2:length(paths)) {
+      id <- paste0("line", as.character(p))
+      l <- SpatialLines(list(Lines(list(Line(paths[[p]])), id)))
+      sp_lines <- spRbind(sp_lines, l)
+    }
+    
+    return(sp_lines)
+  }
+}
+
+```
+
+After that, I can convert my points data to lines, below. 
+
+``` {r}
+
+strava_locs_clean <- strava_locs %>% 
+  as_tibble() %>% 
+  clean_names() %>% 
+  rename(time_old = time) %>% 
+  mutate(act_date = ymd_hms(as.character(time_old)), 
+         act_date_time = (time_old - hours(5)),
+         month = month(act_date_time), 
+         day = day(act_date_time), 
+         year = year(act_date_time), 
+         mdy = format(act_date_time, format = "%m-%d-%Y"),
+         week = week(act_date_time),
+         wkday = wday(act_date_time, label = T),
+         time = format(act_date_time, "%H:%M:%S"))
+
+strava_lines <- points_to_line(
+  data = strava_locs_clean, 
+  long = "lon", 
+  lat = "lat", 
+  id_field = "id", 
+  sort_field = "cumtime"
+)
+
+line_match_run <- strava_locs_clean %>% 
+  filter(cumtime == 0) %>% 
+  left_join(strava, by = "act_date_time") %>% 
+  arrange(id)
+
+```
+
+Now I need to join the spatial lines table (`strava_lines`) back in with the rest of the fields for the activities to create a spatial lines data frame. This is mainly so I can filter down to just runs and get the hikes and walks out of there. (I also have a few activities that are labelled as runs that are actually when I was playing tennis, so I'll get those out of there too.) The reason I do subset instead of `dplyr`'s filter is because the spatial lines data frames don't work well with tidy verse. I suppose I could have filtered the rows before joining and just done an inner join, but whatever.
+
+```{r}
+strava_sldf <- SpatialLinesDataFrame(strava_lines, line_match_run, match.ID = F)
+
+strava_run_sldf <- subset(strava_sldf, strava_sldf$activity_type == "Run" & 
+                            !grepl("tennis", strava_sldf$activity_name, ignore.case = T))
+
+```
+
+Now we're ready to map! My go-to package for mapping is `leaflet` - so simple and intuitive to build and there are some great features. I won't build too complicated of a map here, but I'm sure I'll make more advanced maps in future posts. Here I'm choosing to zoom my map to northeast Minneapolis because that's where the majority of my runs originate. However, I have run in a few other places and recorded on Strava, like a few trails in some Twin Cities suburbs, and a few in Grand Marais, on the north shore of Lake Superior. 
+
+The great thing about `leaflet` maps is that they are interactive, though! So you can pan to different parts of the city to follow routes, and you can zoom in and out to look at routes more closely. You should also  zoom out a bit and see if you can find those other routes that aren't in Minneapolis, too!
+
+The lines are darker when there are more routes there, and lighter when there are fewer routes. Zooming in really close to the lines will show you just how many routes are there.
+
+```{r}
+map <- leaflet::leaflet(data = strava_run_sldf) %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolylines(weight = 3) %>% 
+  setView(-93.2474, 45.0132, zoom = 12.5)
+
+map
+```
 
 I wanted to include a section in here with a map of my routes, but for some reason, the `leaflet` package doesn't want to work with R Markdown knitting right now. So I took it out for now, but hopefully I'll be able to figure it out and get it in here at a later time. If I do, I'll be sure to mention it!
 
