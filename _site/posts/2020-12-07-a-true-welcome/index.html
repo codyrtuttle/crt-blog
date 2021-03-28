@@ -20,26 +20,28 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,39 +50,39 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #545454; font-weight: bold; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #a1024a; } /* BaseN */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #008000; } /* Char */
-code span.cn { color: #d91e18; } /* Constant */
-code span.co { color: #545454; } /* Comment */
-code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #aa5d00; } /* DataType */
-code span.dv { color: #a1024a; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #a1024a; } /* Float */
-code span.fu { color: #4254a7; } /* Function */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #545454; font-weight: bold; } /* Information */
-code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
-code span.op { color: #696969; } /* Operator */
-code span.ot { color: #007faa; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #008000; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #008000; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #008000; } /* VerbatimString */
-code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
@@ -130,6 +132,7 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
     var header = $('header').get(0);
     var headerHeight = header.offsetHeight;
     var headroom = new Headroom(header, {
+      tolerance: 5,
       onPin : function() {
         if (window.headroom_prevent_pin) {
           window.headroom_prevent_pin = false;
@@ -452,8 +455,15 @@ d-title {
   top: 0;
 }
 
+/* adjust viewport for navbar height */
+/* helps vertically center bootstrap (non-distill) content */
+.min-vh-100 {
+  min-height: calc(100vh - 100px) !important;
+}
+
 </style>
 
+<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -477,22 +487,19 @@ function offsetURL(url) {
   return offset ? offset + '/' + url : url;
 }
 
-function createIndex() {
-  var options = {
-    keys: [
-      "title",
-      "categories",
-      "description",
-      "contents"
-    ]
-  };
-  return new window.Fuse([],options);
-}
-
 function createFuseIndex() {
 
   // create fuse index
-  var options = { keys: ["title", "description", "contents"] };
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
   var fuse = new window.Fuse([], options);
 
   // fetch the main search.json
@@ -560,29 +567,25 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             shouldSort: true,
             minMatchCharLength: 2,
             limit: 10,
-            keys: [
-              { name: 'title', weight: 20 },
-              { name: 'categories', weight: 15 },
-              { name: 'description', weight: 10 },
-              { name: 'contents', weight: 5 },
-            ],
           };
           var results = fuse.search(query, searchOptions);
           callback(results
             .map(function(result) { return result.item; })
-            .filter(function(item) { return !!item.description; })
           );
         },
         templates: {
           suggestion: function(suggestion) {
+            var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+              ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+              : '';
             var html = `
               <div class="search-item">
                 <h3>${suggestion.title}</h3>
                 <div class="search-item-description">
-                  ${suggestion.description}
+                  ${suggestion.description || ''}
                 </div>
                 <div class="search-item-preview">
-                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                  ${img}
                 </div>
               </div>
             `;
@@ -605,6 +608,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 
 <style type="text/css">
+
+.nav-search {
+  font-size: x-small;
+}
 
 /* Algolioa Autocomplete */
 
@@ -680,6 +687,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 }
 
 .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  font-size: 1rem;
   margin-block-start: 0;
   margin-block-end: 5px;
 }
@@ -863,7 +871,7 @@ d-article pre code {
 d-article pre,
 d-article div.sourceCode,
 d-article div.sourceCode pre {
-  overflow: hidden;
+  overflow: auto;
 }
 
 d-article div.sourceCode {
@@ -905,6 +913,11 @@ d-article pre a {
 d-article pre a:hover {
   border-bottom: none;
   text-decoration: underline;
+}
+
+d-article details {
+  grid-column: text;
+  margin-bottom: 0.8em;
 }
 
 @media(min-width: 768px) {
@@ -1061,6 +1074,17 @@ d-article .citation {
 
 div.hanging-indent{
   margin-left: 1em; text-indent: -1em;
+}
+
+/* Citation hover box */
+
+.tippy-box[data-theme~=light-border] {
+  background-color: rgba(250, 250, 250, 0.95);
+}
+
+.tippy-content > p {
+  margin-bottom: 0;
+  padding: 2px;
 }
 
 
@@ -1728,7 +1752,7 @@ function init_distill() {
     var layout = $(this).attr('data-layout');
 
     // apply layout to markdown level block elements
-    var elements = $(this).children().not('div.sourceCode, pre, script');
+    var elements = $(this).children().not('details, div.sourceCode, pre, script');
     elements.each(function(i, el) {
       var layout_div = $('<div class="' + layout + '"></div>');
       if (layout_div.hasClass('shaded')) {
@@ -1843,6 +1867,20 @@ function init_distill() {
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
+
+    // hoverable references
+    $('span.citation[data-cites]').each(function() {
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      window.tippy(this, {
+        allowHTML: true,
+        content: refHtml,
+        maxWidth: 500,
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start'
+      });
+    });
 
     // clear polling timer
     clearInterval(tid);
@@ -2003,7 +2041,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.7/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="../../site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -2019,7 +2062,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"A true welcome","description":"Why I'm here","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-07T00:00:00.000-06:00","citationText":"Tuttle, 2020"}
+{"title":"A true welcome","description":"Why I'm here","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-07T00:00:00.000+00:00","citationText":"Tuttle, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2048,7 +2091,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h1>A true welcome</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>Why I’m here</p>
+<p><p>Why I’m here</p></p>
 </div>
 
 <div class="d-byline">
@@ -2064,7 +2107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h3 id="old-site">Old site</h3>
 <p>This site is really a reincarnation of a <a href="https://crtuttle.weebly.com/">previous blog</a> that I started back in the summer of 2019. I was on break from my MPP program at the time, only doing an internship and no classes, and I wanted to do something productive with my down time that would help my job prospects once I graduated, either in terms of actual experience and skill-sharpening or just a portfolio to point to. Over the course of the summer I really started to enjoy the process of exploring new data sets and writing about both my process of analaysis and visualization and also the insights and thoughts I was pulling from the analysis. I did circa 10 posts over the course of around three months, most of them going through <a href="https://crtuttle.weebly.com/blog/mapping-the-twin-cities">new</a> <a href="https://crtuttle.weebly.com/blog/police-stops-in-st-paul-minnesota">data</a> <a href="https://crtuttle.weebly.com/blog/northeast-minneapolis-rental-market-dynamics">sets</a> in R, but also some posts about <a href="https://public.tableau.com/profile/cody.tuttle#!/vizhome/MinimumWageWorkAcrosstheUnitedStates2002to2017/Dashboard1">Tableau public</a> <a href="https://public.tableau.com/profile/cody.tuttle#!/vizhome/StateandCountyPovertyRates/PovertyRatesDash">dashboards</a> I’d made or with <a href="https://crtuttle.weebly.com/blog/moving-to-opportunity-research-and-policy">my</a> <a href="https://crtuttle.weebly.com/blog/poverty-and-opportunity-pt-ii">thoughts</a> about a particular policy area that I’d been thinking about a lot. After school started back up again in the fall I wasn’t able to keep it up, but I did do a few more posts during the winter break between fall and spring semesters. Since I graduated in May 2020, I’ve been meaning to pick it back up again, but time the last six months has gotten away from me, with starting a new full-time job, buying a house, finding out that my wife and I are expecting our first child, and general COVID craziness. I also knew that I wanted to create a new site, which would take some planning and investment on top of the time to actually write new posts. My old site, while functional and serviceable, didn’t look that great and it was not at all integrated with the rest of the writing and analysis workflow I’ve developed in RStudio and R Markdown.</p>
 <h3 id="new-site">New site!!!</h3>
-<p>Enter this new site! After things At various points over the last year, I’ve seen posts and resources on various ways to start blogs using R packages, like <code>blogdown</code> and <code>distill</code>, but I wasn’t able to really sit down and start thinking about it until now. I tried starting a site using <code>blogdown</code> and Hugo, and while I’m sure it’s a great tool that works for a lot of folks, I wasn’t able to get it to work. One of the other posts that I’d seen, though, was <a href="https://themockup.netlify.app/posts/2020-08-01-building-a-blog-with-distill/">this one</a> from Tom Mock about starting a blog using <code>distill</code> and Netlify - it worked a lot more seamlessly for me than did the <code>blogdown</code> approach, and now we find ourselves here!</p>
+<p>Enter this new site! At various points over the last year, I’ve seen posts and resources on various ways to start blogs using R packages, like <code>blogdown</code> and <code>distill</code>, but I wasn’t able to really sit down and start thinking about it until now. I tried starting a site using <code>blogdown</code> and Hugo, and while I’m sure it’s a great tool that works for a lot of folks, I wasn’t able to get it to work. One of the other posts that I’d seen, though, was <a href="https://themockup.netlify.app/posts/2020-08-01-building-a-blog-with-distill/">this one</a> from Tom Mock about starting a blog using <code>distill</code> and Netlify - it worked a lot more seamlessly for me than did the <code>blogdown</code> approach, and now we find ourselves here!</p>
 <p>Mostly, I see this new site as a better-looking and easier-to-work-with continuation of the old site in terms of content and purpose. I’m really excited to get back to exploring new data sets and getting better at my analysis and visualization skills, so I imagine that will by main focus for the first stage in this new site. I’d also like to explore new territory with this blog, though. There are a few domains that I’ve been really itching to get into, like machine learning, interacative web graphics using d3 and JavaScript, and I’d love to use this as a way to explore them. I’d also like to create more Shiny web apps and blog about them here. Currently I have one Shiny app that I made for a class, and I’ve been meaning to build more - it’s a super fun platform.</p>
 <p>Right now I’m thinking that the first new post that I do here will be analyzing my Strava app running data. I figured out how to download it a few weeks ago and I’ve had a good time playing around with it. I’m also debating building a Shiny app for it, but that remains to be seen. Other than that, I’m wide open to new data sets and topics.</p>
 <p>Well, folks, that’s all for now. If you want to learn more about me, check out the “About” page on the site. Thanks for stopping by and taking the time to read this - I’m looking forwrad to posting more soon!</p>
