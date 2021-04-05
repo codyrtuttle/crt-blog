@@ -12,7 +12,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Hello, folks! In this post I'll be looking at my running performance over the last year by analyzing my running data from the Strava app. Before I start that, here's a bit of background on how I've experienced a new-found love of running over the last year and what led to this in the first place.
