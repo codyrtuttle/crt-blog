@@ -390,6 +390,4 @@ map <- leaflet::leaflet(data = strava_run_sldf) %>%
 map
 ```
 
-I wanted to include a section in here with a map of my routes, but for some reason, the `leaflet` package doesn't want to work with R Markdown knitting right now. So I took it out for now, but hopefully I'll be able to figure it out and get it in here at a later time. If I do, I'll be sure to mention it!
-
 But this is all for now. I could do a lot more with this, but honestly, I just want to publish this. I've been working on it for several months now and I've only just worked up the motivation to finish it. So here it is! Woo!
