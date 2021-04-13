@@ -1,0 +1,30 @@
+---
+title: "Plug for the Correlates of State Policy Shiny App"
+description: |
+  A quick shout out to a really cool and valuable tool for social scientists
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 04-12-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+I know, I know, this is my second short, no-code post in a row, but I stumbled across a really cool resource that I wanted to share with y'all.
+
+A few years ago a few political scientists released a massive treasure trove compendium of data on historical and modern state policy decisions for a huge amount of policies and programs across a wide variety of domains, along with associated demographic and political characteristics for state-years from 1900 to current, dubbed the [Correlates of State Policy](http://ippsr.msu.edu/public-policy/correlates-state-policy). As I was just about to start my Master of Public Policy program when I found it, of course I knew what a fantastic resource this was, and I was super pumped to dig into it. After exploring the website and associated files a bit, though, it proved to be way too clunky and overwhelming to really take the time to get to know and work with - thousands of variables and only a standard PDF codebook from what I remember. Not at all something I had time or energy to dive into and make sense of. So I forgot about it for a few years.
+
+But this week I was searching the webz for fun data ideas for the blog and stumbled across a marvelous development in the Correlates of State Policy data world - a [Shiny app](https://cspp.ippsr.msu.edu/cspp/) that allows users to subset and download the data and explore visually some of the features. Cue the fireworks! It's super cool that they have some analytics and visual capacity built in to explore the data online - that's rad. But the thing I got super pumped about was the tool to filter and view the relevant variables and associated descriptions and download the data according to different policy domains and topics. This makes downloading the data soooo much easier than just grabbing the raw full data file and all three thousand columns. Not only can I pick the topics I want to download data for, but I can see how many variables it'll return, and I can filter to specific states and years, to boot.
+
+This is an amazing resource for social scientists or policy wonks or anyone doing broad-scale (quantitative) policy analysis. The data are super extensive and this is a really user friendly way to explore and download all that they have to offer. I will say that it's probably wise to have the [codebook](https://ippsr.msu.edu/sites/default/files/CorrelatesCodebook.pdf) pulled up as you're viewing the variables for different policy domains. The coverage in terms of which years the variables are available for vary *widely* across the sources that the authors pull the data from, even within the same domain and it's not always intuitive what data cover what years from just looking at the Shiny app. That's really my only word of caution though. Everyone should check out this incredible resource. (That and the fact that they don't link to the code used to develop the app.)
+
+In addition to it being a great resource for academics and researchers, this is just an example of a really useful and functional Shiny app. Not only do they provide interactive graphics and user-guided analysis, but they make the underlying data really accessible, which is so clutch when the data are as unwieldy as they are in this case.
+
+Well, that's all for now. I'm definitely thinking about my next substantive post for the blog, but am at a slight crossroads with what I want to focus on and spend my time doing. Do I go with more simple exploratory type analysis or do I augment my causal inference toolbox with  mini causal type research questions and models or do I explore new machine learning territories that I don't really know at all? Do I stick with data on policy topics that I work with often, or do I branch out to other data that are less serious and more for the fun of it? Do I build more shiny apps and explain them here or do I focus more on the guided analysis and insight posts that I've typically done? All really good things to spend my time on, and all things I want to spend time on, I just need to decide what to prioritize first and start digging in. 
+
+Until next time!
