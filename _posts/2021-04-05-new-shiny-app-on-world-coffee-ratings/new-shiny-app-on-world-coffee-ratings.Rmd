@@ -9,6 +9,10 @@ date: 04-05-2021
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - shiny
+  - R
+  - coffee
 ---
 
 
@@ -20,11 +24,11 @@ Hey hey hey, folks. Hope everyone is doing swell. I wanted to take just a few mi
 
 Coffee, especially the specialty coffee scene, is near and dear to my heart. Back in college and for a brief period during my first master's I worked at a local specialty coffee shop in Fayetteville, Arkansas called [Onyx Coffee Lab](https://onyxcoffeelab.com/), and it introduced me to a world I will forever appreciate. For those that have never delved into this world, coffee is a product that is similar to wine in that there is a whole world of producers, varietals, processing methods, brewing/production methods, and even competitions that accompany it. It's not just caffeine and dark roasts, Folgers and Starbucks - there is an entire industry dedicated to finding, procuring, roasting, and brewing the best coffees in the world. 
 
-This Shiny [app](https://crtut13.shinyapps.io/coffee_ratings/) (and post) is an homage to that world. 
+This Shiny [app](https://crtut13.shinyapps.io/coffee_ratings/) (and post) is an homage to that world.
 
 I was hunting through old TidyTuesday data archives and came across a week with world coffee ratings as the featured data, and I jumped on it. It's honestly a pretty simple web app, but I think it's really fun. A user can select from any coffee in the database and it will pull up a polar coordinate set of its ratings along a few different dimensions, including acidity, balance, sweetness, uniformity of beans, etc, all categories that determine how good a coffee is. 
 
-One of the fun things that I wanted to play around with was the `ggiraph` package that allows you to create interactive elements in `ggplot` figures. That's how I got the tooltip that shows the ratings when you hover over different rating segments. 
+One of the fun things that I wanted to play around with was the `ggiraph` package that allows you to create interactive elements in `ggplot` figures. That's how I got the tooltip that shows the ratings when you hover over different rating segments. You can find the code that I used to build the app [here](https://github.com/codyrtuttle/coffee_shiny_app).
 
 There are a few things that I wish were different - for one, there was no unique identifier or name for the coffees in the database, and there were lots of duplicate fields for different coffees, so I had to concatenate way too many fields (clearly) to get the identifier in the drop down filter. I'm considering going back and adding filters for all of those elements individually to make it a bit easier to handle. 
 

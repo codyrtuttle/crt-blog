@@ -9,6 +9,11 @@ date: 12-02-2020
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - R
+  - CFBP
+  - equity
+  - banking
 ---
 
 
@@ -33,8 +38,9 @@ Here I simply load in my data (already mostly cleaned thanks to a handy R script
 
 ```{r}
 data <- read.csv("/Users/codytuttle/Desktop/cfpb_blog/cfpb_clean.csv")
-library("pacman")
-p_load(tidyverse, survey, srvyr)
+library(tidyverse)
+library(survey)
+library(srvyr)
 weighted <- data %>%
   as_survey(PUF_ID, weight = finalwt) %>%
   rename(race = PPETHM, 
