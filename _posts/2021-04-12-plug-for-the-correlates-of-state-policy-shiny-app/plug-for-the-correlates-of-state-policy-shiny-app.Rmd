@@ -9,6 +9,9 @@ date: 04-12-2021
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - state policy
+  - no code
 ---
 
 ```{r setup, include=FALSE}
