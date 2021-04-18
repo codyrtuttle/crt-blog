@@ -2,7 +2,7 @@ name: "crt-blog"
 title: "Cody R. Tuttle"
 description: |
   Cody R. Tuttle
-base_url: https://codyrtuttle.netlify.app/
+base_url: https://codyrtuttle.netlify.app 
 output_dir: "_site"
 navbar:
   right:
