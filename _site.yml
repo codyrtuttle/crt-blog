@@ -12,6 +12,8 @@ navbar:
       href: about.html
     - icon: fa fa-github
       href: https://github.com/codyrtuttle
+    - icon: fa fa-twitter
+      href: https://twitter.com/codytuttle
     - icon: fa fa-rss
       href: index.xml
 output: distill::distill_article
