@@ -28,6 +28,8 @@ This Shiny [app](https://crtut13.shinyapps.io/coffee_ratings/) (and post) is an 
 
 I was hunting through old TidyTuesday data archives and came across a week with world coffee ratings as the featured data, and I jumped on it. It's honestly a pretty simple web app, but I think it's really fun. A user can select from any coffee in the database and it will pull up a polar coordinate set of its ratings along a few different dimensions, including acidity, balance, sweetness, uniformity of beans, etc, all categories that determine how good a coffee is. 
 
+<p><iframe src="https://crtut13.shinyapps.io/coffee_ratings/" width="100%" height="650" style="border-color: transparent;"></iframe><br /></p>
+
 One of the fun things that I wanted to play around with was the `ggiraph` package that allows you to create interactive elements in `ggplot` figures. That's how I got the tooltip that shows the ratings when you hover over different rating segments. You can find the code that I used to build the app [here](https://github.com/codyrtuttle/coffee_shiny_app).
 
 There are a few things that I wish were different - for one, there was no unique identifier or name for the coffees in the database, and there were lots of duplicate fields for different coffees, so I had to concatenate way too many fields (clearly) to get the identifier in the drop down filter. I'm considering going back and adding filters for all of those elements individually to make it a bit easier to handle. 
