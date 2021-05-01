@@ -392,7 +392,9 @@ map <- leaflet::leaflet(data = strava_run_sldf) %>%
   addPolylines(weight = 3) %>% 
   setView(-93.2474, 45.0132, zoom = 12.5)
 
-map
+htmlwidgets::saveWidget(map, "strava_map.html")
 ```
+
+<p><iframe src="strava_map.html" width="100%" height="650" style="border-color: transparent;"></iframe><br /></p>
 
 But this is all for now. I could do a lot more with this, but honestly, I just want to publish this. I've been working on it for several months now and I've only just worked up the motivation to finish it. So here it is! Woo!
