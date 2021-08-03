@@ -1,0 +1,130 @@
+---
+title: "Birth rate analysis vol 1: Maps, maps, and more maps"
+description: |
+  Part one of a three part series on birth rates in the US
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 04-27-2021
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - R
+  - maps
+  - R spatial
+  - ggiraph
+  - interactivity
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Hello!
+
+Hey, folks! I'm happy to be back swinging some fresh data science and musings for all to see (or not see), and I'm happy you're here. If you're reading this, first of all, thanks. I really do appreciate it, whether you make it to all the way through the post or just to the end of this paragraph. 
+
+To be honest, I've been in a bit of a rut as far as what to post about goes the last few weeks. After my last post, I was originally thinking that I'd explore some COVID data that the CDC released not too far back. When that turned out to be a bit too unwieldy for my poor little MacBook Air to handle, I thought about going down the housing/mortgage data route, but I realized after a bit that the questions I was interested in asking would be pretty similar to the types of questions in the CFPB post I lifted from my old blog a few months ago. Not that there's anything wrong with that, but I wanted to broach new territory, dig into new kinds of data and ask fresh questions. 
+
+# Birth Rates!
+
+What I finally came to, after casually asking my wife one evening what I should blog about next, was birth rates. As you might know, we're about to welcome our first kid into the world (a baby girl!) in mid-May, so it's obviously a topic that's been on our minds a lot. I'd toyed with the idea of data on baby names (not super interesting to me) or maternal mortality and the egregious racial disparities therein (too heavy this close to our own birth experience), but when Mariana mentioned birth rates, it totally clicked. 
+I started looking at some birth and fertility rates by state and year from the CDC and had the idea to join it with some data on state government spending on children from Tidy Tuesday and with some state welfare and socioeconomic data that I used for my MPP thesis. After some exploration and thinking, I decided that there was probably too much that I was interested in with these data to put it all in one post. 
+
+So I decided to split this topic into three posts - First, different maps of birth rates across time; second, an exploratory visualization of the association between birth rates and socioeconomic/political state characteristics; and third, causal models on whether state spending on kids impacts birth rates over time. 
+
+# Today's Post: Maps!
+
+Y'all have probably realized this by now, but I love maps. I'm not a geographer by any means, but since mid-college I've loved maps and geography, and it's been really fun to explore the different spatial and mapping capabilities in R over the last several years. `Leaflet` is probably my favorite R package for mapping, but even `sf` and `ggplot2` static mapping is great. Though I know it's not always appropriate, whenever I have any element of geography, even just US states in my data, I like to map them. Usually I like to do interactive maps, where the user can pan and zoom and all that good stuff, which is why I love `leaflet` so much. But sometimes that much interactivity is more of a hindrance than a help - this is something I explore a bit in this post. 
+
+## Data
+
+First things first, the data I'm using come from the [CDC Wonder database](https://wonder.cdc.gov). They have tons of data, but the data I use are obviously on birth and natality. I pulled two files from them, both containing birth and fertility rates by state and year, one from 2003-2006 and one from 2007-2019. They also have data from 1995-2002 that I looked at, but they didn't have the same fertility rate measures. I also use the `maps` package to pull state shapefiles, but that's it for this post. In later posts I'll pull in other sources, but I only use the birth rates in this one. 
+
+## Plan 
+
+One of the things that became apparent to me while exploring different ideas for this post is that there are different levels of interactivity, and it's important to choose the right level of interactivity for your situation. With coordinate or line spatial data or a very zoomed out map, it's really nice to have pan and zoom interactivity, but with something as simple as US states, that's not really necessary - a simple tooltip or hover button will do just fine, and maybe even a static map is best in that case. In this post I wanted to play around with what the right level of interactivity was for this specific use case, one simple measure with data at the state and year level. 
+
+BLUF, I ended up exploring three different maps to explore the data - a faceted state map by year (no tooltip or interactivity), a state map with a drop down filter to select the year using `bsselectR`, and last an interactive hover-tooltip map of a single year using `ggiraph`. 
+
+## Data Prep
+
+This section will just be the code to import and clean the data - super simple. Thanks to the `maps` package for the easy US state shapefiles!
+
+First, load necessary packages and set options:
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+library(tidyverse) #loading and cleaning data
+library(readr) #loading data
+library(ggiraph) #interactive tooltip graphs!!!
+library(janitor) #clean imported data columns
+library(bsselectR) #interactive dropdown menus without Shiny!!!
+library(maps) #state shapefiles
+library(mapproj) #support sf
+library(sf) #mapping with ggplot!
+library(ggthemes) #use for theme_map()
+library(glue)
+library(purrr)
+
+options(scipen = 999)
+```
+
+Now read in the data:
+
+```{r, warning=FALSE, message=FALSE, results='hide'}
+
+# birth rate data from CDC wonder
+natality0306 <- read_delim("Natality, 2003-2006.txt","\t", escape_double = FALSE, trim_ws = TRUE) %>% 
+  clean_names() %>% 
+  select(-notes)
+
+natality0719 <- read_delim("Natality, 2007-2019.txt", "\t", escape_double = FALSE, trim_ws = TRUE)%>% 
+  clean_names() %>% 
+  select(-notes)
+
+natality <- bind_rows(natality0306, natality0719) %>% 
+  filter(!is.na(state))
+
+# state shapefiles 
+states <- map_data("state")
+
+# join natality and shapefiles
+natality <- natality %>% 
+  mutate(region = tolower(state))
+
+state_year <- states %>% 
+  left_join(natality, by = "region")
+```
+
+## Static State Map Faceted by Year
+
+Now comes the fun - time to map!
+
+```{r}
+walk(2003:2019, ~{
+  
+  gg <- ggplot(data = filter(state_year, year == .x),
+            aes(x = long, y = lat, group = group, fill = fertility_rate, 
+                tooltip = fertility_rate, 
+                data_id = state)) +
+  geom_polygon_interactive(color = 'gray70') +
+  coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
+  labs(title = glue("US State Fertility Rate by State, {.x}"), 
+       subtitle = "Hover over state to see fertility rate") +
+  theme_map()
+  
+  ggi <- girafe(ggobj = gg)
+  
+  htmlwidgets::saveWidget(ggi, file = glue("{.x}.html"))
+})
+```
+
+```{r}
+plots <- list.files(pattern = ".html")
+names(plots) <- 2003:2019
+
+bsselect(plots, type = "iframe", selected = "2019")
+```
+

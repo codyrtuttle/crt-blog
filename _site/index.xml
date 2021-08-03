@@ -7,7 +7,128 @@
     <description>Cody R. Tuttle
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 12 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Apr 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Birth rate analysis vol 1: Maps, maps, and more maps</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2021-04-27-birth-rate-analysis-vol-1-maps-maps-and-more-maps</link>
+      <description>
+
+
+&lt;h1 id="hello"&gt;Hello!&lt;/h1&gt;
+&lt;p&gt;Hey, folks! I’m happy to be back swinging some fresh data science and musings for all to see (or not see), and I’m happy you’re here. If you’re reading this, first of all, thanks. I really do appreciate it, whether you make it to all the way through the post or just to the end of this paragraph.&lt;/p&gt;
+&lt;p&gt;To be honest, I’ve been in a bit of a rut as far as what to post about goes the last few weeks. After my last post, I was originally thinking that I’d explore some COVID data that the CDC released not too far back. When that turned out to be a bit too unwieldy for my poor little MacBook Air to handle, I thought about going down the housing/mortgage data route, but I realized after a bit that the questions I was interested in asking would be pretty similar to the types of questions in the CFPB post I lifted from my old blog a few months ago. Not that there’s anything wrong with that, but I wanted to broach new territory, dig into new kinds of data and ask fresh questions.&lt;/p&gt;
+&lt;h1 id="birth-rates"&gt;Birth Rates!&lt;/h1&gt;
+&lt;p&gt;What I finally came to, after casually asking my wife one evening what I should blog about next, was birth rates. As you might know, we’re about to welcome our first kid into the world (a baby girl!) in mid-May, so it’s obviously a topic that’s been on our minds a lot. I’d toyed with the idea of data on baby names (not super interesting to me) or maternal mortality and the egregious racial disparities therein (too heavy this close to our own birth experience), but when Mariana mentioned birth rates, it totally clicked. I started looking at some birth and fertility rates by state and year from the CDC and had the idea to join it with some data on state government spending on children from Tidy Tuesday and with some state welfare and socioeconomic data that I used for my MPP thesis. After some exploration and thinking, I decided that there was probably too much that I was interested in with these data to put it all in one post.&lt;/p&gt;
+&lt;p&gt;So I decided to split this topic into three posts - First, different maps of birth rates across time; second, an exploratory visualization of the association between birth rates and socioeconomic/political state characteristics; and third, causal models on whether state spending on kids impacts birth rates over time.&lt;/p&gt;
+&lt;h1 id="todays-post-maps"&gt;Today’s Post: Maps!&lt;/h1&gt;
+&lt;p&gt;Y’all have probably realized this by now, but I love maps. I’m not a geographer by any means, but since mid-college I’ve loved maps and geography, and it’s been really fun to explore the different spatial and mapping capabilities in R over the last several years. &lt;code&gt;Leaflet&lt;/code&gt; is probably my favorite R package for mapping, but even &lt;code&gt;sf&lt;/code&gt; and &lt;code&gt;ggplot2&lt;/code&gt; static mapping is great. Though I know it’s not always appropriate, whenever I have any element of geography, even just US states in my data, I like to map them. Usually I like to do interactive maps, where the user can pan and zoom and all that good stuff, which is why I love &lt;code&gt;leaflet&lt;/code&gt; so much. But sometimes that much interactivity is more of a hindrance than a help - this is something I explore a bit in this post.&lt;/p&gt;
+&lt;h2 id="data"&gt;Data&lt;/h2&gt;
+&lt;p&gt;First things first, the data I’m using come from the &lt;a href="https://wonder.cdc.gov"&gt;CDC Wonder database&lt;/a&gt;. They have tons of data, but the data I use are obviously on birth and natality. I pulled two files from them, both containing birth and fertility rates by state and year, one from 2003-2006 and one from 2007-2019. They also have data from 1995-2002 that I looked at, but they didn’t have the same fertility rate measures. I also use the &lt;code&gt;maps&lt;/code&gt; package to pull state shapefiles, but that’s it for this post. In later posts I’ll pull in other sources, but I only use the birth rates in this one.&lt;/p&gt;
+&lt;h2 id="plan"&gt;Plan&lt;/h2&gt;
+&lt;p&gt;One of the things that became apparent to me while exploring different ideas for this post is that there are different levels of interactivity, and it’s important to choose the right level of interactivity for your situation. With coordinate or line spatial data or a very zoomed out map, it’s really nice to have pan and zoom interactivity, but with something as simple as US states, that’s not really necessary - a simple tooltip or hover button will do just fine, and maybe even a static map is best in that case. In this post I wanted to play around with what the right level of interactivity was for this specific use case, one simple measure with data at the state and year level.&lt;/p&gt;
+&lt;p&gt;BLUF, I ended up exploring three different maps to explore the data - a faceted state map by year (no tooltip or interactivity), a state map with a drop down filter to select the year using &lt;code&gt;bsselectR&lt;/code&gt;, and last an interactive hover-tooltip map of a single year using &lt;code&gt;ggiraph&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="data-prep"&gt;Data Prep&lt;/h2&gt;
+&lt;p&gt;This section will just be the code to import and clean the data - super simple. Thanks to the &lt;code&gt;maps&lt;/code&gt; package for the easy US state shapefiles!&lt;/p&gt;
+&lt;p&gt;First, load necessary packages and set options:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;library(tidyverse) #loading and cleaning data
+library(readr) #loading data
+library(ggiraph) #interactive tooltip graphs!!!
+library(janitor) #clean imported data columns
+library(bsselectR) #interactive dropdown menus without Shiny!!!
+library(maps) #state shapefiles
+library(mapproj) #support sf
+library(sf) #mapping with ggplot!
+library(ggthemes) #use for theme_map()
+library(glue)
+library(purrr)
+
+options(scipen = 999)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now read in the data:&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;# birth rate data from CDC wonder
+natality0306 &amp;lt;- read_delim(&amp;quot;Natality, 2003-2006.txt&amp;quot;,&amp;quot;\t&amp;quot;, escape_double = FALSE, trim_ws = TRUE) %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  select(-notes)
+
+natality0719 &amp;lt;- read_delim(&amp;quot;Natality, 2007-2019.txt&amp;quot;, &amp;quot;\t&amp;quot;, escape_double = FALSE, trim_ws = TRUE)%&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  select(-notes)
+
+natality &amp;lt;- bind_rows(natality0306, natality0719) %&amp;gt;% 
+  filter(!is.na(state))
+
+# state shapefiles 
+states &amp;lt;- map_data(&amp;quot;state&amp;quot;)
+
+# join natality and shapefiles
+natality &amp;lt;- natality %&amp;gt;% 
+  mutate(region = tolower(state))
+
+state_year &amp;lt;- states %&amp;gt;% 
+  left_join(natality, by = &amp;quot;region&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="static-state-map-faceted-by-year"&gt;Static State Map Faceted by Year&lt;/h2&gt;
+&lt;p&gt;Now comes the fun - time to map!&lt;/p&gt;
+&lt;pre class="r"&gt;&lt;code&gt;walk(2003:2019, ~{
+  
+  gg &amp;lt;- ggplot(data = filter(state_year, year == .x),
+            aes(x = long, y = lat, group = group, fill = fertility_rate, 
+                tooltip = fertility_rate, 
+                data_id = state)) +
+  geom_polygon_interactive(color = &amp;#39;gray70&amp;#39;) +
+  coord_map(projection = &amp;quot;albers&amp;quot;, lat0 = 39, lat1 = 45) +
+  labs(title = glue(&amp;quot;US State Fertility Rate by State, {.x}&amp;quot;), 
+       subtitle = &amp;quot;Hover over state to see fertility rate&amp;quot;) +
+  theme_map()
+  
+  ggi &amp;lt;- girafe(ggobj = gg)
+  
+  htmlwidgets::saveWidget(ggi, file = glue(&amp;quot;{.x}.html&amp;quot;))
+})&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class="r"&gt;&lt;code&gt;plots &amp;lt;- list.files(pattern = &amp;quot;.html&amp;quot;)
+names(plots) &amp;lt;- 2003:2019
+
+bsselect(plots, type = &amp;quot;iframe&amp;quot;, selected = &amp;quot;2019&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;html&gt;
+&lt;select id="XPaNLQz0Ac" class="selectpicker" data-dropdown-align-right="false" data-dropup-auto="true" data-header="false" data-live-search="false" data-live-search-style="contains" data-show-tick="false" data-width="false" data-size="auto"&gt;&lt;option value="2003.html"&gt;2003&lt;/option&gt;
+&lt;option value="2004.html"&gt;2004&lt;/option&gt;
+&lt;option value="2005.html"&gt;2005&lt;/option&gt;
+&lt;option value="2006.html"&gt;2006&lt;/option&gt;
+&lt;option value="2007.html"&gt;2007&lt;/option&gt;
+&lt;option value="2008.html"&gt;2008&lt;/option&gt;
+&lt;option value="2009.html"&gt;2009&lt;/option&gt;
+&lt;option value="2010.html"&gt;2010&lt;/option&gt;
+&lt;option value="2011.html"&gt;2011&lt;/option&gt;
+&lt;option value="2012.html"&gt;2012&lt;/option&gt;
+&lt;option value="2013.html"&gt;2013&lt;/option&gt;
+&lt;option value="2014.html"&gt;2014&lt;/option&gt;
+&lt;option value="2015.html"&gt;2015&lt;/option&gt;
+&lt;option value="2016.html"&gt;2016&lt;/option&gt;
+&lt;option value="2017.html"&gt;2017&lt;/option&gt;
+&lt;option value="2018.html"&gt;2018&lt;/option&gt;
+&lt;option value="2019.html" selected&gt;2019&lt;/option&gt;
+&lt;option value="birth-rate-analysis-vol-1-maps-maps-and-more-maps.html"&gt;NA&lt;/option&gt;&lt;/select&gt;
+&lt;iframe src="2019.html" frameborder="0" height="500" width="100%" id="njoNGJOCcL"&gt;&lt;/iframe&gt;
+&lt;script&gt;$(document).ready(function(){
+                   $("#XPaNLQz0Ac").change(function(){
+                   $("#njoNGJOCcL").attr("src",$(this).val());
+
+                   });
+
+    });&lt;/script&gt;
+&lt;/html&gt;
+&lt;div id="htmlwidget-4b1c9d90566ef7e6f96b" style="width:672px;height:480px;" class="bsselect html-widget" width="672" height="480"&gt;&lt;/div&gt;
+&lt;script type="application/json" data-for="htmlwidget-4b1c9d90566ef7e6f96b"&gt;{"x":[],"evals":[],"jsHooks":[]}&lt;/script&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>15cee258cdc32a1265ae9573a663bb02</distill:md5>
+      <category>R</category>
+      <category>maps</category>
+      <category>R spatial</category>
+      <category>ggiraph</category>
+      <category>interactivity</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2021-04-27-birth-rate-analysis-vol-1-maps-maps-and-more-maps</guid>
+      <pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Plug for the Correlates of State Policy Shiny App</title>
       <dc:creator>Cody Tuttle</dc:creator>
@@ -122,7 +243,7 @@ strava &amp;lt;- read_excel(&amp;quot;strava_activities.xlsx&amp;quot;) %&amp;gt
     plot.caption.position = &amp;quot;plot&amp;quot;,
     plot.title = element_text(size = 13)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e6c0f4804_files/figure-html/unnamed-chunk-2-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd2536077bf_files/figure-html/unnamed-chunk-2-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;Now for weekly:&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;strava %&amp;gt;% 
   filter(activity_type == &amp;quot;Run&amp;quot;) %&amp;gt;% 
@@ -141,7 +262,7 @@ strava &amp;lt;- read_excel(&amp;quot;strava_activities.xlsx&amp;quot;) %&amp;gt
     plot.caption.position = &amp;quot;plot&amp;quot;,
     plot.title = element_text(size = 13)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e6c0f4804_files/figure-html/unnamed-chunk-3-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd2536077bf_files/figure-html/unnamed-chunk-3-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;These two graphs show more or less what I explained earlier. My mileage increased throughout spring and early summer 2020, plummeted during the mid-summer, and then started to pick back up again in the fall and through the end of the year to its highest levels. It’s interesting how much the weekly look reveals that the monthly hides - even in the valley of the summer and the peaks of the fall, there’s still a lot of ups and downs. Some of that variation is the ebb and flow of my work and recovery weeks, and some of it is the weather getting harder with snow and such. Though you can’t see it, this bouncy pattern has continued into the new year. One thing I’d like to work on being more consistent with my weekly mileage - trying to ease into smoother increases and decreases in mileage rather than the stark up and downs we see here.&lt;/p&gt;
 &lt;p&gt;Obviously I knew approximately what these charts would look like. One thing I’m not as sure of how my runs break down on days of the week and time of day, both in terms of the number of runs and total mileage. This next graphs look at both the number of runs and total mileage by day of the week.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;strava %&amp;gt;% 
@@ -160,7 +281,7 @@ strava &amp;lt;- read_excel(&amp;quot;strava_activities.xlsx&amp;quot;) %&amp;gt
     plot.caption.position = &amp;quot;plot&amp;quot;,
     plot.title = element_text(size = 13)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e6c0f4804_files/figure-html/unnamed-chunk-4-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd2536077bf_files/figure-html/unnamed-chunk-4-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;strava %&amp;gt;% 
   group_by(wkday) %&amp;gt;% 
   summarize(mileage = sum(distance, na.rm = T)) %&amp;gt;% 
@@ -177,7 +298,7 @@ strava &amp;lt;- read_excel(&amp;quot;strava_activities.xlsx&amp;quot;) %&amp;gt
     plot.caption.position = &amp;quot;plot&amp;quot;,
     plot.title = element_text(size = 13)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e6c0f4804_files/figure-html/unnamed-chunk-4-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd2536077bf_files/figure-html/unnamed-chunk-4-2.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;This is new to me! Wednesdays were my biggest days for running overall and second biggest day for mileage - I wasn’t expecting that. I was thinking Fridays might be my biggest running day, but I guess not. Saturdays were my biggest days mileage-wise, which isn’t a surprise as that’s mroe a long run day for most runners (including me), but Wednesdays got close to it. The pattern seems to have been more runs with lower mileage on Wednesdays and fewer runs with higher mileage on Saturdays. So interesting.&lt;/p&gt;
 &lt;p&gt;Now I want to go beyond the mileage piece and look more at the performance aspect that I touched on earlier. While it’s insightful to look at distance, it’s also instructive to think about my efficiency and speed as a runner. Enter the calculation I talked about above for performance. There are a few other caveats that I want to put in here though. While the calculation I came up with (imho) is pretty good and standardizes a lot of a run, it can fall victim to extremes, either mileage wise or speed wise. Middle distance and smooth pace is more reliable. So I’ll take it with a bit of a grain of salt, and you probably should, too.&lt;/p&gt;
 &lt;p&gt;What I’ll do with the performance metric is chart it across month and week, probably as a median to do a better job of smoothing outliers during those periods. I had half a mind to do a simple regression to try to pick out the best predictors of my performance but honestly, the time series nature of it would make any significant or interesting results more or less useless. I don’t do time series analysis very much and it’s hard to do right so I figure I won’t wade into it this time. (Side note, I do want to get into a bit more modelling in this blog space, but I don’t think these are the right data. Maybe I could do that for my running when I have more months’ worth of data and it’s such a clearly linear trend of increased mileage and performance.)&lt;/p&gt;
@@ -199,7 +320,7 @@ strava &amp;lt;- read_excel(&amp;quot;strava_activities.xlsx&amp;quot;) %&amp;gt
     plot.caption.position = &amp;quot;plot&amp;quot;,
     plot.title = element_text(size = 13)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e6c0f4804_files/figure-html/unnamed-chunk-5-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd2536077bf_files/figure-html/unnamed-chunk-5-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;After seeing the grpahs for mileage, it shouldn’t be a surprise that my performance goes up continually once the fall settles in. Here’s the same look by week for a more granular look.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;strava %&amp;gt;% 
   filter(activity_type == &amp;quot;Run&amp;quot;) %&amp;gt;% 
@@ -218,7 +339,7 @@ strava &amp;lt;- read_excel(&amp;quot;strava_activities.xlsx&amp;quot;) %&amp;gt
     plot.caption.position = &amp;quot;plot&amp;quot;,
     plot.title = element_text(size = 13)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e6c0f4804_files/figure-html/unnamed-chunk-6-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd2536077bf_files/figure-html/unnamed-chunk-6-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;This also checks out - not sure when the week is that I had the massive median performance. It could have been mid November when I ran my first half marathon. That would make sense.&lt;/p&gt;
 &lt;p&gt;Now what I want to do is a map of my routes. I love maps and making them, so this is something I’m excited about it. There are a lot of things I could choose to do with this, like color the lines of my route by performance or by the date, but what I think I’ll do is keep things simple and just map the lines themselves. I run a fair few routes, but there are some that I do a lot more than others, so the map should make those lines thicker if I leave the color out of it.&lt;/p&gt;
 &lt;p&gt;One thing I’ll say here is that a lot of the data cleaning for the next section is taken more or less directly from other people’s code on GitHub or StackOverflow. I wouldn’t have been able to do this if a lot of way smarter people than me hadn’t done what I’m doing and been kind enough to share their code online. I’ve never worked with GPX files before, but luckily I was able to adapt code someone wrote for a Strava R package. Fun fact, my computer didn’t seem to want to just download the package, so I was left to scour the source code and bring in what I needed to work with the folder of GPX files. Here’s the setup code, including the functions to parse the GPX data.&lt;/p&gt;
@@ -416,7 +537,7 @@ weighted &amp;lt;- data %&amp;gt;%
     theme_minimal() +
     labs(x = &amp;quot;Racial Group&amp;quot;, y = &amp;quot;% rejected&amp;quot;) +
     ggtitle(&amp;quot;Credit Rejection by Racial Group, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-2-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-2-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;This chart shows astounding racial disparities in lending - black respondents were over twice as likely to report being turned down for a loan in the past year than whites, and Hispanics were nearly 50% more likely than whites.&lt;/p&gt;
 &lt;p&gt;However, while these differences are stark, in and of themselves they don’t necessarily constitute discrimination. There are certain characteristics not accounted for in that graph, primarily income, that could account for the observed differences. To take one step further in exploring whether or not these disparities could be evidence of discrimination, below I chart the same measure of being rejected for a loan by both income category and race. I limit the racial categories to just black and white, both to focus on the starkest disparities and to minimize clutter on the graph.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
@@ -429,7 +550,7 @@ weighted &amp;lt;- data %&amp;gt;%
     theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
     labs(x = &amp;quot;Income Category&amp;quot;, y = &amp;quot;% rejected&amp;quot;, fill = &amp;quot;Racial Group&amp;quot;) +
     ggtitle(&amp;quot;Credit Rejection by Income Category and Racial Group, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-3-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-3-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;Here we can see that the racial disparities in lending observed in the first chart persist even after controlling for income, and may even be starker. Across every single income category, black respondents are rejected at a higher rate than white respondents, generally at a &lt;em&gt;two to three times higher rate&lt;/em&gt;, at least. If the decision to lend is about the borrower’s ability to pay it back, then income should be a pretty good metric. But even holding income equal, there are still massive racial disparities in lending.&lt;/p&gt;
 &lt;p&gt;However, givng them the benefit of the doubt, maybe lenders are picking up on some other factor besides race that are causing them to reject disproportionately more black folks. In the next graph I look at the financial skills score by race and by income category and race. Even if it’s not a measure that’s directly used by lenders, it still probably can be a proxy for overall creditworthiness.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
@@ -442,7 +563,7 @@ weighted &amp;lt;- data %&amp;gt;%
     theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
     labs(x = &amp;quot;Race&amp;quot;, y = &amp;quot;Financial Skills Score&amp;quot;) +
     ggtitle(&amp;quot;Financial Skills Score by Race, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-4-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-4-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
   filter(race == &amp;quot;Black, Non-Hispanic&amp;quot; | race == &amp;quot;White, Non-Hispanic&amp;quot;) %&amp;gt;%
   group_by(race, incomecat) %&amp;gt;%
@@ -453,7 +574,7 @@ weighted &amp;lt;- data %&amp;gt;%
     theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
     labs(x = &amp;quot;Income Category&amp;quot;, y = &amp;quot;Financial Skills Score&amp;quot;, fill = &amp;quot;Racial Group&amp;quot;) +
     ggtitle(&amp;quot;Financial Skills Score by Income Category and Race, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-4-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-4-2.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;Well, it doesn’t look like giving lenders the benefit of the doubt is working out very well - both overall and across each income category, black respondents actually have very similar financial skills scores as whites, if not higher.&lt;/p&gt;
 &lt;p&gt;Bear with me, because now I’m about to get a bit more weedsy. In the next few graphs I’m going to really try and get to the bottom of this issue as best as I can using these data and without using any fancy statistical techniques (this is neither the time nor the place for that). These charts will look at the financial skills scores of the following groups: all rejected applicants; all accepted applicants; rejected white applicants vs. accepted black applicants; and rejected black applicants vs. accepted white applicants.&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
@@ -466,7 +587,7 @@ weighted &amp;lt;- data %&amp;gt;%
     theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
     labs(x = &amp;quot;Income Category&amp;quot;, y = &amp;quot;Financial Skills Score&amp;quot;, fill = &amp;quot;Racial Group&amp;quot;) +
     ggtitle(&amp;quot;Financial Skills Score of Rejected Credit Applicants by Income and Race, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-5-1.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-5-1.png" width="672" /&gt;&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
   filter(race == &amp;quot;Black, Non-Hispanic&amp;quot; | race == &amp;quot;White, Non-Hispanic&amp;quot;, rejected == 1) %&amp;gt;%
   group_by(race, incomecat) %&amp;gt;%
@@ -477,7 +598,7 @@ weighted &amp;lt;- data %&amp;gt;%
     theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1)) +
     labs(x = &amp;quot;Income Category&amp;quot;, y = &amp;quot;Financial Skills Score&amp;quot;, fill = &amp;quot;Racial Group&amp;quot;) +
     ggtitle(&amp;quot;Financial Skills Score of Accepted Credit Applicants by Income and Race, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-5-2.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-5-2.png" width="672" /&gt;&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
   filter((race == &amp;quot;Black, Non-Hispanic&amp;quot; &amp;amp; rejected == 0) | 
            (race == &amp;quot;White, Non-Hispanic&amp;quot; &amp;amp; rejected == 1)) %&amp;gt;%
@@ -491,7 +612,7 @@ weighted &amp;lt;- data %&amp;gt;%
     labs(x = &amp;quot;Income Category&amp;quot;, y = &amp;quot;Financial Skills Score&amp;quot;, fill = &amp;quot;Racial Group&amp;quot;) +
     ggtitle(&amp;quot;Financial Skills Score of Rejected White Credit Applicants vs. 
             Accepted Black Applicants by Income, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-5-3.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-5-3.png" width="672" /&gt;&lt;/p&gt;
 &lt;pre class="r"&gt;&lt;code&gt;weighted %&amp;gt;%
   filter((race == &amp;quot;Black, Non-Hispanic&amp;quot; &amp;amp; rejected == 1) | 
            (race == &amp;quot;White, Non-Hispanic&amp;quot; &amp;amp; rejected == 0)) %&amp;gt;%
@@ -505,7 +626,7 @@ weighted &amp;lt;- data %&amp;gt;%
     labs(x = &amp;quot;Income Category&amp;quot;, y = &amp;quot;Financial Skills Score&amp;quot;, fill = &amp;quot;Racial Group&amp;quot;) +
     ggtitle(&amp;quot;Financial Skills Score of Rejected Black Credit Applicants vs. 
             Accepted White Applicants by Income, 2016&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src="file2d7e312713f2_files/figure-html/unnamed-chunk-5-4.png" width="672" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="file3fd220619cb7_files/figure-html/unnamed-chunk-5-4.png" width="672" /&gt;&lt;/p&gt;
 &lt;p&gt;Here we go: First, for all rejected credit applicants, we see the same pattern of black respondents having similar or slightly higher financial skills scores than white respondents. Second, the pattern holds for all accepted applicants. No surprises there.&lt;/p&gt;
 &lt;p&gt;Third, when we look at rejected black applicants vs. accepted white applicants, in order for there to be any justification of disparities at all, rejected black repondents should have clearly lower financial skills scores than accpeted white applicants. We do see this across several income categories, but it doesn’t at all appear to be the norm - we see very similar financial skills between rejected blacks and accepted whites for three categories, and rejected blacks even have moderately &lt;em&gt;higher&lt;/em&gt; financial skills scores than accepted whites for one income category.&lt;/p&gt;
 &lt;p&gt;Fourth, in order to justify the somewhat similar or even higher financial skills scores for rejected black applicants vs. accepted whites, we should see a similar pattern for rejected whites vs. accepted blacks (i.e., sometimes rejected whites have similar or higher financial skills than accepted blacks). However, we don’t see this pattern at all - across every income bracket, accepted black applicants have far and away higher financial skills scores than rejected whites.&lt;/p&gt;

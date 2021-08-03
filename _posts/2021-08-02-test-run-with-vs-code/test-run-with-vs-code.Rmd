@@ -1,0 +1,27 @@
+---
+title: "Test Run with VS Code"
+description: |
+  A short description of the post.
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 08-02-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This is a very quick test run that I'm doing to see if I can push a new blog post using VS Code. 
+
+```{r}
+library(tidyverse)
+ggplot(diamonds, aes(x = cut, y = price), fill = "grey") +
+geom_col()
+```
+
+
