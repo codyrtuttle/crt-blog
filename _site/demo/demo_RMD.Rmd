@@ -1,0 +1,18 @@
+---
+title: "Demo RMD"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(bsselectR)
+
+plots <- list.files(pattern = ".html")
+names(plots) <- c("B", "C", "D")
+
+bsselect(plots, type = "iframe", selected = "B")
+```
+
