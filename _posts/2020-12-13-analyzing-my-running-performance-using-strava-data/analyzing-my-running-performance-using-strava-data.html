@@ -1505,9 +1505,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/gt'>gt</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/edzer/sp/'>sp</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://maptools.r-forge.r-project.org/'>maptools</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://here.r-lib.org/'>here</a></span><span class='op'>)</span>
 
 <span class='co'>### load and clean activity summaries - no location data</span>
-<span class='va'>strava</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"strava_activities.xlsx"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+<span class='va'>strava</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='fu'><a href='https://here.r-lib.org//reference/here.html'>here</a></span><span class='op'>(</span><span class='st'>"_posts"</span>, 
+<span class='st'>"2020-12-13-analyzing-my-running-performance-using-strava-data"</span>, 
+<span class='st'>"strava_activities.xlsx"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>act_date <span class='op'>=</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd_hms.html'>mdy_hms</a></span><span class='op'>(</span><span class='va'>activity_date</span><span class='op'>)</span>, 
          act_date_time <span class='op'>=</span> <span class='op'>(</span><span class='va'>act_date</span> <span class='op'>-</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/period.html'>hours</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
@@ -1734,7 +1737,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='op'>}</span>
 
 <span class='co'># strava location data from GPX files</span>
-<span class='va'>strava_locs</span> <span class='op'>&lt;-</span> <span class='fu'>process_data</span><span class='op'>(</span><span class='st'>"activities"</span><span class='op'>)</span>
+<span class='va'>strava_locs</span> <span class='op'>&lt;-</span> <span class='fu'>process_data</span><span class='op'>(</span><span class='fu'><a href='https://here.r-lib.org//reference/here.html'>here</a></span><span class='op'>(</span><span class='st'>"_posts"</span>, 
+<span class='st'>"2020-12-13-analyzing-my-running-performance-using-strava-data"</span>, <span class='st'>"activities"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -1837,7 +1841,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <span class='fu'><a href='https://rdrr.io/pkg/leaflet/man/map-layers.html'>addPolylines</a></span><span class='op'>(</span>weight <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'><a href='https://rdrr.io/pkg/leaflet/man/map-methods.html'>setView</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>93.2474</span>, <span class='fl'>45.0132</span>, zoom <span class='op'>=</span> <span class='fl'>12.5</span><span class='op'>)</span>
 
-<span class='fu'>htmlwidgets</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html'>saveWidget</a></span><span class='op'>(</span><span class='va'>map</span>, <span class='st'>"strava_map.html"</span><span class='op'>)</span>
+<span class='fu'>htmlwidgets</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html'>saveWidget</a></span><span class='op'>(</span><span class='va'>map</span>, <span class='fu'><a href='https://here.r-lib.org//reference/here.html'>here</a></span><span class='op'>(</span><span class='st'>"_posts"</span>, 
+<span class='st'>"2020-12-13-analyzing-my-running-performance-using-strava-data"</span>, <span class='st'>"strava_map.html"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -1846,7 +1851,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </iframe>
 <br />
 </p>
-<p>But this is all for now. I could do a lot more with this, but honestly, I just want to publish this. I’ve been working on it for several months now and I’ve only just worked up the motivation to finish it. So here it is! Woo!</p>
+<p>But this is all for now. I could do a lot more with this, but honestly, I just want to publish it. I’ve been working on it for several months now and I’ve only just worked up the motivation to finish it. So here it is! Woo!</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

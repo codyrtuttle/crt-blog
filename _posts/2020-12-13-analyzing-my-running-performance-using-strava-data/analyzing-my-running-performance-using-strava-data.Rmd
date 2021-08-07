@@ -54,9 +54,12 @@ library(leaflet)
 library(gt)
 library(sp)
 library(maptools)
+library(here)
 
 ### load and clean activity summaries - no location data
-strava <- read_excel("strava_activities.xlsx") %>% 
+strava <- read_excel(here("_posts", 
+"2020-12-13-analyzing-my-running-performance-using-strava-data", 
+"strava_activities.xlsx")) %>% 
   clean_names() %>% 
   mutate(act_date = mdy_hms(activity_date), 
          act_date_time = (act_date - hours(5)),
@@ -110,7 +113,6 @@ strava %>%
     plot.caption.position = "plot",
     plot.title = element_text(size = 13)
   )
-
 ```
 
 Now for weekly:
@@ -285,7 +287,8 @@ process_data <- function(path, old_gpx_format = FALSE) {
 }
 
 # strava location data from GPX files
-strava_locs <- process_data("activities")
+strava_locs <- process_data(here("_posts", 
+"2020-12-13-analyzing-my-running-performance-using-strava-data", "activities"))
 
 ```
 
@@ -392,9 +395,10 @@ map <- leaflet::leaflet(data = strava_run_sldf) %>%
   addPolylines(weight = 3) %>% 
   setView(-93.2474, 45.0132, zoom = 12.5)
 
-htmlwidgets::saveWidget(map, "strava_map.html")
+htmlwidgets::saveWidget(map, here("_posts", 
+"2020-12-13-analyzing-my-running-performance-using-strava-data", "strava_map.html"))
 ```
 
 <p><iframe src="strava_map.html" width="100%" height="650" style="border-color: transparent;"></iframe><br /></p>
 
-But this is all for now. I could do a lot more with this, but honestly, I just want to publish this. I've been working on it for several months now and I've only just worked up the motivation to finish it. So here it is! Woo!
+But this is all for now. I could do a lot more with this, but honestly, I just want to publish it. I've been working on it for several months now and I've only just worked up the motivation to finish it. So here it is! Woo!
