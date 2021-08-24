@@ -1,7 +1,7 @@
 ---
 title: "Cody Tuttle"
 site: distill::distill_website
-image: "HHH 2.jpg"
+image: "crt.png"
 links:
   - label: '<i class="fab fa-twitter"></i> Twitter'
     url: "https://twitter.com/codytuttle"
@@ -11,7 +11,7 @@ links:
     url: "https://www.linkedin.com/in/codyrtuttle/"
   - label: '<i class="fas fa-envelope"></i> Email'
     url: "mailto:cody.tuttle.13@gmail.com"
-preview: "HHH 2.jpg"
+preview: crt.png
 output:
     postcards::jolla
 ---
