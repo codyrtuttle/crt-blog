@@ -1,5 +1,5 @@
 ---
-title: "CRT Blog"
+title: "Cody Tuttle"
 site: distill::distill_website
 image: "HHH 2.jpg"
 links:
@@ -11,6 +11,7 @@ links:
     url: "https://www.linkedin.com/in/codyrtuttle/"
   - label: '<i class="fas fa-envelope"></i> Email'
     url: "mailto:cody.tuttle.13@gmail.com"
+preview: "HHH 2.jpg"
 output:
     postcards::jolla
 ---
