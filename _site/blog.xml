@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:distill="https://distill.pub/journal/" version="2.0">
+  <channel>
+    <title>Cody R. Tuttle</title>
+    <link>https://codyrtuttle.netlify.app</link>
+    <atom:link href="https://codyrtuttle.netlify.app/blog.xml" rel="self" type="application/rss+xml"/>
+    <description>Cody R. Tuttle
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Mon, 02 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Test Run with VS Code</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2021-08-02-test-run-with-vs-code</link>
+      <description>A short description of the post.</description>
+      <guid>https://codyrtuttle.netlify.app/posts/2021-08-02-test-run-with-vs-code</guid>
+      <pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://codyrtuttle.netlify.app/posts/2021-08-02-test-run-with-vs-code/test-run-with-vs-code_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Birth rate analysis vol 1: Maps, maps, and more maps</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2021-04-27-birth-rate-analysis-vol-1-maps-maps-and-more-maps</link>
+      <description>Part one of a three part series on birth rates in the US</description>
+      <category>R</category>
+      <category>maps</category>
+      <category>R spatial</category>
+      <category>ggiraph</category>
+      <category>interactivity</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2021-04-27-birth-rate-analysis-vol-1-maps-maps-and-more-maps</guid>
+      <pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Plug for the Correlates of State Policy Shiny App</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2021-04-12-plug-for-the-correlates-of-state-policy-shiny-app</link>
+      <description>A quick shout out to a really cool and valuable tool for social scientists</description>
+      <category>state policy</category>
+      <category>no code</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2021-04-12-plug-for-the-correlates-of-state-policy-shiny-app</guid>
+      <pubDate>Mon, 12 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>New Shiny App on World Coffee Ratings!</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2021-04-05-new-shiny-app-on-world-coffee-ratings</link>
+      <description>Short plug for my new Shiny app on world coffee ratings</description>
+      <category>shiny</category>
+      <category>R</category>
+      <category>coffee</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2021-04-05-new-shiny-app-on-world-coffee-ratings</guid>
+      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Analyzing my 2020 running performance</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data</link>
+      <description>Exploring my year in running using data from the Strava app</description>
+      <category>R</category>
+      <category>running</category>
+      <category>strava</category>
+      <category>leaflet</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data</guid>
+      <pubDate>Sat, 27 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data/analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>A true welcome</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2020-12-07-a-true-welcome</link>
+      <description>Why I'm here</description>
+      <category>no code</category>
+      <category>intro</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2020-12-07-a-true-welcome</guid>
+      <pubDate>Mon, 07 Dec 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>CFPB Analysis</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis</link>
+      <description>A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.</description>
+      <category>R</category>
+      <category>CFBP</category>
+      <category>equity</category>
+      <category>banking</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis</guid>
+      <pubDate>Wed, 02 Dec 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/cfpb-analysis_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
+    <item>
+      <title>Welcome to CRT Blog</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/welcome</link>
+      <description>Hi, I'm Cody! Welcome to my new blog. I hope you enjoy 
+reading what we have to say!</description>
+      <guid>https://codyrtuttle.netlify.app/posts/welcome</guid>
+      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
