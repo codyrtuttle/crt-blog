@@ -8,7 +8,7 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-![](crt.png)
+![](crt.png){width = 45%}
 
 ### Hey there!
 My name is Cody Tuttle - thanks for checking out my blog! I use this to write about data, research, and public policy. This is mainly a place for me to explore data that interests me in a way that's easy for people to follow along with. Most of the time, the data I go through will be related to policy topics that I care about and have some experience with, primarily social and economic policy, poverty, health, housing, banking and credit, criminal justice, etc. But I also love to dive into new areas, so I hope to explore some budding areas of interest like machine learning, interactive web graphics, and sports analytics. I'm also a contributor to [R-bloggers](https://www.r-bloggers.com/).
