@@ -7,11 +7,8 @@ description: |
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-![](/Users/codytuttle/Documents/crt-blog/crt.png){#id .class width=20% height=75%}
-
 <p align = "center"> 
-  <img width=20% height=75% src = "crt.png">
+  <img width="300" height="300" src = "crt.png">
 </p>
 
 ### Hey there!
