@@ -12,10 +12,10 @@ navbar:
       href: blog.html
     - text: "About"
       href: about.html
-    - icon: fa fa-github
-      href: https://github.com/codyrtuttle
     - text: "CV"
       href: cv.html
+    - icon: fa fa-github
+      href: https://github.com/codyrtuttle
     - icon: fab fa-twitter
       href: https://twitter.com/codytuttle
     - icon: fa fa-rss
