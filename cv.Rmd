@@ -7,7 +7,7 @@ output:
     # set it to true for a self-contained HTML page but it'll take longer to render
     self_contained: false
 # uncomment this line to produce HTML and PDF in RStudio:
-#knit: pagedown::chrome_print
+knit: pagedown::chrome_print
 ---
 
 Aside
@@ -23,7 +23,7 @@ Contact Info {#contact}
 - <i class="fa fa-envelope"></i> cody.tuttle.13@gmail.com
 - <i class="fa fa-github"></i> [codyrtuttle](https://github.com/codyrtuttle)
 - <i class="fa fa-phone"></i> 501-626-2317
-- <i class="fas fa-address-card"></i> 3039 McKinley St. NE \nMinneapolis, MN 55418
+- <i class="fas fa-address-card"></i> 3039 McKinley St. NE Minneapolis, MN 55418
 - For more information, please contact me via email.
 
 
@@ -32,7 +32,7 @@ Skills {#skills}
 
 - Experienced in quantiative research, policy analysis, econometrics, data science & visualization, project management, and stakeholder engagement
 
-- Software: R, SQL, Tableau, MS Excel, Stata, SPSS, HTML/CSS
+- **Software:** R, SQL, Tableau, MS Excel, Stata, SPSS, HTML/CSS
 
 
 Disclaimer {#disclaimer}
@@ -71,6 +71,8 @@ MA in Sociology (emphasis in criminology)
 Fayetteville, AR
 
 2017
+
+### University of Arkansas
 
 BA in Sociology, BA in Criminal Justice
 
