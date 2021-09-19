@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/",
+    "title": "Notes on the 2020 poverty statistics release",
+    "description": "Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau",
+    "author": [
+      {
+        "name": "Cody Tuttle",
+        "url": "https://codyrtuttle.netlify.app/"
+      }
+    ],
+    "date": "2021-09-15",
+    "categories": [],
+    "contents": "\nOn September 14, 2021, the Census Bureau released it’s newest batch of data on poverty, income, and health insurance coverage for the year 2020. This has been a much anticipated release for poverty researchers and social scientist, as I’m sure most of you will remember that there was a pretty big global happening that upended the economy in 2020 and left everyone wondering just how bad things actually got for folks. (Quick aside: In a normal year I would absolutely have been one of those people that was anticipating the release, but this year I happen to be a new father that’s just doing his best to get by everyday, so I haven’t exactly been paying attention to when big poverty data releases are happening. I happened to see this on one of my monthly forays into the Twitterverse the day it was released, which is why I’m here now.)\nAnyways, the new poverty numbers are really fascinating and meaningful and I thought that I would do a quick post to talk about them. This will be pretty short, as I want it to be decently timely when people read it (on the off chance that anybody actually reads this).\nThe top line number that really is a big deal is that poverty actually decreased by more than 2.5 percentage points overall from 11.8% in 2019 to 9.1% in 2020. Not only that, every subgroup measured experienced a reduction in poverty.\nTake a second to let that sink in. During one of the worst recessions of the last century, in the midst of a global pandemic, poverty actually fell. That’s incredible. Let’s dive into that a little more:\nThe measure that the Census Bureau used to calculate the decrease is the Supplemental Poverty Measure (SPM), which is different than the official poverty measure that’s used to determine means-tested benefits and such. The SPM is widely considered to be a much better measure of poverty because it uses a way more reasonable measure of cost of living in its calculations, and it takes into account common household expenses like rent, taxes, medical expenses, child care, and the like. It also counts government benefits and tax credits as income, which is critical for this story.\nAlmost by nature, poverty gets worse with recessions - they’re basically part and parcel. So why did poverty actually go down in the most severe recession that we’ve seen in decades - not just stay the same, but decrease?\nThere’s actually a really simple solution here - the government gave people money. Not just people experiencing poverty, but everybody. Not only did the federal government send three rounds of stimulus checks, but it majorly beefed up unemployment and food and rental assistance and other benefits for people who desparately needed it. While the official poverty rate doesn’t capture any of these benefits (it’s based on pre-tax and transfer income and increased by several points), the SPM takes these benefits into account, and it’s clear that they had a massively positive impact. Not only did it make up for the massive loss of income that so many people experienced during COVID, it actually lifted millions out of poverty.\nThere’s so much I could say about this, but I really want to keep this short. I’ll probably end up writing more about this in future posts, as well as including some pretty plots. I’ll end this one by saying this though: The question isn’t whether we know how to solve poverty - these numbers make it clear that we know exactly how to solve poverty. The question is whether we’re only willing to do what it takes to solve poverty in a once-in-a-lifetime pandemic.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-09-19T13:54:56-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/2021-08-02-test-run-with-vs-code/",
     "title": "Test Run with VS Code",
     "description": "A short description of the post.",
