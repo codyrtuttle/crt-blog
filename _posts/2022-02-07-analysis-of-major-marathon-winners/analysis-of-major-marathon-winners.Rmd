@@ -1,0 +1,214 @@
+---
+title: "Analysis of Major Marathon Winners"
+description: |
+  A brief foray into winners of world major marathons, 1970-2018.
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 02-07-2022
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - R
+  - running
+  - marathons
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Well folks, it's hard to believe that it's been 5 months since I've last posted, and close to a year since I've posted anything with any type of actual data analysis. C'est la vie with an infant in a pandemic. 
+
+I have been itching to get back to posting more semi-regularly though, and to take steps towards making that happen, I decided to just start small and get something out there. In that vein, today's post will be an analysis of the winners of world major marathons from the 1970s until 2018. I found a small data set on data.world of the names, nationalities, and times of the winners of the world's biggest marathons, and instead of being disappointed in the lack of data (age, splits, more runners, what have you), I decided to take it as a chance to do a simple analysis on what was there. 
+
+```{r load-packages}
+library(tidyverse)
+library(readr)
+library(janitor)
+library(gt)
+library(here)
+```
+
+```{r load-data}
+winners <- read_csv(
+  here(
+    "_posts", 
+    "2022-02-07-analysis-of-major-marathon-winners", 
+    "world_marathon_majors.csv"
+  )
+) %>% 
+  clean_names()
+```
+
+There are six annual marathons that are considered "world major marathons" and those are in Berlin, Boston, Chicago, London, New York City, and Tokyo. Hundreds of elite runners from all over the world compete to win these races every year, in addition to the thousands of recreational runners looking to break personal bests and push their limits. The data I'm working with today only contain the winners of these marathons (both male and female), from 1970ish to 2018 (though there's data going back to 1897 for the Boston marathon. Like I said, the data are pretty sparse - they only have name, nationality, gender, and time (in addition to the year and marathon won).
+
+I'll start off by looking at some simple descriptive angles of the data - how many individual runners and nationalities are represented in the data, and how does it differ by marathon and gender.
+
+```{r runners-nationalities-overall}
+runners <- n_distinct(winners$winner)
+nationalities <- n_distinct(winners$country)
+```
+
+Overall, there are `r runners` distinct runners and `r nationalities` distinct nationalities represented in the 514 race results in the data. Honestly that's considerably more nationalities than I thought would be represented. My prior was that East Africans (Kenya, Ethiopia) would make up the lion's share, with maybe 10 or 15 other countries popping up here and there - shows how much I know. 
+
+Now I'll do this cut by gender and marathon, in the tables below (shout out to the `{gt}` package!). Here's how it looks by gender:
+
+```{r runners-by-gender}
+winners %>% 
+  filter(!is.na(winner)) %>% 
+  group_by(gender) %>% 
+  summarise(
+    races = n(),
+    runners = n_distinct(winner), 
+    nats = n_distinct(country)
+  ) %>% 
+  ungroup() %>% 
+  mutate(
+    runners_pct = runners/races,
+    nats_pct = nats/races,
+  ) %>% 
+  gt() %>% 
+  cols_label(
+    gender = "Gender",
+    races = "Distinct Races",
+    runners = "Distinct Runners", 
+    nats = "Distinct Nationalities",
+    runners_pct = "Runners %", 
+    nats_pct = "Nats %"
+  ) %>% 
+  fmt_percent(columns = 5:6)
+```
+
+From this table, it looks like there are both more distinct winners and more nationalities represented among winning men than women. As a percentage of races represented, there are more distinct winners among men than women - there's a distinct winner in ~64% of races for men, and only a distinct winner in ~51% of races for women. For nationalities, though it looks like there are equal ratios of distinct nationalities to races for men and women (distinct nationalities in ~10% of races).
+
+Now let's look at the same table, only cut by marathon instead of gender.
+
+```{r runners-by-marathon}
+winners %>% 
+  filter(!is.na(winner)) %>% 
+  group_by(marathon) %>% 
+  summarise(
+    races = n(),
+    runners = n_distinct(winner), 
+    nats = n_distinct(country)
+  ) %>% 
+  ungroup() %>% 
+  mutate(
+    runners_pct = runners/races,
+    nats_pct = nats/races,
+  ) %>% 
+  gt() %>% 
+  cols_label(
+    marathon = "Marathon",
+    races = "Distinct Races",
+    runners = "Distinct Runners", 
+    nats = "Distinct Nationalities",
+    runners_pct = "Runners %", 
+    nats_pct = "Nats %"
+  ) %>% 
+  fmt_percent(columns = 5:6)
+```
+
+Keeping in mind that this table contains races for both men and women, it looks like Tokyo has distinct winners in a higher percentage of races than the other majors - but that's probably just because there are way fewer races. Aside from Tokyo, it looks like Berlin and Chicago have higher rates of distinct winners than Boston, London, and NYC. In terms of distinct nationalities, it looks like though it has a slightly higher rate of distinct winners than London or NYC, it has a slightly *lower* rate of distinct nationalities represented among winners. Very fascinating.
+
+After these descriptive angles, I'll move more into an analysis of how winning race times have changed throughout the years. There are a few  aspects I'll look at, and I'll look for both men and women, and across marathons.
+
+The first thing I'll look at is winning times by marathon across time, from 1980 to 2018. The data for the Boston marathon start in the 1890s and start years for the others are scattered throughout the 1970s and 80s (except for Tokyo, which I guess just became a major marathon recently?), so I figured I'd just start at 1980 to make it cleaner. The first figure shows men's winning times.
+
+```{r time-across-years-men}
+winners %>% 
+  filter(gender == "Male") %>% 
+  filter(year > 1979) %>% 
+  ggplot(aes(x = year, y = time)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  facet_wrap(~marathon) +
+  ggtitle("Winning Times for Men in World Major Marathons, 1980 - 2018") +
+  labs(y = "Winning Time", x = NULL) +
+  theme_minimal() +
+  theme(
+    plot.title.position = "plot"
+  )
+```
+
+The trajectory of winning times for men is surprisingly different across the major marathons. What I see in this chart is that Berlin and London (and Tokyo, but harder to compare) have markedly faster courses and winning times have improved pretty steadily since 1980. So if you're looking to set a marathon PR in a major race, maybe choose one of them. Boston and Chicago, along with NYC to a lesser extent, seem to have more variably slow courses. This checks out with anecdotal evidence I've heard about these races, what with Heartbreak Hill in Boston and the wind in Chicago. Winning times in these cities haven't progressed in nearly the same way, and are even getting slower in some recent years. That could be due to the field of runners, or the conditions on race day, or a number of things I imagine. 
+
+Let's look at the same figure for women now:
+
+```{r time-across-years-women}
+winners %>% 
+  filter(gender == "Female") %>% 
+  filter(year > 1979) %>% 
+  ggplot(aes(x = year, y = time)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  facet_wrap(~marathon) +
+  ggtitle("Winning Times for Women in World Major Marathons, 1980 - 2018") +
+  labs(y = "Winning Time", x = NULL) +
+  theme_minimal() +
+  theme(
+    plot.title.position = "plot"
+  )
+```
+
+We see similar results to men for the women's winning times across most marathons. Berlin and Tokyo tend to be faster with more sharply improving times, while Boston and NYC tend to be slower with less movement on winning times. Chicago and London seem to have different trajectories for women than men, though. For women, Chicago looks to have more improvement in winning times, and London seems to have more stagnation, while it's the opposite for men. 
+
+To summarize these charts, I'll now look at the fastest winning times for each marathon for both men and women.
+
+```{r fastest-times-men-women}
+fastest_times <- winners %>% 
+  group_by(marathon, gender) %>% 
+  filter(
+    time == min(time)
+  ) %>% 
+  ungroup()
+```
+
+First, we'll look for men:
+
+```{r fastest-times-men}
+fastest_times %>% 
+  filter(gender == "Male") %>% 
+  arrange(time) %>% 
+  mutate(time = str_replace(time, "2018-05-04 ", "")) %>% 
+  select(marathon, time, year, winner, country) %>% 
+  gt() %>% 
+  cols_label(
+    marathon = "Marathon", 
+    time = "Winning Time", 
+    year = "Year",
+    winner = "Winner", 
+    country = "Nationality"
+  )
+```
+
+The table above shows the fastest winning times for each marathon for men, along with who ran them in what year, and what their nationality is. First of all, it seems that Berlin does indeed have the fastest course of the major races, with the fastest time being 2:02:57, run by Dennis Kimetto in 2014. Kimetto also holds the fastest time in Chicago with 2:03:45. Geoffrey Mutai also shows up twice on this list, with the fastest times in Boston and NYC. Eliud Kipchoge and Wilson Kipsang round out the fastest times in London and Tokyo, respectively. Another pretty noticeable feat of this table? All of the fastest times at men's major marathons are held by Kenyan runners. That's a little more what I was expecting, as I pontificated earlier.
+
+It's also worth noting that these data stop in 2018, and I'm pretty sure there has been some movement in these fastest times. If I remember right without looking it up, Eliud Kipchoge set the new world record in Berlin or London in 2019, with an official time of 2:01:xx. Absolutely ridiculous.
+
+Now let's look at the same thing for women:
+
+```{r fastest-time-women}
+fastest_times %>% 
+  filter(gender == "Female") %>% 
+  arrange(time) %>% 
+  mutate(time = str_replace(time, "2018-05-04 ", "")) %>% 
+  select(marathon, time, year, winner, country) %>% 
+  gt() %>% 
+  cols_label(
+    marathon = "Marathon", 
+    time = "Winning Time", 
+    year = "Year",
+    winner = "Winner", 
+    country = "Nationality"
+  )
+```
+
+The first thing I notice on this table is the bigger spread of fastest winning times across marathons - there's over a seven minute difference between the fastest and slowest best winning time, while there's only a barely over two minute difference for men. Very interesting. I'm also struck by the nationalities represented with the UK and Japan. Anyways, Paula Radcliffe holds the two fastest times, in London and Chicago, I'm also fairly certain Radcliffe's record was broken since 2018, but I could be wrong on that one. 
+
+*** 
+
+Well, I could probably look at more from the data, but I feel like we've gotten a pretty good look in here considering what's available. I do wish there were more fields, like DOB or age during the win, or more runners, or something, but it's also nice to have something a bit simpler to look at. While I was searching for data I also found some files with all the Boston marathon finishers since the 1890s- I might try to look into those data and see what's there and whether I could write something up on it. Could be fun to look at distributions from more runners and a lot more years. Stay tuned!
