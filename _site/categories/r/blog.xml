@@ -10,7 +10,7 @@
     <lastBuildDate>Mon, 07 Feb 2022 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Analysis of Major Marathon Winners</title>
-      <dc:creator>Cody Tuttle</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2022-02-07-analysis-of-major-marathon-winners</link>
       <description>
 
@@ -1598,34 +1598,17 @@
 &lt;hr /&gt;
 &lt;p&gt;Well, I could probably look at more from the data, but I feel like we’ve gotten a pretty good look in here considering what’s available. I do wish there were more fields, like DOB or age during the win, or more runners, or something, but it’s also nice to have something a bit simpler to look at. While I was searching for data I also found some files with all the Boston marathon finishers since the 1890s- I might try to look into those data and see what’s there and whether I could write something up on it. Could be fun to look at distributions from more runners and a lot more years. Stay tuned!&lt;/p&gt;
 &lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
-      <distill:md5>e1d394ab0c565e319fee265428b1cc68</distill:md5>
+      <distill:md5 xmlns:distill="https://distill.pub/journal/">e1d394ab0c565e319fee265428b1cc68</distill:md5>
       <category>R</category>
       <category>running</category>
       <category>marathons</category>
       <guid>https://codyrtuttle.netlify.app/posts/2022-02-07-analysis-of-major-marathon-winners</guid>
       <pubDate>Mon, 07 Feb 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://codyrtuttle.netlify.app/posts/2022-02-07-analysis-of-major-marathon-winners/analysis-of-major-marathon-winners_files/figure-html5/time-across-years-men-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Notes on the 2020 poverty statistics release</title>
-      <dc:creator>Cody Tuttle</dc:creator>
-      <link>https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release</link>
-      <description>Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau</description>
-      <guid>https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release</guid>
-      <pubDate>Wed, 15 Sep 2021 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Test Run with VS Code</title>
-      <dc:creator>Cody Tuttle</dc:creator>
-      <link>https://codyrtuttle.netlify.app/posts/2021-08-02-test-run-with-vs-code</link>
-      <description>A short description of the post.</description>
-      <guid>https://codyrtuttle.netlify.app/posts/2021-08-02-test-run-with-vs-code</guid>
-      <pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://codyrtuttle.netlify.app/posts/2021-08-02-test-run-with-vs-code/test-run-with-vs-code_files/figure-html5/unnamed-chunk-1-1.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://codyrtuttle.netlify.app/posts/2022-02-07-analysis-of-major-marathon-winners/analysis-of-major-marathon-winners_files/figure-html5/time-across-years-men-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>Birth rate analysis vol 1: Maps, maps, and more maps</title>
-      <dc:creator>Cody Tuttle</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2021-04-27-birth-rate-analysis-vol-1-maps-maps-and-more-maps</link>
       <description>Part one of a three part series on birth rates in the US</description>
       <category>R</category>
@@ -1637,18 +1620,8 @@
       <pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>Plug for the Correlates of State Policy Shiny App</title>
-      <dc:creator>Cody Tuttle</dc:creator>
-      <link>https://codyrtuttle.netlify.app/posts/2021-04-12-plug-for-the-correlates-of-state-policy-shiny-app</link>
-      <description>A quick shout out to a really cool and valuable tool for social scientists</description>
-      <category>state policy</category>
-      <category>no code</category>
-      <guid>https://codyrtuttle.netlify.app/posts/2021-04-12-plug-for-the-correlates-of-state-policy-shiny-app</guid>
-      <pubDate>Mon, 12 Apr 2021 00:00:00 +0000</pubDate>
-    </item>
-    <item>
       <title>New Shiny App on World Coffee Ratings!</title>
-      <dc:creator>Cody Tuttle</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2021-04-05-new-shiny-app-on-world-coffee-ratings</link>
       <description>Short plug for my new Shiny app on world coffee ratings</description>
       <category>shiny</category>
@@ -1659,7 +1632,7 @@
     </item>
     <item>
       <title>Analyzing my 2020 running performance</title>
-      <dc:creator>Cody Tuttle</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data</link>
       <description>Exploring my year in running using data from the Strava app</description>
       <category>R</category>
@@ -1668,21 +1641,11 @@
       <category>leaflet</category>
       <guid>https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data</guid>
       <pubDate>Sat, 27 Mar 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data/analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>A true welcome</title>
-      <dc:creator>Cody Tuttle</dc:creator>
-      <link>https://codyrtuttle.netlify.app/posts/2020-12-07-a-true-welcome</link>
-      <description>Why I'm here</description>
-      <category>no code</category>
-      <category>intro</category>
-      <guid>https://codyrtuttle.netlify.app/posts/2020-12-07-a-true-welcome</guid>
-      <pubDate>Mon, 07 Dec 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data/analyzing-my-running-performance-using-strava-data_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
     <item>
       <title>CFPB Analysis</title>
-      <dc:creator>Cody Tuttle</dc:creator>
+      <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis</link>
       <description>A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.</description>
       <category>R</category>
@@ -1691,16 +1654,7 @@
       <category>banking</category>
       <guid>https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis</guid>
       <pubDate>Wed, 02 Dec 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/cfpb-analysis_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
-    <item>
-      <title>Welcome to CRT Blog</title>
-      <dc:creator>Cody Tuttle</dc:creator>
-      <link>https://codyrtuttle.netlify.app/posts/welcome</link>
-      <description>Hi, I'm Cody! Welcome to my new blog. I hope you enjoy 
-reading what we have to say!</description>
-      <guid>https://codyrtuttle.netlify.app/posts/welcome</guid>
-      <pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/cfpb-analysis_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>
