@@ -1,7 +1,7 @@
 ---
 title: "Quick updates and musings"
 description: |
-  A short description of the post.
+  A brief note about where I've been and where I might be going.
 author:
   - name: Cody Tuttle
     url: https://codyrtuttle.netlify.app/
@@ -9,6 +9,8 @@ date: 2022-08-06
 output:
   distill::distill_article:
     self_contained: false
+categories:
+  - no code
 ---
 
 

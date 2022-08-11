@@ -2,7 +2,7 @@
   {
     "path": "posts/2022-08-06-quick-updates-and-musings/",
     "title": "Quick updates and musings",
-    "description": "A short description of the post.",
+    "description": "A brief note about where I've been and where I might be going.",
     "author": [
       {
         "name": "Cody Tuttle",
@@ -10,11 +10,13 @@
       }
     ],
     "date": "2022-08-06",
-    "categories": [],
+    "categories": [
+      "no code"
+    ],
     "contents": "\nI know it’s been ten thousand years since I posted (ok not really\nthat long, but still pretty long), but I wanted to get back on here and\nrenew my intentions of actually posting on here semi-regularly. The last\nyear or so has been decently bonkers with my daughter, but I really do\nwant to make time for this. Blogging and data exploration is something\nthat really has brought me a lot of joy.\nI guess the reason that I’m writing this now (and hopefully pushing\nit live before Liv wakes up from her nap) is because I’ve been seeing SO\nMUCH about the new Quarto platform from RStudio (soon to be Posit?). I\nwent down a rabbit hole for a few hours this week of trying to figure\nout converting my website from distill to the new Quarto system or\ncreating a new separate “musings” style blog using Quarto. But at the\nend of the day I realized that there is plenty of time for that, and I\ndon’t need to rush into it now - the more helpful and productive\npractice is actually just making use of the blog I have now.\nSo here we are, getting back into it.\nThis is my first new post (albeit not a real post), and from here on\nout, I’d like to mainly do small pieces that don’t necessarily have to\nbe super well-thought out or composed. The perfectionism is what keeps\nme from posting so much of the time, and I want to start to free myself\nfrom that. Occasionally I’m sure I’ll do longer deep dives and\nwalk-throughs, but for now I just want to continue to take the chance to\nwrite, to explore data that interests me without the self-expectations\nof it being perfectly insightful. Consistency and progress are my\ngoals.\nI’m committing here now that the next post I do will be soon, and it\nwill be just a small interactive table showing NYT best sellers.\nTidyTuesday released a data set on NYT best seller lists, and I played\naround with it a few months ago. I already have the code and and the\ntable basically ready, so now I just need to put it in post form and\npublish it.\nBut I wanted to do this post first, as a way to re-commit myself to\nthis. We’ll see where it takes me, and I sincerely appreciate the\nat-most five people who will read this and follow along.\nCheers until next time!\n\n\n\n",
     "preview": {},
-    "last_modified": "2022-08-10T19:13:44-05:00",
-    "input_file": {}
+    "last_modified": "2022-08-10T20:51:34-05:00",
+    "input_file": "quick-updates-and-musings.knit.md"
   },
   {
     "path": "posts/2022-02-07-analysis-of-major-marathon-winners/",
