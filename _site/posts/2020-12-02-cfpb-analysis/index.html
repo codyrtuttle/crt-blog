@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
 <title>Cody R. Tuttle: CFPB Analysis</title>
@@ -127,7 +129,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CFPB Analysis"]},{"type":"character","attributes":{},"value":["A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Cody Tuttle"]},{"type":"NULL"}]}]},{"type":"character","attributes":{},"value":["12-02-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["R","CFBP","equity","banking"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","categories","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CFPB Analysis"]},{"type":"character","attributes":{},"value":["A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Cody Tuttle"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["12-02-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["R","CFBP","equity","banking"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -478,7 +480,7 @@ d-title {
 
 </style>
 
-<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -1050,10 +1052,6 @@ figure img.external {
   position: relative;
   margin-bottom: 2.5em;
   margin-top: 1.5em;
-}
-
-.figure img {
-  width: 100%;
 }
 
 .figure .caption {
@@ -1885,7 +1883,16 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+        var fn = $(this).children()[0]
+        $(this).html(fn.shadowRoot.querySelector("sup"))
+        $(this).id = fn.id
+        fn.remove()
+      }
+      var refs = $(this).attr('data-cites').split(" ");
+      var refHtml = refs.map(function(ref) {
+        return "<p>" + $('#ref-' + ref).html() + "</p>";
+      }).join("\n");
       window.tippy(this, {
         allowHTML: true,
         content: refHtml,
@@ -1896,6 +1903,31 @@ function init_distill() {
         placement: 'bottom-start'
       });
     });
+
+    // fix footnotes in tables (#411)
+    // replacing broken distill.pub feature
+    $('table d-footnote').each(function() {
+      // we replace internal showAtNode methode which is triggered when hovering a footnote
+      this.hoverBox.showAtNode = function(node) {
+        // ported from https://github.com/distillpub/template/pull/105/files
+        calcOffset = function(elem) {
+            let x = elem.offsetLeft;
+            let y = elem.offsetTop;
+            // Traverse upwards until an `absolute` element is found or `elem`
+            // becomes null.
+            while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                x += elem.offsetLeft;
+                y += elem.offsetTop;
+            }
+
+            return { left: x, top: y };
+        }
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+        const bbox = node.getBoundingClientRect();
+        const offset = calcOffset(node);
+        this.show([offset.left + bbox.width, offset.top + bbox.height]);
+      }
+    })
 
     // clear polling timer
     clearInterval(tid);
@@ -1995,6 +2027,8 @@ function init_common() {
   // mark non-body figures created by knitr chunks as 100% width
   $('.layout-chunk').each(function(i, val) {
     var figures = $(this).find('img, .html-widget');
+    // ignore leaflet img layers (#106)
+    figures = figures.filter(':not(img[class*="leaflet"])')
     if ($(this).attr('data-layout') !== "l-body") {
       figures.css('width', '100%');
     } else {
@@ -2017,7 +2051,7 @@ function init_common() {
   // get rid of index.html references in header
   if (window.location.protocol !== "file:") {
     $('.distill-site-header a[href]').each(function(i,val) {
-      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
     });
   }
 
@@ -2056,8 +2090,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.7/header-attrs.js"></script>
-  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2077,7 +2111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"CFPB Analysis","description":"A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.","authors":[{"author":"Cody Tuttle","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-02T00:00:00.000+00:00","citationText":"Tuttle, 2020"}
+{"title":"CFPB Analysis","description":"A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-02T00:00:00.000-06:00","citationText":"Tuttle, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2120,179 +2154,296 @@ document.addEventListener('DOMContentLoaded', function() {
   <a href="../../blog.html#category:banking" class="dt-tag">banking</a>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.</p></p>
+<p><p>A repurposing of a post I did on my old blog site last January.
+Wanted to get some content up here to see how the workflow goes.</p></p>
 </div>
 
 <div class="d-byline">
-  Cody Tuttle  
+  Cody Tuttle <a href="https://codyrtuttle.netlify.app/"
+class="uri">https://codyrtuttle.netlify.app/</a> 
   
 <br/>12-02-2020
 </div>
 
 <div class="d-article">
-<p>*Update: repurposing this post for my new blog site! will actually have a new post detailing catching everyone up on everything soon</p>
-<p>Hello everyone! Welcome back to my blog - it’s been way too long, I know, but I’m back for a post before I start my new semester (my final semester of grad school HALLELUJAH). As much as I want to update you on my life and everything, I’m going to skip the pleasantries and just get straight to the post. I don’t really have time to get into all that I want to with the data as it is, so I probably shouldn’t take the time to update you on my life when you probably wouldn’t read it anyways.</p>
-<p>In this post I’m going to be looking at data from the <a href="https://www.consumerfinance.gov/data-research/financial-well-being-survey-data/">2016 National Financial Well-Being Survey</a>, published by the Consumer Financial Protection Bureau. As you can probaby guess, it’s a survey about people’s financial well-being, with questions about financial skills, behaviors, attitudes, experiences, etc., as well as demographics like race, employment, poverty status, urban/rural, etc. Since interning at the Federal Reserve Bank last summer, I’ve definitely gained more of an interest in financial issues and credit and such, especially racial inequities within access to credit and financial services. So that’s what I’ll be looking at in this post. There’s a lot in these data that I won’t have time or space to go into wtih this post that I’d like to - urban/rural differences, gender differences, educational differences, regional differences, not to mention all of the financial measures that I won’t get to look at.</p>
-<p>(As a quick plug, I found the data from a site called <a href="https://tinyletter.com/data-is-plural">Data is Plural</a>, which has a spreadsheet of hundreds of interesting data sets, updated every week. Check it out.)</p>
-<p>The main thing that I want to look at in this post is racial differences in access to credit, and whether/how that can be explained by poverty status and financial well-being and financial skill. One of the central features of banking and lending history in America is racial discrimination. Practices such as <a href="https://www.citylab.com/equity/2018/04/how-the-fair-housing-act-failed-black-homeowners/557576/">redlining</a> shaped the current urban housing landscape, and though now illegal, discriminatory lending practices are still rampant. Several years ago there was a decently prominant <a href="https://www.revealnews.org/article/for-people-of-color-banks-are-shutting-the-door-to-homeownership/">story by Reveal News</a> discussing how people of color and minorities are more likely to be turned down for a loan than whites across many metro areas. Defenders of this dynamic say that its justified by lower credit scores for minorities, and insist that black people are just worse with money and aren’t as credit worthy. While credit scores aren’t public data and therefore can’t be explored as factor in racial disparities in lending, <a href="suffolklawreview.org/wp-content/uploads/2014/01/Rice-Swesnik_Lead.pdf">studies</a> have shown that credit score algorithms have a discriminatory impact on people of color. So even if credit scores do account for differences in lending, that doesn’t explain away discrimination.</p>
+<p>*Update: repurposing this post for my new blog site! will actually
+have a new post detailing catching everyone up on everything soon</p>
+<p>Hello everyone! Welcome back to my blog - it’s been way too long, I
+know, but I’m back for a post before I start my new semester (my final
+semester of grad school HALLELUJAH). As much as I want to update you on
+my life and everything, I’m going to skip the pleasantries and just get
+straight to the post. I don’t really have time to get into all that I
+want to with the data as it is, so I probably shouldn’t take the time to
+update you on my life when you probably wouldn’t read it anyways.</p>
+<p>In this post I’m going to be looking at data from the <a
+href="https://www.consumerfinance.gov/data-research/financial-well-being-survey-data/">2016
+National Financial Well-Being Survey</a>, published by the Consumer
+Financial Protection Bureau. As you can probaby guess, it’s a survey
+about people’s financial well-being, with questions about financial
+skills, behaviors, attitudes, experiences, etc., as well as demographics
+like race, employment, poverty status, urban/rural, etc. Since interning
+at the Federal Reserve Bank last summer, I’ve definitely gained more of
+an interest in financial issues and credit and such, especially racial
+inequities within access to credit and financial services. So that’s
+what I’ll be looking at in this post. There’s a lot in these data that I
+won’t have time or space to go into wtih this post that I’d like to -
+urban/rural differences, gender differences, educational differences,
+regional differences, not to mention all of the financial measures that
+I won’t get to look at.</p>
+<p>(As a quick plug, I found the data from a site called <a
+href="https://tinyletter.com/data-is-plural">Data is Plural</a>, which
+has a spreadsheet of hundreds of interesting data sets, updated every
+week. Check it out.)</p>
+<p>The main thing that I want to look at in this post is racial
+differences in access to credit, and whether/how that can be explained
+by poverty status and financial well-being and financial skill. One of
+the central features of banking and lending history in America is racial
+discrimination. Practices such as <a
+href="https://www.citylab.com/equity/2018/04/how-the-fair-housing-act-failed-black-homeowners/557576/">redlining</a>
+shaped the current urban housing landscape, and though now illegal,
+discriminatory lending practices are still rampant. Several years ago
+there was a decently prominant <a
+href="https://www.revealnews.org/article/for-people-of-color-banks-are-shutting-the-door-to-homeownership/">story
+by Reveal News</a> discussing how people of color and minorities are
+more likely to be turned down for a loan than whites across many metro
+areas. Defenders of this dynamic say that its justified by lower credit
+scores for minorities, and insist that black people are just worse with
+money and aren’t as credit worthy. While credit scores aren’t public
+data and therefore can’t be explored as factor in racial disparities in
+lending, <a
+href="suffolklawreview.org/wp-content/uploads/2014/01/Rice-Swesnik_Lead.pdf">studies</a>
+have shown that credit score algorithms have a discriminatory impact on
+people of color. So even if credit scores do account for differences in
+lending, that doesn’t explain away discrimination.</p>
 <p>With that, let’s get into the data.</p>
-<h3 id="data-loading-and-survey-weights">Data Loading and Survey Weights</h3>
-<p>Here I simply load in my data (already mostly cleaned thanks to a handy R script provided by CFPB) and set it up as a survey. I decided to use the <code>srvyr</code> package, which lets you work with survey dataframes in tidyverse style. After adding the survey weights in the code below, we should be good to go.</p>
+<h3 id="data-loading-and-survey-weights">Data Loading and Survey
+Weights</h3>
+<p>Here I simply load in my data (already mostly cleaned thanks to a
+handy R script provided by CFPB) and set it up as a survey. I decided to
+use the <code>srvyr</code> package, which lets you work with survey
+dataframes in tidyverse style. After adding the survey weights in the
+code below, we should be good to go.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"/Users/codytuttle/Desktop/cfpb_blog/cfpb_clean.csv"</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://r-survey.r-forge.r-project.org/survey/'>survey</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://gdfe.co/srvyr/'>srvyr</a></span><span class='op'>)</span>
-<span class='va'>weighted</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/as_survey.html'>as_survey</a></span><span class='op'>(</span><span class='va'>PUF_ID</span>, weight <span class='op'>=</span> <span class='va'>finalwt</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>rename</a></span><span class='op'>(</span>race <span class='op'>=</span> <span class='va'>PPETHM</span>, 
-         incomecat <span class='op'>=</span> <span class='va'>PPINCIMP</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>mutate</a></span><span class='op'>(</span>rejected <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>REJECTED_1</span> <span class='op'>==</span> <span class='st'>"Yes"</span>, <span class='fl'>1</span>, 
-                           <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>REJECTED_1</span> <span class='op'>==</span> <span class='st'>"No"</span>, <span class='fl'>0</span>, <span class='fl'>99</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"/Users/codytuttle/Desktop/cfpb_blog/cfpb_clean.csv"</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://r-survey.r-forge.r-project.org/survey/'>survey</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://gdfe.co/srvyr/'>srvyr</a></span><span class='op'>)</span></span>
+<span><span class='va'>weighted</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='http://gdfe.co/srvyr/reference/as_survey.html'>as_survey</a></span><span class='op'>(</span><span class='va'>PUF_ID</span>, weight <span class='op'>=</span> <span class='va'>finalwt</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span>race <span class='op'>=</span> <span class='va'>PPETHM</span>, </span>
+<span>         incomecat <span class='op'>=</span> <span class='va'>PPINCIMP</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>rejected <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>REJECTED_1</span> <span class='op'>==</span> <span class='st'>"Yes"</span>, <span class='fl'>1</span>, </span>
+<span>                           <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>REJECTED_1</span> <span class='op'>==</span> <span class='st'>"No"</span>, <span class='fl'>0</span>, <span class='fl'>99</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h3 id="access-to-credit">Access to Credit</h3>
-<p>The first thing that I want to do is look at overall racial disparities in access to credit using a survey question that asks whether a respondent applied for credit and was turned down in the last year.</p>
+<p>The first thing that I want to do is look at overall racial
+disparities in access to credit using a survey question that asks
+whether a respondent applied for credit and was turned down in the last
+year.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='va'>rejected</span> <span class='op'>!=</span> <span class='fl'>99</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>rejected <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='va'>rejected</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>race</span>, y <span class='op'>=</span> <span class='fl'>100</span><span class='op'>*</span><span class='va'>rejected</span>, group <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, fill <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Racial Group"</span>, y <span class='op'>=</span> <span class='st'>"% rejected"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Credit Rejection by Racial Group, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>rejected</span> <span class='op'>!=</span> <span class='fl'>99</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>rejected <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='va'>rejected</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>race</span>, y <span class='op'>=</span> <span class='fl'>100</span><span class='op'>*</span><span class='va'>rejected</span>, group <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, fill <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Racial Group"</span>, y <span class='op'>=</span> <span class='st'>"% rejected"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Credit Rejection by Racial Group, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <p><img src="cfpb-analysis_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<p>This chart shows astounding racial disparities in lending - black respondents were over twice as likely to report being turned down for a loan in the past year than whites, and Hispanics were nearly 50% more likely than whites.</p>
-<p>However, while these differences are stark, in and of themselves they don’t necessarily constitute discrimination. There are certain characteristics not accounted for in that graph, primarily income, that could account for the observed differences. To take one step further in exploring whether or not these disparities could be evidence of discrimination, below I chart the same measure of being rejected for a loan by both income category and race. I limit the racial categories to just black and white, both to focus on the starkest disparities and to minimize clutter on the graph.</p>
+<p>This chart shows astounding racial disparities in lending - black
+respondents were over twice as likely to report being turned down for a
+loan in the past year than whites, and Hispanics were nearly 50% more
+likely than whites.</p>
+<p>However, while these differences are stark, in and of themselves they
+don’t necessarily constitute discrimination. There are certain
+characteristics not accounted for in that graph, primarily income, that
+could account for the observed differences. To take one step further in
+exploring whether or not these disparities could be evidence of
+discrimination, below I chart the same measure of being rejected for a
+loan by both income category and race. I limit the racial categories to
+just black and white, both to focus on the starkest disparities and to
+minimize clutter on the graph.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span>, <span class='va'>rejected</span> <span class='op'>!=</span> <span class='fl'>99</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>rejected <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='va'>rejected</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='fl'>100</span><span class='op'>*</span><span class='va'>rejected</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"% rejected"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Credit Rejection by Income Category and Racial Group, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span>, <span class='va'>rejected</span> <span class='op'>!=</span> <span class='fl'>99</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>rejected <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='va'>rejected</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='fl'>100</span><span class='op'>*</span><span class='va'>rejected</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"% rejected"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Credit Rejection by Income Category and Racial Group, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <p><img src="cfpb-analysis_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<p>Here we can see that the racial disparities in lending observed in the first chart persist even after controlling for income, and may even be starker. Across every single income category, black respondents are rejected at a higher rate than white respondents, generally at a <em>two to three times higher rate</em>, at least. If the decision to lend is about the borrower’s ability to pay it back, then income should be a pretty good metric. But even holding income equal, there are still massive racial disparities in lending.</p>
-<p>However, givng them the benefit of the doubt, maybe lenders are picking up on some other factor besides race that are causing them to reject disproportionately more black folks. In the next graph I look at the financial skills score by race and by income category and race. Even if it’s not a measure that’s directly used by lenders, it still probably can be a proxy for overall creditworthiness.</p>
+<p>Here we can see that the racial disparities in lending observed in
+the first chart persist even after controlling for income, and may even
+be starker. Across every single income category, black respondents are
+rejected at a higher rate than white respondents, generally at a <em>two
+to three times higher rate</em>, at least. If the decision to lend is
+about the borrower’s ability to pay it back, then income should be a
+pretty good metric. But even holding income equal, there are still
+massive racial disparities in lending.</p>
+<p>However, givng them the benefit of the doubt, maybe lenders are
+picking up on some other factor besides race that are causing them to
+reject disproportionately more black folks. In the next graph I look at
+the financial skills score by race and by income category and race. Even
+if it’s not a measure that’s directly used by lenders, it still probably
+can be a proxy for overall creditworthiness.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>race</span>, y <span class='op'>=</span> <span class='va'>finskill</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, fill <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Race"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Financial Skills Score by Race, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>race</span>, y <span class='op'>=</span> <span class='va'>finskill</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, fill <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Race"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Financial Skills Score by Race, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <img src="cfpb-analysis_files/figure-html5/unnamed-chunk-4-1.png" width="624" />
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Financial Skills Score by Income Category and Race, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Financial Skills Score by Income Category and Race, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <p><img src="cfpb-analysis_files/figure-html5/unnamed-chunk-4-2.png" width="624" /></p>
 </div>
-<p>Well, it doesn’t look like giving lenders the benefit of the doubt is working out very well - both overall and across each income category, black respondents actually have very similar financial skills scores as whites, if not higher.</p>
-<p>Bear with me, because now I’m about to get a bit more weedsy. In the next few graphs I’m going to really try and get to the bottom of this issue as best as I can using these data and without using any fancy statistical techniques (this is neither the time nor the place for that). These charts will look at the financial skills scores of the following groups: all rejected applicants; all accepted applicants; rejected white applicants vs. accepted black applicants; and rejected black applicants vs. accepted white applicants.</p>
+<p>Well, it doesn’t look like giving lenders the benefit of the doubt is
+working out very well - both overall and across each income category,
+black respondents actually have very similar financial skills scores as
+whites, if not higher.</p>
+<p>Bear with me, because now I’m about to get a bit more weedsy. In the
+next few graphs I’m going to really try and get to the bottom of this
+issue as best as I can using these data and without using any fancy
+statistical techniques (this is neither the time nor the place for
+that). These charts will look at the financial skills scores of the
+following groups: all rejected applicants; all accepted applicants;
+rejected white applicants vs. accepted black applicants; and rejected
+black applicants vs. accepted white applicants.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span>, <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Financial Skills Score of Rejected Credit Applicants by Income and Race, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span>, <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Financial Skills Score of Rejected Credit Applicants by Income and Race, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <img src="cfpb-analysis_files/figure-html5/unnamed-chunk-5-1.png" width="624" />
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span>, <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Financial Skills Score of Accepted Credit Applicants by Income and Race, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>|</span> <span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span>, <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Financial Skills Score of Accepted Credit Applicants by Income and Race, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <img src="cfpb-analysis_files/figure-html5/unnamed-chunk-5-2.png" width="624" />
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>|</span> 
-           <span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, 
-          plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Financial Skills Score of Rejected White Credit Applicants vs. 
-            Accepted Black Applicants by Income, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>|</span> </span>
+<span>           <span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, </span>
+<span>          plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Financial Skills Score of Rejected White Credit Applicants vs. </span></span>
+<span><span class='st'>            Accepted Black Applicants by Income, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <img src="cfpb-analysis_files/figure-html5/unnamed-chunk-5-3.png" width="624" />
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>weighted</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/dplyr_single.html'>filter</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>|</span> 
-           <span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='http://gdfe.co/srvyr/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_bar</span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>theme</span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, 
-          plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>ggtitle</span><span class='op'>(</span><span class='st'>"Financial Skills Score of Rejected Black Credit Applicants vs. 
-            Accepted White Applicants by Income, 2016"</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>weighted</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"Black, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>|</span> </span>
+<span>           <span class='op'>(</span><span class='va'>race</span> <span class='op'>==</span> <span class='st'>"White, Non-Hispanic"</span> <span class='op'>&amp;</span> <span class='va'>rejected</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>race</span>, <span class='va'>incomecat</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>finskill <span class='op'>=</span> <span class='fu'><a href='http://gdfe.co/srvyr/reference/survey_mean.html'>survey_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>FSscore</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>incomecat</span>, y <span class='op'>=</span> <span class='va'>finskill</span>, group <span class='op'>=</span> <span class='va'>race</span>, fill <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, vjust <span class='op'>=</span> <span class='fl'>0.9</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>, </span>
+<span>          plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Income Category"</span>, y <span class='op'>=</span> <span class='st'>"Financial Skills Score"</span>, fill <span class='op'>=</span> <span class='st'>"Racial Group"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Financial Skills Score of Rejected Black Credit Applicants vs. </span></span>
+<span><span class='st'>            Accepted White Applicants by Income, 2016"</span><span class='op'>)</span></span></code></pre>
 </div>
 <p><img src="cfpb-analysis_files/figure-html5/unnamed-chunk-5-4.png" width="624" /></p>
 </div>
-<p>Here we go: First, for all rejected credit applicants, we see the same pattern of black respondents having similar or slightly higher financial skills scores than white respondents. Second, the pattern holds for all accepted applicants. No surprises there.</p>
-<p>Third, when we look at rejected black applicants vs. accepted white applicants, in order for there to be any justification of disparities at all, rejected black repondents should have clearly lower financial skills scores than accpeted white applicants. We do see this across several income categories, but it doesn’t at all appear to be the norm - we see very similar financial skills between rejected blacks and accepted whites for three categories, and rejected blacks even have moderately <em>higher</em> financial skills scores than accepted whites for one income category.</p>
-<p>Fourth, in order to justify the somewhat similar or even higher financial skills scores for rejected black applicants vs. accepted whites, we should see a similar pattern for rejected whites vs. accepted blacks (i.e., sometimes rejected whites have similar or higher financial skills than accepted blacks). However, we don’t see this pattern at all - across every income bracket, accepted black applicants have far and away higher financial skills scores than rejected whites.</p>
-<p>In other words, the decision to reject a white applicant vs. accepting a black applicant with a similar income is clearly justified, at least in terms of financial skills, while the same cannot necessarily be said for rejecting a black applicant. To me, this suggests that black applicants for credit are held to a much higher standard than white appliants with similar credentials. In order for the observed disparities in credit rejection to be justified, there would have to be very clear differences between the many black applicants that are rejected and the whites that are accepted. However, we don’t see that - the disparities persist even after controlling for income, and often times financial skills as well.</p>
-<p>This to me is evidence that the observed racial disparities in lending are indeed indicative of discrimination. At the very least, even if not outright discrimination, it’s clear that black applicants are held to a much higher standard in credit decisions than whites with similar incomes. It would be foolish of me to claim that this analysis represents any kind of causal or definitive proof of discrimination - this is just one measure based on a survey that doesn’t account for actual credit score. But in my view, it represents one more piece of evidence that across so many sectors, banking and credit included, black people and people of color are not treated the same as whites.</p>
-<p>As always, I welcome your questions, comments, and feedback. I doubt I’ll be able to post again until this summer, but I’m really glad I was able to do this before my semester started again. Until next time!</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Here we go: First, for all rejected credit applicants, we see the
+same pattern of black respondents having similar or slightly higher
+financial skills scores than white respondents. Second, the pattern
+holds for all accepted applicants. No surprises there.</p>
+<p>Third, when we look at rejected black applicants vs. accepted white
+applicants, in order for there to be any justification of disparities at
+all, rejected black repondents should have clearly lower financial
+skills scores than accpeted white applicants. We do see this across
+several income categories, but it doesn’t at all appear to be the norm -
+we see very similar financial skills between rejected blacks and
+accepted whites for three categories, and rejected blacks even have
+moderately <em>higher</em> financial skills scores than accepted whites
+for one income category.</p>
+<p>Fourth, in order to justify the somewhat similar or even higher
+financial skills scores for rejected black applicants vs. accepted
+whites, we should see a similar pattern for rejected whites vs. accepted
+blacks (i.e., sometimes rejected whites have similar or higher financial
+skills than accepted blacks). However, we don’t see this pattern at all
+- across every income bracket, accepted black applicants have far and
+away higher financial skills scores than rejected whites.</p>
+<p>In other words, the decision to reject a white applicant
+vs. accepting a black applicant with a similar income is clearly
+justified, at least in terms of financial skills, while the same cannot
+necessarily be said for rejecting a black applicant. To me, this
+suggests that black applicants for credit are held to a much higher
+standard than white appliants with similar credentials. In order for the
+observed disparities in credit rejection to be justified, there would
+have to be very clear differences between the many black applicants that
+are rejected and the whites that are accepted. However, we don’t see
+that - the disparities persist even after controlling for income, and
+often times financial skills as well.</p>
+<p>This to me is evidence that the observed racial disparities in
+lending are indeed indicative of discrimination. At the very least, even
+if not outright discrimination, it’s clear that black applicants are
+held to a much higher standard in credit decisions than whites with
+similar incomes. It would be foolish of me to claim that this analysis
+represents any kind of causal or definitive proof of discrimination -
+this is just one measure based on a survey that doesn’t account for
+actual credit score. But in my view, it represents one more piece of
+evidence that across so many sectors, banking and credit included, black
+people and people of color are not treated the same as whites.</p>
+<p>As always, I welcome your questions, comments, and feedback. I doubt
+I’ll be able to post again until this summer, but I’m really glad I was
+able to do this before my semester started again. Until next time!</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

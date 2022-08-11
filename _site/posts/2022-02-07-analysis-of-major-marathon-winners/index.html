@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
 <title>Cody R. Tuttle: Analysis of Major Marathon Winners</title>
@@ -132,7 +134,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["analysis-of-major-marathon-winners_files/figure-html5/time-across-years-men-1.png","analysis-of-major-marathon-winners_files/figure-html5/time-across-years-women-1.png","world_marathon_majors.csv"]}
+  {"type":"character","attributes":{},"value":["analysis-of-major-marathon-winners_files/anchor-4.2.2/anchor.min.js","analysis-of-major-marathon-winners_files/bowser-1.9.3/bowser.min.js","analysis-of-major-marathon-winners_files/distill-2.2.21/template.v2.js","analysis-of-major-marathon-winners_files/figure-html5/time-across-years-men-1.png","analysis-of-major-marathon-winners_files/figure-html5/time-across-years-women-1.png","analysis-of-major-marathon-winners_files/header-attrs-2.14/header-attrs.js","analysis-of-major-marathon-winners_files/header-attrs-2.7/header-attrs.js","analysis-of-major-marathon-winners_files/jquery-1.11.3/jquery.min.js","analysis-of-major-marathon-winners_files/jquery-3.6.0/jquery-3.6.0.js","analysis-of-major-marathon-winners_files/jquery-3.6.0/jquery-3.6.0.min.js","analysis-of-major-marathon-winners_files/jquery-3.6.0/jquery-3.6.0.min.map","analysis-of-major-marathon-winners_files/popper-2.6.0/popper.min.js","analysis-of-major-marathon-winners_files/tippy-6.2.7/tippy-bundle.umd.min.js","analysis-of-major-marathon-winners_files/tippy-6.2.7/tippy-light-border.css","analysis-of-major-marathon-winners_files/tippy-6.2.7/tippy.css","analysis-of-major-marathon-winners_files/tippy-6.2.7/tippy.umd.min.js","analysis-of-major-marathon-winners_files/webcomponents-2.0.0/webcomponents.js","world_marathon_majors.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -478,7 +480,7 @@ d-title {
 
 </style>
 
-<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -1050,10 +1052,6 @@ figure img.external {
   position: relative;
   margin-bottom: 2.5em;
   margin-top: 1.5em;
-}
-
-.figure img {
-  width: 100%;
 }
 
 .figure .caption {
@@ -1885,7 +1883,16 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+        var fn = $(this).children()[0]
+        $(this).html(fn.shadowRoot.querySelector("sup"))
+        $(this).id = fn.id
+        fn.remove()
+      }
+      var refs = $(this).attr('data-cites').split(" ");
+      var refHtml = refs.map(function(ref) {
+        return "<p>" + $('#ref-' + ref).html() + "</p>";
+      }).join("\n");
       window.tippy(this, {
         allowHTML: true,
         content: refHtml,
@@ -1896,6 +1903,31 @@ function init_distill() {
         placement: 'bottom-start'
       });
     });
+
+    // fix footnotes in tables (#411)
+    // replacing broken distill.pub feature
+    $('table d-footnote').each(function() {
+      // we replace internal showAtNode methode which is triggered when hovering a footnote
+      this.hoverBox.showAtNode = function(node) {
+        // ported from https://github.com/distillpub/template/pull/105/files
+        calcOffset = function(elem) {
+            let x = elem.offsetLeft;
+            let y = elem.offsetTop;
+            // Traverse upwards until an `absolute` element is found or `elem`
+            // becomes null.
+            while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                x += elem.offsetLeft;
+                y += elem.offsetTop;
+            }
+
+            return { left: x, top: y };
+        }
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+        const bbox = node.getBoundingClientRect();
+        const offset = calcOffset(node);
+        this.show([offset.left + bbox.width, offset.top + bbox.height]);
+      }
+    })
 
     // clear polling timer
     clearInterval(tid);
@@ -1995,6 +2027,8 @@ function init_common() {
   // mark non-body figures created by knitr chunks as 100% width
   $('.layout-chunk').each(function(i, val) {
     var figures = $(this).find('img, .html-widget');
+    // ignore leaflet img layers (#106)
+    figures = figures.filter(':not(img[class*="leaflet"])')
     if ($(this).attr('data-layout') !== "l-body") {
       figures.css('width', '100%');
     } else {
@@ -2017,7 +2051,7 @@ function init_common() {
   // get rid of index.html references in header
   if (window.location.protocol !== "file:") {
     $('.distill-site-header a[href]').each(function(i,val) {
-      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
     });
   }
 
@@ -2056,8 +2090,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.7/header-attrs.js"></script>
-  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2077,7 +2111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Analysis of Major Marathon Winners","description":"A brief foray into winners of world major marathons, 1970-2018.","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-02-07T00:00:00.000+00:00","citationText":"Tuttle, 2022"}
+{"title":"Analysis of Major Marathon Winners","description":"A brief foray into winners of world major marathons, 1970-2018.","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-02-07T00:00:00.000-06:00","citationText":"Tuttle, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2119,37 +2153,69 @@ document.addEventListener('DOMContentLoaded', function() {
   <a href="../../blog.html#category:marathons" class="dt-tag">marathons</a>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>A brief foray into winners of world major marathons, 1970-2018.</p></p>
+<p><p>A brief foray into winners of world major marathons,
+1970-2018.</p></p>
 </div>
 
 <div class="d-byline">
-  Cody Tuttle <a href="https://codyrtuttle.netlify.app/" class="uri">https://codyrtuttle.netlify.app/</a> 
+  Cody Tuttle <a href="https://codyrtuttle.netlify.app/"
+class="uri">https://codyrtuttle.netlify.app/</a> 
   
 <br/>02-07-2022
 </div>
 
 <div class="d-article">
-<p>Well folks, it’s hard to believe that it’s been 5 months since I’ve last posted, and close to a year since I’ve posted anything with any type of actual data analysis. C’est la vie with an infant in a pandemic.</p>
-<p>I have been itching to get back to posting more semi-regularly though, and to take steps towards making that happen, I decided to just start small and get something out there. In that vein, today’s post will be an analysis of the winners of world major marathons from the 1970s until 2018. I found a small data set on data.world of the names, nationalities, and times of the winners of the world’s biggest marathons, and instead of being disappointed in the lack of data (age, splits, more runners, what have you), I decided to take it as a chance to do a simple analysis on what was there.</p>
+<p>Well folks, it’s hard to believe that it’s been 5 months since I’ve
+last posted, and close to a year since I’ve posted anything with any
+type of actual data analysis. C’est la vie with an infant in a
+pandemic.</p>
+<p>I have been itching to get back to posting more semi-regularly
+though, and to take steps towards making that happen, I decided to just
+start small and get something out there. In that vein, today’s post will
+be an analysis of the winners of world major marathons from the 1970s
+until 2018. I found a small data set on data.world of the names,
+nationalities, and times of the winners of the world’s biggest
+marathons, and instead of being disappointed in the lack of data (age,
+splits, more runners, what have you), I decided to take it as a chance
+to do a simple analysis on what was there.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<p>There are six annual marathons that are considered “world major marathons” and those are in Berlin, Boston, Chicago, London, New York City, and Tokyo. Hundreds of elite runners from all over the world compete to win these races every year, in addition to the thousands of recreational runners looking to break personal bests and push their limits. The data I’m working with today only contain the winners of these marathons (both male and female), from 1970ish to 2018 (though there’s data going back to 1897 for the Boston marathon. Like I said, the data are pretty sparse - they only have name, nationality, gender, and time (in addition to the year and marathon won).</p>
-<p>I’ll start off by looking at some simple descriptive angles of the data - how many individual runners and nationalities are represented in the data, and how does it differ by marathon and gender.</p>
+<p>There are six annual marathons that are considered “world major
+marathons” and those are in Berlin, Boston, Chicago, London, New York
+City, and Tokyo. Hundreds of elite runners from all over the world
+compete to win these races every year, in addition to the thousands of
+recreational runners looking to break personal bests and push their
+limits. The data I’m working with today only contain the winners of
+these marathons (both male and female), from 1970ish to 2018 (though
+there’s data going back to 1897 for the Boston marathon. Like I said,
+the data are pretty sparse - they only have name, nationality, gender,
+and time (in addition to the year and marathon won).</p>
+<p>I’ll start off by looking at some simple descriptive angles of the
+data - how many individual runners and nationalities are represented in
+the data, and how does it differ by marathon and gender.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<p>Overall, there are 316 distinct runners and 38 distinct nationalities represented in the 514 race results in the data. Honestly that’s considerably more nationalities than I thought would be represented. My prior was that East Africans (Kenya, Ethiopia) would make up the lion’s share, with maybe 10 or 15 other countries popping up here and there - shows how much I know.</p>
-<p>Now I’ll do this cut by gender and marathon, in the tables below (shout out to the <code>{gt}</code> package!). Here’s how it looks by gender:</p>
+<p>Overall, there are 316 distinct runners and 38 distinct nationalities
+represented in the 514 race results in the data. Honestly that’s
+considerably more nationalities than I thought would be represented. My
+prior was that East Africans (Kenya, Ethiopia) would make up the lion’s
+share, with maybe 10 or 15 other countries popping up here and there -
+shows how much I know.</p>
+<p>Now I’ll do this cut by gender and marathon, in the tables below
+(shout out to the <code>{gt}</code> package!). Here’s how it looks by
+gender:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div id="xoppinkkzo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#xsdfpjrdjx .gt_table {
+#xoppinkkzo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2174,7 +2240,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-left-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_heading {
+#xoppinkkzo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2186,33 +2252,37 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_title {
+#xoppinkkzo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#xsdfpjrdjx .gt_subtitle {
+#xoppinkkzo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#xsdfpjrdjx .gt_bottom_border {
+#xoppinkkzo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_col_headings {
+#xoppinkkzo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2227,7 +2297,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_col_heading {
+#xoppinkkzo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2247,7 +2317,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#xsdfpjrdjx .gt_column_spanner_outer {
+#xoppinkkzo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2259,28 +2329,31 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 4px;
 }
 
-#xsdfpjrdjx .gt_column_spanner_outer:first-child {
+#xoppinkkzo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xsdfpjrdjx .gt_column_spanner_outer:last-child {
+#xoppinkkzo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xsdfpjrdjx .gt_column_spanner {
+#xoppinkkzo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#xsdfpjrdjx .gt_group_heading {
-  padding: 8px;
+#xoppinkkzo .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2301,7 +2374,7 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#xsdfpjrdjx .gt_empty_group_heading {
+#xoppinkkzo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2316,15 +2389,15 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#xsdfpjrdjx .gt_from_md > :first-child {
+#xoppinkkzo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xsdfpjrdjx .gt_from_md > :last-child {
+#xoppinkkzo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xsdfpjrdjx .gt_row {
+#xoppinkkzo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2343,7 +2416,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#xsdfpjrdjx .gt_stub {
+#xoppinkkzo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2352,10 +2425,29 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#xsdfpjrdjx .gt_summary_row {
+#xoppinkkzo .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xoppinkkzo .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xoppinkkzo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2365,17 +2457,26 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#xsdfpjrdjx .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#xoppinkkzo .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_grand_summary_row {
+#xoppinkkzo .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xoppinkkzo .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xoppinkkzo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2385,7 +2486,7 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#xsdfpjrdjx .gt_first_grand_summary_row {
+#xoppinkkzo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2395,11 +2496,11 @@ document.addEventListener('DOMContentLoaded', function() {
   border-top-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_striped {
+#xoppinkkzo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xsdfpjrdjx .gt_table_body {
+#xoppinkkzo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2408,7 +2509,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-bottom-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_footnotes {
+#xoppinkkzo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2422,13 +2523,16 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_footnote {
+#xoppinkkzo .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#xsdfpjrdjx .gt_sourcenotes {
+#xoppinkkzo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2442,87 +2546,129 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#xsdfpjrdjx .gt_sourcenote {
+#xoppinkkzo .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#xsdfpjrdjx .gt_left {
+#xoppinkkzo .gt_left {
   text-align: left;
 }
 
-#xsdfpjrdjx .gt_center {
+#xoppinkkzo .gt_center {
   text-align: center;
 }
 
-#xsdfpjrdjx .gt_right {
+#xoppinkkzo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xsdfpjrdjx .gt_font_normal {
+#xoppinkkzo .gt_font_normal {
   font-weight: normal;
 }
 
-#xsdfpjrdjx .gt_font_bold {
+#xoppinkkzo .gt_font_bold {
   font-weight: bold;
 }
 
-#xsdfpjrdjx .gt_font_italic {
+#xoppinkkzo .gt_font_italic {
   font-style: italic;
 }
 
-#xsdfpjrdjx .gt_super {
+#xoppinkkzo .gt_super {
   font-size: 65%;
 }
 
-#xsdfpjrdjx .gt_footnote_marks {
+#xoppinkkzo .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#xoppinkkzo .gt_footnote_marks {
   font-style: italic;
-  font-size: 65%;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#xoppinkkzo .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xoppinkkzo .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#xoppinkkzo .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#xoppinkkzo .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
-<div id="xsdfpjrdjx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Gender</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Distinct Races</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Distinct Runners</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Distinct Nationalities</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Distinct Races</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Distinct Runners</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Distinct Nationalities</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Runners %</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Nats %</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">Female</td>
-      <td class="gt_row gt_center">233</td>
-      <td class="gt_row gt_center">119</td>
-      <td class="gt_row gt_center">25</td>
-      <td class="gt_row gt_right">51.07&percnt;</td>
-      <td class="gt_row gt_right">10.73&percnt;</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Male</td>
-      <td class="gt_row gt_center">303</td>
-      <td class="gt_row gt_center">196</td>
-      <td class="gt_row gt_center">32</td>
-      <td class="gt_row gt_right">64.69&percnt;</td>
-      <td class="gt_row gt_right">10.56&percnt;</td>
-    </tr>
+    <tr><td class="gt_row gt_left">Female</td>
+<td class="gt_row gt_right">233</td>
+<td class="gt_row gt_right">119</td>
+<td class="gt_row gt_right">25</td>
+<td class="gt_row gt_right">51.07%</td>
+<td class="gt_row gt_right">10.73%</td></tr>
+    <tr><td class="gt_row gt_left">Male</td>
+<td class="gt_row gt_right">303</td>
+<td class="gt_row gt_right">196</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">64.69%</td>
+<td class="gt_row gt_right">10.56%</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
 </div>
-<p>From this table, it looks like there are both more distinct winners and more nationalities represented among winning men than women. As a percentage of races represented, there are more distinct winners among men than women - there’s a distinct winner in ~64% of races for men, and only a distinct winner in ~51% of races for women. For nationalities, though it looks like there are equal ratios of distinct nationalities to races for men and women (distinct nationalities in ~10% of races).</p>
-<p>Now let’s look at the same table, only cut by marathon instead of gender.</p>
+</div>
+<p>From this table, it looks like there are both more distinct winners
+and more nationalities represented among winning men than women. As a
+percentage of races represented, there are more distinct winners among
+men than women - there’s a distinct winner in ~64% of races for men, and
+only a distinct winner in ~51% of races for women. For nationalities,
+though it looks like there are equal ratios of distinct nationalities to
+races for men and women (distinct nationalities in ~10% of races).</p>
+<p>Now let’s look at the same table, only cut by marathon instead of
+gender.</p>
 <div class="layout-chunk" data-layout="l-body">
+<div id="apxcpnlmvw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#mjzoddshle .gt_table {
+#apxcpnlmvw .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2547,7 +2693,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-left-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_heading {
+#apxcpnlmvw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2559,33 +2705,37 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_title {
+#apxcpnlmvw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#mjzoddshle .gt_subtitle {
+#apxcpnlmvw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#mjzoddshle .gt_bottom_border {
+#apxcpnlmvw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_col_headings {
+#apxcpnlmvw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2600,7 +2750,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_col_heading {
+#apxcpnlmvw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2620,7 +2770,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#mjzoddshle .gt_column_spanner_outer {
+#apxcpnlmvw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2632,28 +2782,31 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 4px;
 }
 
-#mjzoddshle .gt_column_spanner_outer:first-child {
+#apxcpnlmvw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mjzoddshle .gt_column_spanner_outer:last-child {
+#apxcpnlmvw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mjzoddshle .gt_column_spanner {
+#apxcpnlmvw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#mjzoddshle .gt_group_heading {
-  padding: 8px;
+#apxcpnlmvw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2674,7 +2827,7 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#mjzoddshle .gt_empty_group_heading {
+#apxcpnlmvw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2689,15 +2842,15 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#mjzoddshle .gt_from_md > :first-child {
+#apxcpnlmvw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mjzoddshle .gt_from_md > :last-child {
+#apxcpnlmvw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mjzoddshle .gt_row {
+#apxcpnlmvw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2716,7 +2869,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#mjzoddshle .gt_stub {
+#apxcpnlmvw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2725,10 +2878,29 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#mjzoddshle .gt_summary_row {
+#apxcpnlmvw .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#apxcpnlmvw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#apxcpnlmvw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2738,17 +2910,26 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#mjzoddshle .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#apxcpnlmvw .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_grand_summary_row {
+#apxcpnlmvw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#apxcpnlmvw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#apxcpnlmvw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2758,7 +2939,7 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#mjzoddshle .gt_first_grand_summary_row {
+#apxcpnlmvw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2768,11 +2949,11 @@ document.addEventListener('DOMContentLoaded', function() {
   border-top-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_striped {
+#apxcpnlmvw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mjzoddshle .gt_table_body {
+#apxcpnlmvw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2781,7 +2962,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-bottom-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_footnotes {
+#apxcpnlmvw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2795,13 +2976,16 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_footnote {
+#apxcpnlmvw .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#mjzoddshle .gt_sourcenotes {
+#apxcpnlmvw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2815,134 +2999,195 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#mjzoddshle .gt_sourcenote {
+#apxcpnlmvw .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#mjzoddshle .gt_left {
+#apxcpnlmvw .gt_left {
   text-align: left;
 }
 
-#mjzoddshle .gt_center {
+#apxcpnlmvw .gt_center {
   text-align: center;
 }
 
-#mjzoddshle .gt_right {
+#apxcpnlmvw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mjzoddshle .gt_font_normal {
+#apxcpnlmvw .gt_font_normal {
   font-weight: normal;
 }
 
-#mjzoddshle .gt_font_bold {
+#apxcpnlmvw .gt_font_bold {
   font-weight: bold;
 }
 
-#mjzoddshle .gt_font_italic {
+#apxcpnlmvw .gt_font_italic {
   font-style: italic;
 }
 
-#mjzoddshle .gt_super {
+#apxcpnlmvw .gt_super {
   font-size: 65%;
 }
 
-#mjzoddshle .gt_footnote_marks {
+#apxcpnlmvw .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#apxcpnlmvw .gt_footnote_marks {
   font-style: italic;
-  font-size: 65%;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#apxcpnlmvw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#apxcpnlmvw .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#apxcpnlmvw .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#apxcpnlmvw .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
-<div id="mjzoddshle" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Marathon</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Distinct Races</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Distinct Runners</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Distinct Nationalities</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Distinct Races</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Distinct Runners</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Distinct Nationalities</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Runners %</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Nats %</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">Berlin</td>
-      <td class="gt_row gt_center">88</td>
-      <td class="gt_row gt_center">68</td>
-      <td class="gt_row gt_center">18</td>
-      <td class="gt_row gt_right">77.27&percnt;</td>
-      <td class="gt_row gt_right">20.45&percnt;</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Boston</td>
-      <td class="gt_row gt_center">175</td>
-      <td class="gt_row gt_center">124</td>
-      <td class="gt_row gt_center">23</td>
-      <td class="gt_row gt_right">70.86&percnt;</td>
-      <td class="gt_row gt_right">13.14&percnt;</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Chicago</td>
-      <td class="gt_row gt_center">80</td>
-      <td class="gt_row gt_center">63</td>
-      <td class="gt_row gt_center">15</td>
-      <td class="gt_row gt_right">78.75&percnt;</td>
-      <td class="gt_row gt_right">18.75&percnt;</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">London</td>
-      <td class="gt_row gt_center">77</td>
-      <td class="gt_row gt_center">53</td>
-      <td class="gt_row gt_center">16</td>
-      <td class="gt_row gt_right">68.83&percnt;</td>
-      <td class="gt_row gt_right">20.78&percnt;</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">NYC</td>
-      <td class="gt_row gt_center">92</td>
-      <td class="gt_row gt_center">63</td>
-      <td class="gt_row gt_center">20</td>
-      <td class="gt_row gt_right">68.48&percnt;</td>
-      <td class="gt_row gt_right">21.74&percnt;</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Tokyo</td>
-      <td class="gt_row gt_center">24</td>
-      <td class="gt_row gt_center">22</td>
-      <td class="gt_row gt_center">6</td>
-      <td class="gt_row gt_right">91.67&percnt;</td>
-      <td class="gt_row gt_right">25.00&percnt;</td>
-    </tr>
+    <tr><td class="gt_row gt_left">Berlin</td>
+<td class="gt_row gt_right">88</td>
+<td class="gt_row gt_right">68</td>
+<td class="gt_row gt_right">18</td>
+<td class="gt_row gt_right">77.27%</td>
+<td class="gt_row gt_right">20.45%</td></tr>
+    <tr><td class="gt_row gt_left">Boston</td>
+<td class="gt_row gt_right">175</td>
+<td class="gt_row gt_right">124</td>
+<td class="gt_row gt_right">23</td>
+<td class="gt_row gt_right">70.86%</td>
+<td class="gt_row gt_right">13.14%</td></tr>
+    <tr><td class="gt_row gt_left">Chicago</td>
+<td class="gt_row gt_right">80</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">15</td>
+<td class="gt_row gt_right">78.75%</td>
+<td class="gt_row gt_right">18.75%</td></tr>
+    <tr><td class="gt_row gt_left">London</td>
+<td class="gt_row gt_right">77</td>
+<td class="gt_row gt_right">53</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">68.83%</td>
+<td class="gt_row gt_right">20.78%</td></tr>
+    <tr><td class="gt_row gt_left">NYC</td>
+<td class="gt_row gt_right">92</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">68.48%</td>
+<td class="gt_row gt_right">21.74%</td></tr>
+    <tr><td class="gt_row gt_left">Tokyo</td>
+<td class="gt_row gt_right">24</td>
+<td class="gt_row gt_right">22</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">91.67%</td>
+<td class="gt_row gt_right">25.00%</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
 </div>
-<p>Keeping in mind that this table contains races for both men and women, it looks like Tokyo has distinct winners in a higher percentage of races than the other majors - but that’s probably just because there are way fewer races. Aside from Tokyo, it looks like Berlin and Chicago have higher rates of distinct winners than Boston, London, and NYC. In terms of distinct nationalities, it looks like though it has a slightly higher rate of distinct winners than London or NYC, it has a slightly <em>lower</em> rate of distinct nationalities represented among winners. Very fascinating.</p>
-<p>After these descriptive angles, I’ll move more into an analysis of how winning race times have changed throughout the years. There are a few aspects I’ll look at, and I’ll look for both men and women, and across marathons.</p>
-<p>The first thing I’ll look at is winning times by marathon across time, from 1980 to 2018. The data for the Boston marathon start in the 1890s and start years for the others are scattered throughout the 1970s and 80s (except for Tokyo, which I guess just became a major marathon recently?), so I figured I’d just start at 1980 to make it cleaner. The first figure shows men’s winning times.</p>
+</div>
+<p>Keeping in mind that this table contains races for both men and
+women, it looks like Tokyo has distinct winners in a higher percentage
+of races than the other majors - but that’s probably just because there
+are way fewer races. Aside from Tokyo, it looks like Berlin and Chicago
+have higher rates of distinct winners than Boston, London, and NYC. In
+terms of distinct nationalities, it looks like though it has a slightly
+higher rate of distinct winners than London or NYC, it has a slightly
+<em>lower</em> rate of distinct nationalities represented among winners.
+Very fascinating.</p>
+<p>After these descriptive angles, I’ll move more into an analysis of
+how winning race times have changed throughout the years. There are a
+few aspects I’ll look at, and I’ll look for both men and women, and
+across marathons.</p>
+<p>The first thing I’ll look at is winning times by marathon across
+time, from 1980 to 2018. The data for the Boston marathon start in the
+1890s and start years for the others are scattered throughout the 1970s
+and 80s (except for Tokyo, which I guess just became a major marathon
+recently?), so I figured I’d just start at 1980 to make it cleaner. The
+first figure shows men’s winning times.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="analysis-of-major-marathon-winners_files/figure-html5/time-across-years-men-1.png" width="624" /></p>
 </div>
-<p>The trajectory of winning times for men is surprisingly different across the major marathons. What I see in this chart is that Berlin and London (and Tokyo, but harder to compare) have markedly faster courses and winning times have improved pretty steadily since 1980. So if you’re looking to set a marathon PR in a major race, maybe choose one of them. Boston and Chicago, along with NYC to a lesser extent, seem to have more variably slow courses. This checks out with anecdotal evidence I’ve heard about these races, what with Heartbreak Hill in Boston and the wind in Chicago. Winning times in these cities haven’t progressed in nearly the same way, and are even getting slower in some recent years. That could be due to the field of runners, or the conditions on race day, or a number of things I imagine.</p>
+<p>The trajectory of winning times for men is surprisingly different
+across the major marathons. What I see in this chart is that Berlin and
+London (and Tokyo, but harder to compare) have markedly faster courses
+and winning times have improved pretty steadily since 1980. So if you’re
+looking to set a marathon PR in a major race, maybe choose one of them.
+Boston and Chicago, along with NYC to a lesser extent, seem to have more
+variably slow courses. This checks out with anecdotal evidence I’ve
+heard about these races, what with Heartbreak Hill in Boston and the
+wind in Chicago. Winning times in these cities haven’t progressed in
+nearly the same way, and are even getting slower in some recent years.
+That could be due to the field of runners, or the conditions on race
+day, or a number of things I imagine.</p>
 <p>Let’s look at the same figure for women now:</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="analysis-of-major-marathon-winners_files/figure-html5/time-across-years-women-1.png" width="624" /></p>
 </div>
-<p>We see similar results to men for the women’s winning times across most marathons. Berlin and Tokyo tend to be faster with more sharply improving times, while Boston and NYC tend to be slower with less movement on winning times. Chicago and London seem to have different trajectories for women than men, though. For women, Chicago looks to have more improvement in winning times, and London seems to have more stagnation, while it’s the opposite for men.</p>
-<p>To summarize these charts, I’ll now look at the fastest winning times for each marathon for both men and women.</p>
+<p>We see similar results to men for the women’s winning times across
+most marathons. Berlin and Tokyo tend to be faster with more sharply
+improving times, while Boston and NYC tend to be slower with less
+movement on winning times. Chicago and London seem to have different
+trajectories for women than men, though. For women, Chicago looks to
+have more improvement in winning times, and London seems to have more
+stagnation, while it’s the opposite for men.</p>
+<p>To summarize these charts, I’ll now look at the fastest winning times
+for each marathon for both men and women.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <p>First, we’ll look for men:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div id="djgofneooe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ofdqjhfzum .gt_table {
+#djgofneooe .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2967,7 +3212,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-left-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_heading {
+#djgofneooe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2979,33 +3224,37 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_title {
+#djgofneooe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#ofdqjhfzum .gt_subtitle {
+#djgofneooe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#ofdqjhfzum .gt_bottom_border {
+#djgofneooe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_col_headings {
+#djgofneooe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3020,7 +3269,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_col_heading {
+#djgofneooe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3040,7 +3289,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#ofdqjhfzum .gt_column_spanner_outer {
+#djgofneooe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3052,28 +3301,31 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 4px;
 }
 
-#ofdqjhfzum .gt_column_spanner_outer:first-child {
+#djgofneooe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ofdqjhfzum .gt_column_spanner_outer:last-child {
+#djgofneooe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ofdqjhfzum .gt_column_spanner {
+#djgofneooe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#ofdqjhfzum .gt_group_heading {
-  padding: 8px;
+#djgofneooe .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3094,7 +3346,7 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#ofdqjhfzum .gt_empty_group_heading {
+#djgofneooe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3109,15 +3361,15 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#ofdqjhfzum .gt_from_md > :first-child {
+#djgofneooe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ofdqjhfzum .gt_from_md > :last-child {
+#djgofneooe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ofdqjhfzum .gt_row {
+#djgofneooe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3136,7 +3388,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#ofdqjhfzum .gt_stub {
+#djgofneooe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3145,10 +3397,29 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#ofdqjhfzum .gt_summary_row {
+#djgofneooe .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#djgofneooe .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#djgofneooe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3158,17 +3429,26 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#ofdqjhfzum .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#djgofneooe .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_grand_summary_row {
+#djgofneooe .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#djgofneooe .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#djgofneooe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3178,7 +3458,7 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#ofdqjhfzum .gt_first_grand_summary_row {
+#djgofneooe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3188,11 +3468,11 @@ document.addEventListener('DOMContentLoaded', function() {
   border-top-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_striped {
+#djgofneooe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ofdqjhfzum .gt_table_body {
+#djgofneooe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3201,7 +3481,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-bottom-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_footnotes {
+#djgofneooe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3215,13 +3495,16 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_footnote {
+#djgofneooe .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#ofdqjhfzum .gt_sourcenotes {
+#djgofneooe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3235,46 +3518,83 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#ofdqjhfzum .gt_sourcenote {
+#djgofneooe .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#ofdqjhfzum .gt_left {
+#djgofneooe .gt_left {
   text-align: left;
 }
 
-#ofdqjhfzum .gt_center {
+#djgofneooe .gt_center {
   text-align: center;
 }
 
-#ofdqjhfzum .gt_right {
+#djgofneooe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ofdqjhfzum .gt_font_normal {
+#djgofneooe .gt_font_normal {
   font-weight: normal;
 }
 
-#ofdqjhfzum .gt_font_bold {
+#djgofneooe .gt_font_bold {
   font-weight: bold;
 }
 
-#ofdqjhfzum .gt_font_italic {
+#djgofneooe .gt_font_italic {
   font-style: italic;
 }
 
-#ofdqjhfzum .gt_super {
+#djgofneooe .gt_super {
   font-size: 65%;
 }
 
-#ofdqjhfzum .gt_footnote_marks {
+#djgofneooe .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#djgofneooe .gt_footnote_marks {
   font-style: italic;
-  font-size: 65%;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#djgofneooe .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#djgofneooe .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#djgofneooe .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#djgofneooe .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
-<div id="ofdqjhfzum" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -3286,62 +3606,66 @@ document.addEventListener('DOMContentLoaded', function() {
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">Berlin</td>
-      <td class="gt_row gt_left">02:02:57</td>
-      <td class="gt_row gt_right">2014</td>
-      <td class="gt_row gt_left">Dennis Kimetto</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Boston</td>
-      <td class="gt_row gt_left">02:03:02</td>
-      <td class="gt_row gt_right">2011</td>
-      <td class="gt_row gt_left">Geoffrey Mutai</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">London</td>
-      <td class="gt_row gt_left">02:03:05</td>
-      <td class="gt_row gt_right">2016</td>
-      <td class="gt_row gt_left">Eliud Kipchoge</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Chicago</td>
-      <td class="gt_row gt_left">02:03:45</td>
-      <td class="gt_row gt_right">2013</td>
-      <td class="gt_row gt_left">Dennis Kimetto</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Tokyo</td>
-      <td class="gt_row gt_left">02:03:58</td>
-      <td class="gt_row gt_right">2017</td>
-      <td class="gt_row gt_left">Wilson Kipsang</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">NYC</td>
-      <td class="gt_row gt_left">02:05:06</td>
-      <td class="gt_row gt_right">2011</td>
-      <td class="gt_row gt_left">Geoffrey Mutai</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
+    <tr><td class="gt_row gt_left">Berlin</td>
+<td class="gt_row gt_left">02:02:57</td>
+<td class="gt_row gt_right">2014</td>
+<td class="gt_row gt_left">Dennis Kimetto</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">Boston</td>
+<td class="gt_row gt_left">02:03:02</td>
+<td class="gt_row gt_right">2011</td>
+<td class="gt_row gt_left">Geoffrey Mutai</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">London</td>
+<td class="gt_row gt_left">02:03:05</td>
+<td class="gt_row gt_right">2016</td>
+<td class="gt_row gt_left">Eliud Kipchoge</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">Chicago</td>
+<td class="gt_row gt_left">02:03:45</td>
+<td class="gt_row gt_right">2013</td>
+<td class="gt_row gt_left">Dennis Kimetto</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">Tokyo</td>
+<td class="gt_row gt_left">02:03:58</td>
+<td class="gt_row gt_right">2017</td>
+<td class="gt_row gt_left">Wilson Kipsang</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">NYC</td>
+<td class="gt_row gt_left">02:05:06</td>
+<td class="gt_row gt_right">2011</td>
+<td class="gt_row gt_left">Geoffrey Mutai</td>
+<td class="gt_row gt_left">Kenya</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
 </div>
-<p>The table above shows the fastest winning times for each marathon for men, along with who ran them in what year, and what their nationality is. First of all, it seems that Berlin does indeed have the fastest course of the major races, with the fastest time being 2:02:57, run by Dennis Kimetto in 2014. Kimetto also holds the fastest time in Chicago with 2:03:45. Geoffrey Mutai also shows up twice on this list, with the fastest times in Boston and NYC. Eliud Kipchoge and Wilson Kipsang round out the fastest times in London and Tokyo, respectively. Another pretty noticeable feat of this table? All of the fastest times at men’s major marathons are held by Kenyan runners. That’s a little more what I was expecting, as I pontificated earlier.</p>
-<p>It’s also worth noting that these data stop in 2018, and I’m pretty sure there has been some movement in these fastest times. If I remember right without looking it up, Eliud Kipchoge set the new world record in Berlin or London in 2019, with an official time of 2:01:xx. Absolutely ridiculous.</p>
+</div>
+<p>The table above shows the fastest winning times for each marathon for
+men, along with who ran them in what year, and what their nationality
+is. First of all, it seems that Berlin does indeed have the fastest
+course of the major races, with the fastest time being 2:02:57, run by
+Dennis Kimetto in 2014. Kimetto also holds the fastest time in Chicago
+with 2:03:45. Geoffrey Mutai also shows up twice on this list, with the
+fastest times in Boston and NYC. Eliud Kipchoge and Wilson Kipsang round
+out the fastest times in London and Tokyo, respectively. Another pretty
+noticeable feat of this table? All of the fastest times at men’s major
+marathons are held by Kenyan runners. That’s a little more what I was
+expecting, as I pontificated earlier.</p>
+<p>It’s also worth noting that these data stop in 2018, and I’m pretty
+sure there has been some movement in these fastest times. If I remember
+right without looking it up, Eliud Kipchoge set the new world record in
+Berlin or London in 2019, with an official time of 2:01:xx. Absolutely
+ridiculous.</p>
 <p>Now let’s look at the same thing for women:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div id="oaevahviye" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vppqlncpyo .gt_table {
+#oaevahviye .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3366,7 +3690,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-left-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_heading {
+#oaevahviye .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3378,33 +3702,37 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_title {
+#oaevahviye .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#vppqlncpyo .gt_subtitle {
+#oaevahviye .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#vppqlncpyo .gt_bottom_border {
+#oaevahviye .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_col_headings {
+#oaevahviye .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3419,7 +3747,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_col_heading {
+#oaevahviye .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3439,7 +3767,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#vppqlncpyo .gt_column_spanner_outer {
+#oaevahviye .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3451,28 +3779,31 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 4px;
 }
 
-#vppqlncpyo .gt_column_spanner_outer:first-child {
+#oaevahviye .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vppqlncpyo .gt_column_spanner_outer:last-child {
+#oaevahviye .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vppqlncpyo .gt_column_spanner {
+#oaevahviye .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#vppqlncpyo .gt_group_heading {
-  padding: 8px;
+#oaevahviye .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3493,7 +3824,7 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#vppqlncpyo .gt_empty_group_heading {
+#oaevahviye .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3508,15 +3839,15 @@ document.addEventListener('DOMContentLoaded', function() {
   vertical-align: middle;
 }
 
-#vppqlncpyo .gt_from_md > :first-child {
+#oaevahviye .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vppqlncpyo .gt_from_md > :last-child {
+#oaevahviye .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vppqlncpyo .gt_row {
+#oaevahviye .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3535,7 +3866,7 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow-x: hidden;
 }
 
-#vppqlncpyo .gt_stub {
+#oaevahviye .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3544,10 +3875,29 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#vppqlncpyo .gt_summary_row {
+#oaevahviye .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#oaevahviye .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#oaevahviye .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3557,17 +3907,26 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#vppqlncpyo .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#oaevahviye .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_grand_summary_row {
+#oaevahviye .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#oaevahviye .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oaevahviye .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3577,7 +3936,7 @@ document.addEventListener('DOMContentLoaded', function() {
   padding-right: 5px;
 }
 
-#vppqlncpyo .gt_first_grand_summary_row {
+#oaevahviye .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3587,11 +3946,11 @@ document.addEventListener('DOMContentLoaded', function() {
   border-top-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_striped {
+#oaevahviye .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vppqlncpyo .gt_table_body {
+#oaevahviye .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3600,7 +3959,7 @@ document.addEventListener('DOMContentLoaded', function() {
   border-bottom-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_footnotes {
+#oaevahviye .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3614,13 +3973,16 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_footnote {
+#oaevahviye .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#vppqlncpyo .gt_sourcenotes {
+#oaevahviye .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3634,46 +3996,83 @@ document.addEventListener('DOMContentLoaded', function() {
   border-right-color: #D3D3D3;
 }
 
-#vppqlncpyo .gt_sourcenote {
+#oaevahviye .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#vppqlncpyo .gt_left {
+#oaevahviye .gt_left {
   text-align: left;
 }
 
-#vppqlncpyo .gt_center {
+#oaevahviye .gt_center {
   text-align: center;
 }
 
-#vppqlncpyo .gt_right {
+#oaevahviye .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vppqlncpyo .gt_font_normal {
+#oaevahviye .gt_font_normal {
   font-weight: normal;
 }
 
-#vppqlncpyo .gt_font_bold {
+#oaevahviye .gt_font_bold {
   font-weight: bold;
 }
 
-#vppqlncpyo .gt_font_italic {
+#oaevahviye .gt_font_italic {
   font-style: italic;
 }
 
-#vppqlncpyo .gt_super {
+#oaevahviye .gt_super {
   font-size: 65%;
 }
 
-#vppqlncpyo .gt_footnote_marks {
+#oaevahviye .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#oaevahviye .gt_footnote_marks {
   font-style: italic;
-  font-size: 65%;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#oaevahviye .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#oaevahviye .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#oaevahviye .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#oaevahviye .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
-<div id="vppqlncpyo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -3685,57 +4084,62 @@ document.addEventListener('DOMContentLoaded', function() {
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">London</td>
-      <td class="gt_row gt_left">02:15:25</td>
-      <td class="gt_row gt_right">2003</td>
-      <td class="gt_row gt_left">Paula Radcliffe</td>
-      <td class="gt_row gt_left">United Kingdom</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Chicago</td>
-      <td class="gt_row gt_left">02:17:18</td>
-      <td class="gt_row gt_right">2002</td>
-      <td class="gt_row gt_left">Paula Radcliffe</td>
-      <td class="gt_row gt_left">United Kingdom</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Boston</td>
-      <td class="gt_row gt_left">02:18:57</td>
-      <td class="gt_row gt_right">2014</td>
-      <td class="gt_row gt_left">Rita Jeptoo</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Berlin</td>
-      <td class="gt_row gt_left">02:19:12</td>
-      <td class="gt_row gt_right">2005</td>
-      <td class="gt_row gt_left">Noguchi</td>
-      <td class="gt_row gt_left">Japan</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">Tokyo</td>
-      <td class="gt_row gt_left">02:19:47</td>
-      <td class="gt_row gt_right">2017</td>
-      <td class="gt_row gt_left">Sarah Chepchirchir</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">NYC</td>
-      <td class="gt_row gt_left">02:22:31</td>
-      <td class="gt_row gt_right">2003</td>
-      <td class="gt_row gt_left">Margaret Okayo</td>
-      <td class="gt_row gt_left">Kenya</td>
-    </tr>
+    <tr><td class="gt_row gt_left">London</td>
+<td class="gt_row gt_left">02:15:25</td>
+<td class="gt_row gt_right">2003</td>
+<td class="gt_row gt_left">Paula Radcliffe</td>
+<td class="gt_row gt_left">United Kingdom</td></tr>
+    <tr><td class="gt_row gt_left">Chicago</td>
+<td class="gt_row gt_left">02:17:18</td>
+<td class="gt_row gt_right">2002</td>
+<td class="gt_row gt_left">Paula Radcliffe</td>
+<td class="gt_row gt_left">United Kingdom</td></tr>
+    <tr><td class="gt_row gt_left">Boston</td>
+<td class="gt_row gt_left">02:18:57</td>
+<td class="gt_row gt_right">2014</td>
+<td class="gt_row gt_left">Rita Jeptoo</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">Berlin</td>
+<td class="gt_row gt_left">02:19:12</td>
+<td class="gt_row gt_right">2005</td>
+<td class="gt_row gt_left">Noguchi</td>
+<td class="gt_row gt_left">Japan</td></tr>
+    <tr><td class="gt_row gt_left">Tokyo</td>
+<td class="gt_row gt_left">02:19:47</td>
+<td class="gt_row gt_right">2017</td>
+<td class="gt_row gt_left">Sarah Chepchirchir</td>
+<td class="gt_row gt_left">Kenya</td></tr>
+    <tr><td class="gt_row gt_left">NYC</td>
+<td class="gt_row gt_left">02:22:31</td>
+<td class="gt_row gt_right">2003</td>
+<td class="gt_row gt_left">Margaret Okayo</td>
+<td class="gt_row gt_left">Kenya</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
 </div>
-<p>The first thing I notice on this table is the bigger spread of fastest winning times across marathons - there’s over a seven minute difference between the fastest and slowest best winning time, while there’s only a barely over two minute difference for men. Very interesting. I’m also struck by the nationalities represented with the UK and Japan. Anyways, Paula Radcliffe holds the two fastest times, in London and Chicago, I’m also fairly certain Radcliffe’s record was broken since 2018, but I could be wrong on that one.</p>
+</div>
+<p>The first thing I notice on this table is the bigger spread of
+fastest winning times across marathons - there’s over a seven minute
+difference between the fastest and slowest best winning time, while
+there’s only a barely over two minute difference for men. Very
+interesting. I’m also struck by the nationalities represented with the
+UK and Japan. Anyways, Paula Radcliffe holds the two fastest times, in
+London and Chicago, I’m also fairly certain Radcliffe’s record was
+broken since 2018, but I could be wrong on that one.</p>
 <hr />
-<p>Well, I could probably look at more from the data, but I feel like we’ve gotten a pretty good look in here considering what’s available. I do wish there were more fields, like DOB or age during the win, or more runners, or something, but it’s also nice to have something a bit simpler to look at. While I was searching for data I also found some files with all the Boston marathon finishers since the 1890s- I might try to look into those data and see what’s there and whether I could write something up on it. Could be fun to look at distributions from more runners and a lot more years. Stay tuned!</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Well, I could probably look at more from the data, but I feel like
+we’ve gotten a pretty good look in here considering what’s available. I
+do wish there were more fields, like DOB or age during the win, or more
+runners, or something, but it’s also nice to have something a bit
+simpler to look at. While I was searching for data I also found some
+files with all the Boston marathon finishers since the 1890s- I might
+try to look into those data and see what’s there and whether I could
+write something up on it. Could be fun to look at distributions from
+more runners and a lot more years. Stay tuned!</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

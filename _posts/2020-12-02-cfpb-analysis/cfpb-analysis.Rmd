@@ -4,7 +4,7 @@ description: |
   A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.
 author:
   - name: Cody Tuttle
-    url: 
+    url: https://codyrtuttle.netlify.app/
 date: 12-02-2020
 output:
   distill::distill_article:

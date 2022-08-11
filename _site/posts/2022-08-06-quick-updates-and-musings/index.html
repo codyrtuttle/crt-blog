@@ -20,26 +20,28 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,16 +50,17 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -71,11 +74,11 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
@@ -83,48 +86,49 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+
   <!--radix_placeholder_meta_tags-->
-<title>Cody R. Tuttle: Notes on the 2020 poverty statistics release</title>
+<title>Cody R. Tuttle: Quick updates and musings</title>
 
-<meta property="description" itemprop="description" content="Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau"/>
+<meta property="description" itemprop="description" content="A short description of the post."/>
 
-<link rel="canonical" href="https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/"/>
+<link rel="canonical" href="https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2021-09-15"/>
-<meta property="article:created" itemprop="dateCreated" content="2021-09-15"/>
+<meta property="article:published" itemprop="datePublished" content="2022-08-06"/>
+<meta property="article:created" itemprop="dateCreated" content="2022-08-06"/>
 <meta name="article:author" content="Cody Tuttle"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Cody R. Tuttle: Notes on the 2020 poverty statistics release"/>
+<meta property="og:title" content="Cody R. Tuttle: Quick updates and musings"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau"/>
-<meta property="og:url" content="https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/"/>
+<meta property="og:description" content="A short description of the post."/>
+<meta property="og:url" content="https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Cody R. Tuttle"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Cody R. Tuttle: Notes on the 2020 poverty statistics release"/>
-<meta property="twitter:description" content="Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau"/>
-<meta property="twitter:url" content="https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/"/>
+<meta property="twitter:title" content="Cody R. Tuttle: Quick updates and musings"/>
+<meta property="twitter:description" content="A short description of the post."/>
+<meta property="twitter:url" content="https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
-<meta name="citation_title" content="Cody R. Tuttle: Notes on the 2020 poverty statistics release"/>
-<meta name="citation_fulltext_html_url" content="https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/"/>
-<meta name="citation_online_date" content="2021/09/15"/>
-<meta name="citation_publication_date" content="2021/09/15"/>
+<meta name="citation_title" content="Cody R. Tuttle: Quick updates and musings"/>
+<meta name="citation_fulltext_html_url" content="https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/"/>
+<meta name="citation_online_date" content="2022/08/06"/>
+<meta name="citation_publication_date" content="2022/08/06"/>
 <meta name="citation_author" content="Cody Tuttle"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Notes on the 2020 poverty statistics release"]},{"type":"character","attributes":{},"value":["Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Cody Tuttle"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["09-15-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Quick updates and musings"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Cody Tuttle"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/"]}]}]},{"type":"character","attributes":{},"value":["2022-08-06"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/"]},{"type":"character","attributes":{},"value":["https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["quick-updates-and-musings_files/anchor-4.2.2/anchor.min.js","quick-updates-and-musings_files/bowser-1.9.3/bowser.min.js","quick-updates-and-musings_files/distill-2.2.21/template.v2.js","quick-updates-and-musings_files/header-attrs-2.14/header-attrs.js","quick-updates-and-musings_files/jquery-3.6.0/jquery-3.6.0.js","quick-updates-and-musings_files/jquery-3.6.0/jquery-3.6.0.min.js","quick-updates-and-musings_files/jquery-3.6.0/jquery-3.6.0.min.map","quick-updates-and-musings_files/popper-2.6.0/popper.min.js","quick-updates-and-musings_files/tippy-6.2.7/tippy-bundle.umd.min.js","quick-updates-and-musings_files/tippy-6.2.7/tippy-light-border.css","quick-updates-and-musings_files/tippy-6.2.7/tippy.css","quick-updates-and-musings_files/tippy-6.2.7/tippy.umd.min.js","quick-updates-and-musings_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2080,7 +2084,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/header-attrs-2.14/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2100,7 +2105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Notes on the 2020 poverty statistics release","description":"Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-09-15T00:00:00.000-05:00","citationText":"Tuttle, 2021"}
+{"title":"Quick updates and musings","description":"A short description of the post.","authors":[{"author":"Cody Tuttle","authorURL":"https://codyrtuttle.netlify.app/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-08-06T00:00:00.000-05:00","citationText":"Tuttle, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2134,28 +2139,57 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Notes on the 2020 poverty statistics release</h1>
+<h1>Quick updates and musings</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>Poverty is down from 2019 to 2020 (by the SPM) - musings on the newest batch of data on poverty and income from the Census Bureau</p>
+<p><p>A short description of the post.</p></p>
 </div>
 
 <div class="d-byline">
-  Cody Tuttle <a href="https://codyrtuttle.netlify.app/" class="uri">https://codyrtuttle.netlify.app/</a> 
+  Cody Tuttle <a href="https://codyrtuttle.netlify.app/"
+class="uri">https://codyrtuttle.netlify.app/</a> 
   
-<br/>09-15-2021
+<br/>2022-08-06
 </div>
 
 <div class="d-article">
-<p>On September 14, 2021, the <a href="https://www.census.gov/library/publications/2021/demo/p60-275.html">Census Bureau released</a> it’s newest batch of data on poverty, income, and health insurance coverage for the year 2020. This has been a much anticipated release for poverty researchers and social scientist, as I’m sure most of you will remember that there was a pretty big global happening that upended the economy in 2020 and left everyone wondering just how bad things actually got for folks. (Quick aside: In a normal year I would absolutely have been one of those people that was anticipating the release, but this year I happen to be a new father that’s just doing his best to get by everyday, so I haven’t exactly been paying attention to when big poverty data releases are happening. I happened to see this on one of my monthly forays into the Twitterverse the day it was released, which is why I’m here now.)</p>
-<p>Anyways, the new poverty numbers are really fascinating and meaningful and I thought that I would do a quick post to talk about them. This will be pretty short, as I want it to be decently timely when people read it (on the off chance that anybody actually reads this).</p>
-<h3 id="the-top-line-number-that-really-is-a-big-deal-is-that-poverty-actually-decreased-by-more-than-2.5-percentage-points-overall-from-11.8-in-2019-to-9.1-in-2020.-not-only-that-every-subgroup-measured-experienced-a-reduction-in-poverty.">The top line number that really is a big deal is that poverty actually decreased by more than 2.5 percentage points overall from 11.8% in 2019 to 9.1% in 2020. Not only that, every subgroup measured experienced a reduction in poverty.</h3>
-<p>Take a second to let that sink in. During one of the worst recessions of the last century, in the midst of a global pandemic, poverty actually fell. That’s incredible. Let’s dive into that a little more:</p>
-<p>The measure that the Census Bureau used to calculate the decrease is the Supplemental Poverty Measure (SPM), which is different than the official poverty measure that’s used to determine means-tested benefits and such. The SPM is widely considered to be a much better measure of poverty because it uses a way more reasonable measure of cost of living in its calculations, and it takes into account common household expenses like rent, taxes, medical expenses, child care, and the like. It also counts government benefits and tax credits as income, which is critical for this story.</p>
-<p>Almost by nature, poverty gets worse with recessions - they’re basically part and parcel. So why did poverty actually go down in the most severe recession that we’ve seen in decades - not just stay the same, but decrease?</p>
-<p>There’s actually a really simple solution here - <strong><em>the government gave people money.</em></strong> Not just people experiencing poverty, but everybody. Not only did the federal government send three rounds of stimulus checks, but it majorly beefed up unemployment and food and rental assistance and other benefits for people who desparately needed it. While the official poverty rate doesn’t capture any of these benefits (it’s based on pre-tax and transfer income and increased by several points), the SPM takes these benefits into account, and it’s clear that they had a massively positive impact. Not only did it make up for the massive loss of income that so many people experienced during COVID, it actually lifted millions out of poverty.</p>
-<p>There’s so much I could say about this, but I really want to keep this short. I’ll probably end up writing more about this in future posts, as well as including some pretty plots. I’ll end this one by saying this though: The question isn’t whether we know how to solve poverty - these numbers make it clear that we know exactly how to solve poverty. The question is whether we’re only willing to do what it takes to solve poverty in a once-in-a-lifetime pandemic.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>I know it’s been ten thousand years since I posted (ok not really
+that long, but still pretty long), but I wanted to get back on here and
+renew my intentions of actually posting on here semi-regularly. The last
+year or so has been decently bonkers with my daughter, but I really do
+want to make time for this. Blogging and data exploration is something
+that really has brought me a lot of joy.</p>
+<p>I guess the reason that I’m writing this now (and hopefully pushing
+it live before Liv wakes up from her nap) is because I’ve been seeing SO
+MUCH about the new Quarto platform from RStudio (soon to be Posit?). I
+went down a rabbit hole for a few hours this week of trying to figure
+out converting my website from distill to the new Quarto system or
+creating a new separate “musings” style blog using Quarto. But at the
+end of the day I realized that there is plenty of time for that, and I
+don’t need to rush into it now - the more helpful and productive
+practice is actually just making use of the blog I have now.</p>
+<p>So here we are, getting back into it.</p>
+<p>This is my first new post (albeit not a real post), and from here on
+out, I’d like to mainly do small pieces that don’t necessarily have to
+be super well-thought out or composed. The perfectionism is what keeps
+me from posting so much of the time, and I want to start to free myself
+from that. Occasionally I’m sure I’ll do longer deep dives and
+walk-throughs, but for now I just want to continue to take the chance to
+write, to explore data that interests me without the self-expectations
+of it being perfectly insightful. Consistency and progress are my
+goals.</p>
+<p>I’m committing here now that the next post I do will be soon, and it
+will be just a small interactive table showing NYT best sellers.
+TidyTuesday released a data set on NYT best seller lists, and I played
+around with it a few months ago. I already have the code and and the
+table basically ready, so now I just need to put it in post form and
+publish it.</p>
+<p>But I wanted to do this post first, as a way to re-commit myself to
+this. We’ll see where it takes me, and I sincerely appreciate the
+at-most five people who will read this and follow along.</p>
+<p>Cheers until next time!</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2170,13 +2204,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Tuttle (2021, Sept. 15). Cody R. Tuttle: Notes on the 2020 poverty statistics release. Retrieved from https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/</pre>
+  <pre class="citation-appendix short">Tuttle (2022, Aug. 6). Cody R. Tuttle: Quick updates and musings. Retrieved from https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/</pre>
   <p>BibTeX citation</p>
-  <pre class="citation-appendix long">@misc{tuttle2021notes,
+  <pre class="citation-appendix long">@misc{tuttle2022quick,
   author = {Tuttle, Cody},
-  title = {Cody R. Tuttle: Notes on the 2020 poverty statistics release},
-  url = {https://codyrtuttle.netlify.app/posts/2021-09-15-notes-on-the-2020-poverty-statistics-release/},
-  year = {2021}
+  title = {Cody R. Tuttle: Quick updates and musings},
+  url = {https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings/},
+  year = {2022}
 }</pre>
 </div>
 <!--/radix_placeholder_appendices-->
