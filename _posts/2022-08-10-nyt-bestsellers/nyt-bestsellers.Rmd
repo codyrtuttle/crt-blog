@@ -1,0 +1,92 @@
+---
+title: "NYT bestsellers"
+description: |
+  An exploration of NYT bestselling authors using {reactable}.
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 2022-08-10
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - R
+  - reactable
+  - reading
+  - books
+  - NYT
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Hey folks! I'm back again, so soon after my last post. Like I mentioned in my last post, I'm going to start posting more, shorter, slightly less-polished articles, and this is the start. 
+
+Today I'm looking at New York Times bestselling authors. Tidy Tuesday [posted these data](https://github.com/rfordatascience/tidytuesday/blob/master/data/2022/2022-05-10/readme.md) several months ago, and I was interested in exploring it a bit. Around the same time I started seeing a lot more folks using the {reactable} package for making interactive tables in R. So I figured it might be a good opportunity to test it out on the NYT data.
+
+Out of the spirit of shorter, less-polished posting, along with the fact that I'm definitely not a {reactable} expert, I'm not going to be make this a step-by-step tutorial on how to use the package and make the table. Rather, I'll just drop all the code and you can see the finished product. 
+
+First, the preliminaries of loading packages, data, and requisite data cleaning.
+
+```{r}
+# load packages
+library(tidyverse)
+library(reactable)
+
+# load data
+nyt_titles <- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-05-10/nyt_titles.tsv')
+
+nyt_full <- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-05-10/nyt_full.tsv')
+```
+
+```{r}
+# initial data cleaning
+top_authors <- nyt_full %>% 
+  filter(rank == 1) %>% 
+  count(author) %>% 
+  arrange(desc(n))
+
+books_at_one <- nyt_full %>% 
+  filter(rank == 1) %>% 
+  group_by(author, title) %>% 
+  summarise(
+    weeks_at_one = n(), 
+    week_start = min(week), 
+    week_end = max(week)
+  ) %>% 
+  arrange(desc(weeks_at_one))
+```
+
+Now, the {reactable}!
+
+```{r}
+reactable(
+  top_authors,
+  filterable = T,
+  columns = list(
+    author = colDef(name = "Author"), 
+    n = colDef(name = "Weeks at #1")
+  ), 
+  details = function(index) {
+    sec_lvl = books_at_one[books_at_one$author == top_authors$author[index], ] 
+    reactable(
+      sec_lvl, 
+      columns = list(
+        author = colDef(name = "Author"), 
+        title = colDef(name = "Book"), 
+        weeks_at_one = colDef(name = "Weeks at #1"), 
+        week_start = colDef(name = "Start Week"), 
+        week_end = colDef(name = "End Week")
+      )
+    )
+  }
+)
+```
+
+And voila! An interactive, drill-down table of the authors with the most weeks atop the NYT bestseller list, complete with the ability to search authors and view which books were at number one for them.
+
+This is it for now. I'll be back soon with another short post!
+
+Cheers, everyone!

@@ -1,5 +1,28 @@
 [
   {
+    "path": "posts/2022-08-10-nyt-bestsellers/",
+    "title": "NYT bestsellers",
+    "description": "An exploration of NYT bestselling authors using {reactable}.",
+    "author": [
+      {
+        "name": "Cody Tuttle",
+        "url": "https://codyrtuttle.netlify.app/"
+      }
+    ],
+    "date": "2022-08-10",
+    "categories": [
+      "R",
+      "reactable",
+      "reading",
+      "books",
+      "NYT"
+    ],
+    "contents": "\nHey folks! I’m back again, so soon after my last post. Like I\nmentioned in my last post, I’m going to start posting more, shorter,\nslightly less-polished articles, and this is the start.\nToday I’m looking at New York Times bestselling authors. Tidy Tuesday\nposted\nthese data several months ago, and I was interested in exploring it\na bit. Around the same time I started seeing a lot more folks using the\n{reactable} package for making interactive tables in R. So I figured it\nmight be a good opportunity to test it out on the NYT data.\nOut of the spirit of shorter, less-polished posting, along with the\nfact that I’m definitely not a {reactable} expert, I’m not going to be\nmake this a step-by-step tutorial on how to use the package and make the\ntable. Rather, I’ll just drop all the code and you can see the finished\nproduct.\nFirst, the preliminaries of loading packages, data, and requisite\ndata cleaning.\n\n\n# load packages\nlibrary(tidyverse)\nlibrary(reactable)\n\n# load data\nnyt_titles <- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-05-10/nyt_titles.tsv')\n\nnyt_full <- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-05-10/nyt_full.tsv')\n\n\n\n\n# initial data cleaning\ntop_authors <- nyt_full %>% \n  filter(rank == 1) %>% \n  count(author) %>% \n  arrange(desc(n))\n\nbooks_at_one <- nyt_full %>% \n  filter(rank == 1) %>% \n  group_by(author, title) %>% \n  summarise(\n    weeks_at_one = n(), \n    week_start = min(week), \n    week_end = max(week)\n  ) %>% \n  arrange(desc(weeks_at_one))\n\n\nNow, the {reactable}!\n\n\nreactable(\n  top_authors,\n  filterable = T,\n  columns = list(\n    author = colDef(name = \"Author\"), \n    n = colDef(name = \"Weeks at #1\")\n  ), \n  details = function(index) {\n    sec_lvl = books_at_one[books_at_one$author == top_authors$author[index], ] \n    reactable(\n      sec_lvl, \n      columns = list(\n        author = colDef(name = \"Author\"), \n        title = colDef(name = \"Book\"), \n        weeks_at_one = colDef(name = \"Weeks at #1\"), \n        week_start = colDef(name = \"Start Week\"), \n        week_end = colDef(name = \"End Week\")\n      )\n    )\n  }\n)\n\n\n\nAnd voila! An interactive, drill-down table of the authors with the\nmost weeks atop the NYT bestseller list, complete with the ability to\nsearch authors and view which books were at number one for them.\nThis is it for now. I’ll be back soon with another short post!\nCheers, everyone!\n\n\n\n",
+    "preview": {},
+    "last_modified": "2022-08-10T22:20:42-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/2022-08-06-quick-updates-and-musings/",
     "title": "Quick updates and musings",
     "description": "A brief note about where I've been and where I might be going.",
@@ -15,8 +38,8 @@
     ],
     "contents": "\nI know it’s been ten thousand years since I posted (ok not really\nthat long, but still pretty long), but I wanted to get back on here and\nrenew my intentions of actually posting on here semi-regularly. The last\nyear or so has been decently bonkers with my daughter, but I really do\nwant to make time for this. Blogging and data exploration is something\nthat really has brought me a lot of joy.\nI guess the reason that I’m writing this now (and hopefully pushing\nit live before Liv wakes up from her nap) is because I’ve been seeing SO\nMUCH about the new Quarto platform from RStudio (soon to be Posit?). I\nwent down a rabbit hole for a few hours this week of trying to figure\nout converting my website from distill to the new Quarto system or\ncreating a new separate “musings” style blog using Quarto. But at the\nend of the day I realized that there is plenty of time for that, and I\ndon’t need to rush into it now - the more helpful and productive\npractice is actually just making use of the blog I have now.\nSo here we are, getting back into it.\nThis is my first new post (albeit not a real post), and from here on\nout, I’d like to mainly do small pieces that don’t necessarily have to\nbe super well-thought out or composed. The perfectionism is what keeps\nme from posting so much of the time, and I want to start to free myself\nfrom that. Occasionally I’m sure I’ll do longer deep dives and\nwalk-throughs, but for now I just want to continue to take the chance to\nwrite, to explore data that interests me without the self-expectations\nof it being perfectly insightful. Consistency and progress are my\ngoals.\nI’m committing here now that the next post I do will be soon, and it\nwill be just a small interactive table showing NYT best sellers.\nTidyTuesday released a data set on NYT best seller lists, and I played\naround with it a few months ago. I already have the code and and the\ntable basically ready, so now I just need to put it in post form and\npublish it.\nBut I wanted to do this post first, as a way to re-commit myself to\nthis. We’ll see where it takes me, and I sincerely appreciate the\nat-most five people who will read this and follow along.\nCheers until next time!\n\n\n\n",
     "preview": {},
-    "last_modified": "2022-08-10T20:51:34-05:00",
-    "input_file": "quick-updates-and-musings.knit.md"
+    "last_modified": "2022-08-10T20:51:35-05:00",
+    "input_file": {}
   },
   {
     "path": "posts/2022-02-07-analysis-of-major-marathon-winners/",

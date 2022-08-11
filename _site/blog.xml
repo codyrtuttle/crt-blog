@@ -7,51 +7,25 @@
     <description>Cody R. Tuttle
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 06 Aug 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Aug 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>NYT bestsellers</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2022-08-10-nyt-bestsellers</link>
+      <description>An exploration of NYT bestselling authors using {reactable}.</description>
+      <category>R</category>
+      <category>reactable</category>
+      <category>reading</category>
+      <category>books</category>
+      <category>NYT</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2022-08-10-nyt-bestsellers</guid>
+      <pubDate>Wed, 10 Aug 2022 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Quick updates and musings</title>
       <dc:creator>Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings</link>
-      <description>
-
-
-&lt;p&gt;I know it’s been ten thousand years since I posted (ok not really
-that long, but still pretty long), but I wanted to get back on here and
-renew my intentions of actually posting on here semi-regularly. The last
-year or so has been decently bonkers with my daughter, but I really do
-want to make time for this. Blogging and data exploration is something
-that really has brought me a lot of joy.&lt;/p&gt;
-&lt;p&gt;I guess the reason that I’m writing this now (and hopefully pushing
-it live before Liv wakes up from her nap) is because I’ve been seeing SO
-MUCH about the new Quarto platform from RStudio (soon to be Posit?). I
-went down a rabbit hole for a few hours this week of trying to figure
-out converting my website from distill to the new Quarto system or
-creating a new separate “musings” style blog using Quarto. But at the
-end of the day I realized that there is plenty of time for that, and I
-don’t need to rush into it now - the more helpful and productive
-practice is actually just making use of the blog I have now.&lt;/p&gt;
-&lt;p&gt;So here we are, getting back into it.&lt;/p&gt;
-&lt;p&gt;This is my first new post (albeit not a real post), and from here on
-out, I’d like to mainly do small pieces that don’t necessarily have to
-be super well-thought out or composed. The perfectionism is what keeps
-me from posting so much of the time, and I want to start to free myself
-from that. Occasionally I’m sure I’ll do longer deep dives and
-walk-throughs, but for now I just want to continue to take the chance to
-write, to explore data that interests me without the self-expectations
-of it being perfectly insightful. Consistency and progress are my
-goals.&lt;/p&gt;
-&lt;p&gt;I’m committing here now that the next post I do will be soon, and it
-will be just a small interactive table showing NYT best sellers.
-TidyTuesday released a data set on NYT best seller lists, and I played
-around with it a few months ago. I already have the code and and the
-table basically ready, so now I just need to put it in post form and
-publish it.&lt;/p&gt;
-&lt;p&gt;But I wanted to do this post first, as a way to re-commit myself to
-this. We’ll see where it takes me, and I sincerely appreciate the
-at-most five people who will read this and follow along.&lt;/p&gt;
-&lt;p&gt;Cheers until next time!&lt;/p&gt;
-&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
-      <distill:md5>685b3082559baefd4cfd4ef52032a4e6</distill:md5>
+      <description>A brief note about where I've been and where I might be going.</description>
       <category>no code</category>
       <guid>https://codyrtuttle.netlify.app/posts/2022-08-06-quick-updates-and-musings</guid>
       <pubDate>Sat, 06 Aug 2022 00:00:00 +0000</pubDate>
