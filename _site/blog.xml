@@ -91,6 +91,15 @@
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
+      <title>test post</title>
+      <dc:creator>Cody Tuttle</dc:creator>
+      <link>https://codyrtuttle.netlify.app/posts/2023-04-09-test-post</link>
+      <description>Hi</description>
+      <category>codeless</category>
+      <guid>https://codyrtuttle.netlify.app/posts/2023-04-09-test-post</guid>
+      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
       <title>Analyzing my 2020 running performance</title>
       <dc:creator>Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2020-12-13-analyzing-my-running-performance-using-strava-data</link>
@@ -112,19 +121,6 @@
       <category>intro</category>
       <guid>https://codyrtuttle.netlify.app/posts/2020-12-07-a-true-welcome</guid>
       <pubDate>Mon, 07 Dec 2020 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>CFPB Analysis</title>
-      <dc:creator>Cody Tuttle</dc:creator>
-      <link>https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis</link>
-      <description>A repurposing of a post I did on my old blog site last January. Wanted to get some content up here to see how the workflow goes.</description>
-      <category>R</category>
-      <category>CFBP</category>
-      <category>equity</category>
-      <category>banking</category>
-      <guid>https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis</guid>
-      <pubDate>Wed, 02 Dec 2020 00:00:00 +0000</pubDate>
-      <media:content url="https://codyrtuttle.netlify.app/posts/2020-12-02-cfpb-analysis/cfpb-analysis_files/figure-html5/unnamed-chunk-2-1.png" medium="image" type="image/png" width="1248" height="768"/>
     </item>
   </channel>
 </rss>
