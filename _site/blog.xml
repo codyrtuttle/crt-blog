@@ -94,7 +94,12 @@
       <title>test post</title>
       <dc:creator>Cody Tuttle</dc:creator>
       <link>https://codyrtuttle.netlify.app/posts/2023-04-09-test-post</link>
-      <description>Hi</description>
+      <description>
+
+
+&lt;p&gt;HI!&lt;/p&gt;
+&lt;pre class="r distill-force-highlighting-css"&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</description>
+      <distill:md5>dd1af25dc52a06b503ac55d86898d52c</distill:md5>
       <category>codeless</category>
       <guid>https://codyrtuttle.netlify.app/posts/2023-04-09-test-post</guid>
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
