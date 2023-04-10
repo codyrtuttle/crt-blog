@@ -1,0 +1,27 @@
+---
+title: "I got a new computer!"
+description: |
+  A few thoughts on setting it up 
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 04-09-2023
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - no code
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Hey folks!
+
+I just got a new computer, so I'm all jazzed again about blogging. I'd been working with a MacBook Air from 2015 that was just pretty old, and upgraded to a MacBook Air M1 model. It's nice! I'm still getting used to a new set up and trying to get R and everything like that installed again, which is testing my pateince, but I know it'll all come. I'm debating building a new supplementary site with short musings and such in Quarto just to try out something different. If I do that, the plan wouldn't be to forget this site - it'd still be my main site. It would just be a way to try something different and try to get myself back into a blogging/coding for fun space, which I haven't been in a pretty long time. 
+
+All this to say, hopefully this is the start of a bit more regular posting for me, either here or in a new "musings" style site from time to time. 
+
+Thanks, folks!
