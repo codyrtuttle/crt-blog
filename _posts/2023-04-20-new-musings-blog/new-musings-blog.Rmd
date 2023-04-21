@@ -1,0 +1,21 @@
+---
+title: "New musings blog"
+description: |
+  A plug for my new project
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: 04-20-2023
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - no code
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This will be another short post with no code, but I wanted to plug the new musings style blog that I made! At this point, it was a way to get some experience creating a blog with Quarto, but I envision being a supplement to this primary site with shorter posts, not necessarily with code, and not necessarily long or well thought-through. Just a way to write more and hopefully get more content out there. Anyways, the new blog is [here](https://crt-musings.netlify.app/) - go check it out! I also linked to it on the nav bar from this main site. 
