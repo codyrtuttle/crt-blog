@@ -10,7 +10,10 @@ output:
   distill::distill_article:
     self_contained: false
 categories:
-  - neighborhoods, mapping, leaflet, geospatial, r
+  - neighborhoods
+  - leaflet
+  - r
+  - geospatial
 ---
 
 
