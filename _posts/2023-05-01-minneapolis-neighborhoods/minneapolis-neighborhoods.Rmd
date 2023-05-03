@@ -1,0 +1,183 @@
+---
+title: "Minneapolis neighborhoods part 1"
+description: |
+  A brief exploration of Minneapolis neighborhood characteristics
+author:
+  - name: Cody Tuttle
+    url: https://codyrtuttle.netlify.app/
+date: "`r Sys.Date()`"
+output:
+  distill::distill_article:
+    self_contained: false
+categories:
+  - neighborhoods, mapping, leaflet, geospatial, r
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## A new code post!
+### Finally!
+
+Hey folks! I'm finally back with another code post at long last. Since I got my new computer I've been itching to get back into blogging and I have to some extent with the new musings blog and such. But what I really have been wanting is a new code post. Like I said in a few recent short entries both here and in my musings blog, I just don't know what to do. So I made the executive decision today to just do something that I've been exploring for a bit and have some code already done for. 
+
+And that something is a brief analysis of Minnepaolis neighborhoods! I downloaded some data from the MN Compass a few months ago to start exploring for the blog and now I'm finally deciding to do something with it. There's honestly a lot I could do with these data, and I imagine I will do more in the future, but for now I'm going to keep it simple with three different maps showing how Minneapolis neighborhoods differ across a few socio-demographic and economic characteristics. 
+
+### Data
+
+First I'll read in (and explain a bit about) the data sources. I downloaded shapefiles for Minneapolis neighborhoods in the form a geojson from the City of Minneapolis website [open data portal](https://opendata.minneapolismn.gov/). They have different forms available, so check it out [here](https://opendata.minneapolismn.gov/datasets/minneapolis-neighborhoods/explore).
+
+I got the measures themselves from [MN Compass](https://www.mncompass.org/), which is a fantastic resource for Minnesota community data. They have a [Minneapolis - St. Paul Neighborhood Profiles](https://www.mncompass.org/profiles/neighborhoods/minneapolis-saint-paul) page where you can download neighborhood data. Unfortunately the data are bit outdated being from 2019 (with some measures being even older than that), but beggars can't be choosers. This is a treasure trove with over 300 columns of data for each neighborhood. 
+
+Below I load my packages and data. I use the `geojson_sf()` function from the `geojsonsf` package to read in the Minneapolis neighborhoods shapefile, but I imagine there are probably plenty of other ways to read in geojson data. 
+
+```{r load-packages-data}
+library(tidyverse)
+library(sf)
+library(here)
+library(geojsonsf)
+library(readxl)
+library(ggiraph)
+library(glue)
+library(janitor)
+
+options(scipen=999)
+
+mpls_geojs <- geojson_sf(
+  here(
+    "data", 
+    "Minneapolis_Neighborhoods.geojson"
+  )
+) %>% clean_names()
+
+mpls_data <- read_excel(
+  here(
+    "data", 
+    "neighborhoods_msp_2019_with_suppression.xlsx"
+  )
+) %>% clean_names()
+```
+
+Next I do some cleaning of the neighborhood characteristics data to get it into a shape to join with the shapefile, mainly cleaning neighborhood names to match across datasets. Honestly, that involved a lot of trial and error and manual inspection to see which names were different between the two either in spelling/convention or in an actual neighborhood name change (like Calhoun to Bde Maka Ska). After that I join the two together to create a full dataset with the geometry included. I think technically it creates an `sf` object but for the purposes of this analysis (and I think most applications), you can manipulate it just the same way as a normal `tibble` or data frame. 
+
+```{r clean-join-nh-data}
+mpls_data_clean <- mpls_data %>% 
+  mutate(
+    neighborhood = case_when(
+      str_detect(neighborhood, "(Minneapolis)") ~ "Como",
+      str_detect(neighborhood, "Near") ~ "Near - North", 
+      str_detect(neighborhood, "Cedar-") ~ "Cedar - Isles - Dean",
+      str_detect(neighborhood, "West Calhoun") ~ "West Maka Ska",
+      str_detect(neighborhood, "-") ~ str_replace(neighborhood, "-", " - "),
+      T ~ neighborhood
+    )
+  )
+
+mpls_full <- mpls_geojs %>% 
+  left_join(mpls_data_clean, by = c("bdname" = "neighborhood")) 
+```
+
+### Maps! 
+
+And now, with some very minimal cleaning and joining, we can start mapping! I'll create three interactive maps each showing different neighborhood characteristics using the `ggiraph` package and functionality. I love this [package](https://davidgohel.github.io/ggiraph/) - super easy to use and lots of control and customization and cool features to make quick and easy interactive plots (and even maps!). I've tried the`plotly` package a few times and I've always had better success wtih `ggiraph` Shout outs to the colleague that showed this to our team a few years ago!
+
+#### Total population
+
+First things first - let's start with a simple map of the total population by neighborhood to get an idea of how comparable they are in terms of the base number of residents.
+
+```{r map-pop}
+map_pop <- mpls_full %>% 
+  ggplot() +
+  geom_sf_interactive(
+    aes(
+      fill = total_population, 
+      tooltip = glue(
+        "Neighborhood: {bdname} \nTotal Population: {total_population}"
+      )
+    )
+  ) +
+  labs(
+    title = "Minneapolis neighborhoods by total population", 
+    fill = "Total population"
+  ) +
+  scale_fill_gradient(labels = scales::comma) +
+  theme_void() +
+  theme(
+    plot.title.position = "plot"
+  )
+
+girafe(ggobj = map_pop)
+```
+
+Interesting! It looks like Whittier, Marcy Holmes, and Prospect Park are the three most populous neighborhoods in the city, with over 14,000 residents. By contrast, my neighborhood of Waite Park in the northeast corner has a medium-low population compared to others. Other than that it looks like there's a good mix of more and less populated neighborhoods throughout the city.
+
+#### Children under 5
+
+Because I have a child under 5, the next thing I'm interested in plotting is the share of the population that's under age 5 in each neighborhood.
+
+```{r map-u-5}
+map_u5 <- mpls_full %>% 
+  ggplot() +
+  geom_sf_interactive(
+    aes(
+      fill = under_5_years_share, 
+      tooltip = glue(
+        "Neighborhood: {bdname} \n% Under 5: {round(under_5_years_share*100, 1)}%"
+      )
+    )
+  ) +
+  labs(
+    title = "Minneapolis neighborhoods by share of population under age 5", 
+    fill = "Share under 5"
+  ) +
+  scale_fill_gradient(labels = scales::percent) +
+  theme_void() +
+  theme(
+    plot.title.position = "plot"
+  )
+
+girafe(ggobj = map_u5)
+```
+
+This is also really interesting - it looks like there's a handful of neighbohorhoods with relativley high populations under 5. Cedar-Riverside and Harrison both have high shares under 5 at over 12%, and Ventura Village and Powderhorn Park are over 11%. No surprises that the areas around the university have the lowest population of littles. Again, my neighborhood has a relatively low share under 5 - I honestly thought it would be higher. 
+
+#### Poverty
+
+The last thing I want to look at, at least for now, is the poverty rate in each neighborhood. As you all probably know, poverty is one of my primary research interests, so this will be fascinating for me.
+
+```{r map-pov}
+map_pov <- mpls_full %>% 
+  ggplot() +
+  geom_sf_interactive(
+    aes(
+      fill = with_income_below_poverty_share, 
+      tooltip = glue(
+        "Neighborhood: {bdname} \n% Poverty: {round(with_income_below_poverty_share*100, 1)}%"
+      )
+    )
+  ) +
+  labs(
+    title = "Minneapolis neighborhoods by poverty rate", 
+    fill = "Poverty rate"
+  ) +
+  scale_fill_gradient(labels = scales::percent) +
+  theme_void() +
+  theme(
+    plot.title.position = "plot"
+  )
+
+girafe(ggobj = map_pov)
+```
+
+Again - super fascinating. I'm going to ignore the areas around the university again, as poverty among college kids is kind of a different thing. Barring them, it looks like near North neighborhoods (Near North itself, Harrison, Hawthorne) and near South neighborhoods (Cedar-Riverside, Ventura Village, Phillips West) all have poverty rates hovering around 35-45%, which is really high relative to farther West and Southwest and farther Southeast and farther Northeast. What's more sobering for me is that the neighborhoods with really high rates of kids under 5 (Cedar-Riverside and Ventura Village) both have really high poverty rates. 
+
+### Closing thoughts
+
+As much as I want to do more, I'm going to leave it here for now. These are just three of the literally over 300 measures that the MN Compass data provides, so there is SO much more that I could show here, and I definitely might in a future post. But for now, I want to keep it simpler and just post something.
+
+In the course of searching for interesting Minneapolis neighborhood data, I found that the City open data portal that I mentioned earlier is honestly a great resource for some interesting data. I found some geo-located individual crime data that I might map, and I'm also thinking about doing some modelling to see what kinds of neighborhood characteristics predict crime rates - I'll have to think carefully about that one, as I don't want to present it carelessly and portray any neighborhoods negatively.
+
+See ya later!
+
